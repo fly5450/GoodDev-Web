@@ -1,10 +1,29 @@
-<img src="https://img.shields.io/badge/굿이야~디벨로퍼스-FFCA28?style=flat-square&logo=firebase&logoColor=white"/>
+![header](https://capsule-render.vercel.app/api?type=모양&color=auto&height=높이&section=header&text=굿이야~디벨로퍼스&fontSize=32)
+
+
+
+
 <br>팀 구성원 : 하늘샘, 이종남, 곽동현, 신민철</br>
-<br>
-오늘 방문횟수
-</br>
+<br>오늘 방문횟수</br>
+
 
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Ffly5450%2FGoodDev-Web&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
+
+
+
+<h1>📌Gitgub stats</h1>
+
+
+[![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=fly5450)](https://github.com/fly5450/github-readme-stats)
+
+
+<h1>📌Top Languages card</h1>
+
+
+[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=fly5450)](https://github.com/fly5450/github-readme-stats)
+
+
+
 
 
 <h1>📌 팀 프로젝트 계획서</h1>
@@ -437,9 +456,12 @@
 
 <h1>📞 문의</h1>
 
-<p>프로젝트 관련 문의
+<p>프로젝트 관련 문의는 받지 않습니다 ㅋㅋ
 
 
+
+
+<h1>📞 문의</h1>
 
 
 
