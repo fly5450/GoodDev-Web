@@ -1,10 +1,6 @@
-![header](https://capsule-render.vercel.app/api?type=모양&color=auto&height=높이&section=header&text=굿이야~디벨로퍼스&fontSize=32)
-
-
-
-
-<br>팀 구성원 : 하늘샘, 이종남, 곽동현, 신민철</br>
-<br>오늘 방문횟수</br>
+![transparent](https://capsule-render.vercel.app/api?type=transparent&fontColor=703ee5&text=굿이야~&height=150&fontSize=60&desc=Developers%20하늘샘%20이종남%20곽동현%20신민철%20&descAlignY=75&descAlign=50)
+<h1>
+<br>오늘 조회횟수</br> </h1>
 
 
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Ffly5450%2FGoodDev-Web&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
@@ -461,7 +457,7 @@
 
 
 
-<h1>📞 문의</h1>
+![header](https://capsule-render.vercel.app/api?type=Venom&color=auto&height=120&section=header&text=E.O.D&fontSize=40)
 
 
 
