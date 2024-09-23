@@ -1,4 +1,4 @@
-package com.gooddev.member;
+package io.good.gooddev_web.member.dto;
 
 import java.util.Date;
 
