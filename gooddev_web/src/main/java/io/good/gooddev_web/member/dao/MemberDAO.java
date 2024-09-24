@@ -1,16 +1,22 @@
 package io.good.gooddev_web.member.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import io.good.gooddev_web.member.dto.MemberDTO;
+import io.good.gooddev_web.member.vo.MemberVO;
+import io.good.gooddev_web.page.PageRequestDTO;
 
 @Mapper
 public interface MemberDAO { 
-    void insertMember(MemberDTO member); //회원가입
-    MemberDTO selectMemberById(String mid); //회원 상세조회
-    List<MemberDTO> selectAllMembers(); //모든 회원정보 조회
-    void updateMember(MemberDTO member); //회원정보 수정
-    void deleteMember(String mid); //회원탈퇴
+
+    public List<MemberVO> getList(PageRequestDTO pageRequestDTO);  //모든 회원정보 조회
+    public Optional<MemberVO> getReadMember_Optional(String uid);//회원 상세조회
+    public Optional<MemberVO> getRead_uuid_Optional(String uuid);
+    public int removeMember(String uid); //회원탈퇴
+    public int modifyMember(MemberVO member); //회원정보 수정
+    public int insertMember(MemberVO member); //회원가입
+	public int getTotalCount(PageRequestDTO pageRequestDTO);
+    public void modify_Uuid(MemberVO member);
 }

@@ -200,7 +200,13 @@
 			<version>4.7</version>
 			<scope>test</scope>
 		</dependency>        
-	</dependencies>
+	
+   <dependency>
+     <groupId>log4j</groupId>
+     <artifactId>log4j</artifactId>
+     <version>1.2.17</version>
+   </dependency>
+ </dependencies>
     <build>
     	<finalName>gooddev_web</finalName> 
         <plugins>
@@ -223,8 +229,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.5.1</version>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <compilerArgument>-Xlint:all</compilerArgument>
                     <showWarnings>true</showWarnings>
                     <showDeprecation>true</showDeprecation>

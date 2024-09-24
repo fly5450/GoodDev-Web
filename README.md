@@ -106,8 +106,8 @@
     <li><strong>백엔드</strong>:
         <ul>
             <li>Java</li>
-            <li>Spring Boot 3.3.3</li>
-            <li>Tomcat 10.x 이상</li>
+            <li>Spring frameworks /li>
+            <li>Tomcat 9.0 </li>
             <li>MariaDB</li>
         </ul>
     </li>
