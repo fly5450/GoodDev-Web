@@ -1,0 +1,14 @@
+/gooddev_web/target/
+
+
+# IDE settings
+/gooddev_web/.settings/
+/gooddev_web/.classpath
+/gooddev_web/.project
+
+# Spring configuration
+/gooddev_web/.springBeans
+
+# Logs and temporary files
+*.log
+*.md

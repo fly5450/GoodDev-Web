@@ -2,9 +2,13 @@ package io.good.gooddev_web.search.dto;
 
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Getter
+@Setter
 public class PageResponseDTO<T> {
     private int page;
 	private double size;

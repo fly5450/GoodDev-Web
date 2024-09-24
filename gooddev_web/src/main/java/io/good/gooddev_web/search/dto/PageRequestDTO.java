@@ -11,15 +11,12 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Data
-@Builder
 @Slf4j
 @NoArgsConstructor
 @AllArgsConstructor
 public class PageRequestDTO {
-	private String uid;
-	@Default
+	private String mid;
 	private int page = 1;
-	@Default
 	private int size = 10;
 	private String keyword;
 	private String category;
@@ -51,6 +48,24 @@ public class PageRequestDTO {
 		// }
 		return builder.toString();
 	}
+	public String getParam(int page)  {
+		StringBuilder builder = new StringBuilder();
+		builder.append("page=" + page);
+		builder.append("&size=" + size);
+		
+		
+		if (keyword != null && keyword.length() > 0) {
+			try {
+				//keyword = "value=10&key=20"
+				builder.append("&keyword=" + URLEncoder.encode(keyword, "UTF-8"));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return builder.toString();
+	}
+
 }
 
 
