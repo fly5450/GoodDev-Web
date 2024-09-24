@@ -21,7 +21,7 @@ public interface MemberDAO {
   public int registerMember(MemberVO member); //회원가입
   public int getTotalCount(PageRequestDTO pageRequestDTO);
   public void modify_Uuid(MemberVO member);
-  MemberDTO getRead_uuid();
+  public MemberDTO getRead_uuid();
 
   MemberDTO getLogin(MemberDTO inMember);
 

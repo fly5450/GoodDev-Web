@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import io.good.gooddev_web.member.dto.MemberDTO;
 import io.good.gooddev_web.member.service.MemberService;
@@ -43,48 +44,42 @@ public class MemberController {
 
     // 회원 등록 처리
     @PostMapping("/register")
-    public String registerMember(@Validated @ModelAttribute("memberVO") MemberVO memberVO, BindingResult result) {
-        if (result.hasErrors()) {
-            return "member/register";
+    public String registerMember(@Validated @ModelAttribute("memberVO") MemberVO memberVO, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            // 유효성 검사 오류가 있는 경우
+            redirectAttributes.addFlashAttribute("message", bindingResult.getFieldError().getDefaultMessage()); //에러를 출력하고
+            return "redirect:/member/register"; // 등록 페이지로 리다이렉트 한다.
         }
-        
-        // MemberVO에서 MemberDTO로 변환
-        MemberDTO memberDTO = new MemberDTO();
-        memberDTO.setMid(memberVO.getMid());
-        memberDTO.setPassword(memberVO.getPassword());
-        memberDTO.setMemberName(memberVO.getMemberName());
-        memberDTO.setEmail(memberVO.getEmail());
-
-        memberService.registerMember(mapperUtil.map(memberDTO, MemberVO.class));
-        return "redirect:/member/list";
+    
+        MemberDTO memberDTO = mapperUtil.map(memberVO, MemberDTO.class); //MemverVO를 DTO로 변환하고
+        memberService.registerMember(memberVO); //회원등록 처리를 요청하고
+        return "redirect:/member/list"; // 회원 목록 페이지로 리다이렉트한다.
     }
-
+  
     // 회원 목록 조회
     @GetMapping("/list")
     public String showlistMembers(@Validated PageRequestDTO pageRequestDTO, BindingResult bindingResult, Model model) {
-        // 예시로 전체 회원 조회 기능
+        // 전체 회원 조회 기능
         if (bindingResult.hasErrors()) {
           pageRequestDTO = new PageRequestDTO();
         }
-		model.addAttribute("pageResponseDTO", memberService.getList(pageRequestDTO));
+		    model.addAttribute("pageResponseDTO", memberService.getList(pageRequestDTO));
 		
-        // model.addAttribute("members", memberService.getAllMembers());
-        return "member/list";  // 회원 목록을 보여주는 JSP 페이지
+
+        return "member/list";  // 회원 목록을 보여주는 JSP 페이지로 리턴한다.
     }
-	
-		
 	
     // 회원 정보 수정
     @GetMapping("/edit/{mid}")
-    public String showEditForm(@PathVariable String mid, Model model) {
+    public String showEditForm(@PathVariable String mid, Model model) { //url경로로 mid값을 전달받음
         MemberDTO member = memberService.getRead(mid);
         model.addAttribute("memberDTO", member);
         return "member/edit";
     }
 
     @PostMapping("/edit")
-    public String editMember(@Validated @ModelAttribute("memberVO") MemberVO memberVO, BindingResult result) {
-        if (result.hasErrors()) {
+    public String editMember(@Validated @ModelAttribute("memberVO") MemberVO memberVO, BindingResult bindingresult) {
+        if (bindingresult.hasErrors()) {
             return "member/edit";
         }
         
@@ -104,8 +99,9 @@ public class MemberController {
         memberService.removeMember(mid);
         return "redirect:/member/list";
     }
-
-   @GetMapping("/login")
+    
+    // 로그인 Get
+    @GetMapping("/login")
     public String loginGet(HttpServletRequest request,HttpServletResponse response) {
       if(request.getCookies() != null){
         for (Cookie cookie : request.getCookies()) {
@@ -123,7 +119,7 @@ public class MemberController {
       }
       return "login";
     }
-
+    // 로그인 Post 
     @PostMapping("/login")
     public String loginPost(HttpServletRequest request,HttpServletResponse response) {
       HttpSession session = request.getSession();
@@ -146,11 +142,11 @@ public class MemberController {
         return "redirect:/login?error=error";
       }
     }
-
+    //로그아웃 처리
     @RequestMapping("/logout")
     public String logout(HttpSession session) {
         MemberDTO member = (MemberDTO) session.getAttribute("loginInfo");
-        member.setAuto_Login("");
+        member.setAuto_Login(""); 
         memberService.modify_uuid(mapperUtil.map(member, MemberVO.class));
         session.invalidate();
         return "redirect:/main";
