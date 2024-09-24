@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.apache.ibatis.annotations.Mapper;
 
 import io.good.gooddev_web.member.vo.MemberVO;
-import io.good.gooddev_web.page.PageRequestDTO;
+
 
 @Mapper
 public interface MemberDAO { 
@@ -16,7 +16,7 @@ public interface MemberDAO {
     public Optional<MemberVO> getRead_uuid_Optional(String uuid);
     public int removeMember(String uid); //회원탈퇴
     public int modifyMember(MemberVO member); //회원정보 수정
-    public int insertMember(MemberVO member); //회원가입
+    public int registerMember(MemberVO member); //회원가입
 	public int getTotalCount(PageRequestDTO pageRequestDTO);
     public void modify_Uuid(MemberVO member);
 }

@@ -16,11 +16,12 @@ import lombok.ToString;
 @NoArgsConstructor
     public class MemberVO {
 
-    private String mid; // 아이디
-    private String password; // 비밀번호
-    private String memberName; // 회원명(실명)
-    private String email; // 이메일
-    private String mmid; 
+        private String mid; // 아이디
+        private String password; // 비밀번호
+        private String memberName; // 회원명(실명)
+        private String nickname; // 닉네임
+        private String phone; // 전화번호
+        private String email; // 이메일
 	
 	public boolean isEqualPasswordd(String password) {
 		return this.password.equals(password);
@@ -31,10 +32,13 @@ import lombok.ToString;
 	// }
 		
 	public MemberVO(MemberDTO member) {
-		super();
+		
 		this.mid = member.getMid();
 		this.password = member.getPassword();
 		this.memberName = member.getMemberName();
+        this.nickname = member.getMemberName();
+        this.phone = member.getPhone();
+        this.email = member.getEmail();
 	}
 	
 	public MemberDTO createMemberDTO() {
