@@ -11,4 +11,4 @@
 
 # Logs and temporary files
 *.log
-*.md
+*.DS_Store
