@@ -1,8 +1,16 @@
-<!DOCTYPE mapper
-    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="io.good.gooddev_web.board.dao.BoardDAO">
-    <select id="getTotalCategory" resultType="int">
-        SELECT CLASS_NO FROM GOOD_MEMBERCLASS
-    </select>
+
+	<select id="getList" resultType="io.good.gooddev_web.board.vo.BoardVO">
+    SELECT bno, title, content, mid, board_password, insert_date, category_no, view_cnt, parent_bno, deleteyn, like_cnt, hate_cnt FROM good_board order by bno desc
+	</select>
+
+	
+	<!-- <select id="getRead" resultType="io.good.gooddev_web.board.vo.BoardVO">
+		SELECT * FROM good_board where bno=#{bno, jdbcType=NUMERIC}
+	</select> -->
+	
 </mapper>
