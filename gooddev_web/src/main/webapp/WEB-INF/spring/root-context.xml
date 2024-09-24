@@ -28,4 +28,5 @@
 	</bean>
 
   <mybatis:scan base-package="io.good.gooddev_web.board.dao"/>
+  <mybatis:scan base-package="io.good.gooddev_web.member.dao"/>
 </beans>
