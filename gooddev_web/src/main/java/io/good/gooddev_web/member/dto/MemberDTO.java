@@ -2,6 +2,7 @@ package io.good.gooddev_web.member.dto;
 
 
 import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MemberDTO {
-
     private String mid; // 아이디
     private String password; // 비밀번호
     private String memberName; // 회원명(실명)
@@ -26,4 +26,10 @@ public class MemberDTO {
     private char isAdminYn; // 관리자 여부
     private Date signup_Date; // 가입날짜
     private Date signout_Date; // 탈퇴날짜(비활성화)
+
+    public MemberDTO(String mid, String password, String auto_Login) {
+        this.mid = mid;
+        this.password = password;
+        this.auto_Login = auto_Login;
+    }
 }

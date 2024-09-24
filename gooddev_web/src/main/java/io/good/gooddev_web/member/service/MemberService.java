@@ -1,12 +1,16 @@
 package io.good.gooddev_web.member.service;
 
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
+
 import io.good.gooddev_web.member.dao.MemberDAO;
 import io.good.gooddev_web.member.dto.MemberDTO;
 import io.good.gooddev_web.member.vo.MemberVO;
-import java.util.List;
-import java.util.stream.Collectors;
+import io.good.gooddev_web.search.dto.PageRequestDTO;
+import io.good.gooddev_web.search.dto.PageResponseDTO;
 import io.good.gooddev_web.util.MapperUtil;
 import lombok.RequiredArgsConstructor;
 
@@ -15,13 +19,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MemberService {
 
-
     private final MapperUtil mapperUtil;
     private final MemberDAO memberDAO;
 
-    public PageResponseDTO<MemberDTO> getMemberList(PageRequestDTO pageRequestDTO) {
+    public PageResponseDTO<MemberDTO> getList(PageRequestDTO pageRequestDTO) {
     List<MemberDTO> list = memberDAO.getList(pageRequestDTO).
-                                        stream().map(member -> mapperUtil.map(member, MemberDTO.class)).collect(Collectors.toList());
+    stream().map(member -> mapperUtil.map(member, MemberDTO.class)).collect(Collectors.toList());
 
     return new PageResponseDTO<MemberDTO>(pageRequestDTO, list, memberDAO.getTotalCount(pageRequestDTO));
     }
@@ -38,7 +41,7 @@ public class MemberService {
     }
 
     public int modifyMember(final MemberVO memberDTO) {
-      return memberDAO.modifyMember(memberDTO);  
+      return memberDAO.modifyMember(memberDTO); 
     }
 
 
