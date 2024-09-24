@@ -11,4 +11,6 @@ import io.good.gooddev_web.search.dto.PageRequestDTO;
 public interface  BoardDAO {
     List<Integer> getTotalCategory();
     List<BoardVO> getList(PageRequestDTO pageRequestDTO);
+    public List<BoardVO> getList();
+    int getTotalCount(PageRequestDTO pageRequestDTO);
 }
