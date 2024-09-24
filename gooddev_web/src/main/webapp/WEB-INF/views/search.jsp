@@ -69,7 +69,7 @@
 	                let pageLink = link.getAttribute('data-link');
 	                let page = link.getAttribute('data-page');
 					let encodedLink = encodeURIComponent(pageLink);
-	                link.href = "read?bno=" + boardBno + "&page="+page+"&link"+encodedLink;
+	                link.href = "board/read?bno=" + boardBno + "&page="+page+"&link"+encodedLink;
 	            });
 	        });
 			links = document.querySelectorAll('.plus-link');
@@ -77,7 +77,7 @@
 	        links.forEach(function(link) {
 	            link.addEventListener('click', function() {
 	                let pageLink = link.getAttribute('data-link');
-	                link.href = "list?&page=1"+pageLink;
+	                link.href = "board/list?&page=1"+pageLink;
 	            });
 	        });
 	    });

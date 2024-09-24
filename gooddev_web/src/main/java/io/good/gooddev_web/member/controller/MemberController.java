@@ -1,10 +1,24 @@
 package io.good.gooddev_web.member.controller;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import io.good.gooddev_web.member.dto.MemberDTO;
 import io.good.gooddev_web.member.service.MemberService;
 import io.good.gooddev_web.member.vo.MemberVO;
+import io.good.gooddev_web.search.dto.PageRequestDTO;
 import io.good.gooddev_web.util.MapperUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,12 +28,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/member")
 @RequiredArgsConstructor
 public class MemberController {
-    //생성자 주입
-    @Autowired
-    private MemberService memberService;
 
-    @Autowired
-	private MapperUtil mapperUtil;
+  private final MemberService memberService;
+	private final MapperUtil mapperUtil;
 
     // 회원 등록 페이지로 이동
     @GetMapping("/register") //  HTTP GET 요청을 처리
@@ -34,8 +45,6 @@ public class MemberController {
     @PostMapping("/register")
     public String registerMember(@Validated @ModelAttribute("memberVO") MemberVO memberVO, BindingResult result) {
         if (result.hasErrors()) {
-            //로그 기록
-            log.debug(registerMember(memberVO, result));
             return "member/register";
         }
         
@@ -46,7 +55,7 @@ public class MemberController {
         memberDTO.setMemberName(memberVO.getMemberName());
         memberDTO.setEmail(memberVO.getEmail());
 
-        memberService.registerMember(memberDTO);
+        memberService.registerMember(mapperUtil.map(memberDTO, MemberVO.class));
         return "redirect:/member/list";
     }
 
@@ -55,8 +64,8 @@ public class MemberController {
     public String showlistMembers(@Validated PageRequestDTO pageRequestDTO, BindingResult bindingResult, Model model) {
         // 예시로 전체 회원 조회 기능
         if (bindingResult.hasErrors()) {
-			pageRequestDTO = PageRequestDTO.builder().build();
-		}
+          pageRequestDTO = new PageRequestDTO();
+        }
 		model.addAttribute("pageResponseDTO", memberService.getList(pageRequestDTO));
 		
         // model.addAttribute("members", memberService.getAllMembers());
@@ -68,8 +77,8 @@ public class MemberController {
     // 회원 정보 수정
     @GetMapping("/edit/{mid}")
     public String showEditForm(@PathVariable String mid, Model model) {
-        MemberDTO member = memberService.getMemberList(mid);
-        model.addAttribute("memberVO", member);
+        MemberDTO member = memberService.getRead(mid);
+        model.addAttribute("memberDTO", member);
         return "member/edit";
     }
 
@@ -85,7 +94,7 @@ public class MemberController {
         memberDTO.setMemberName(memberVO.getMemberName());
         memberDTO.setEmail(memberVO.getEmail());
 
-        memberService.modifyMember(memberDTO);
+        memberService.modifyMember(mapperUtil.map(memberDTO, MemberVO.class));
         return "redirect:/member/list";
     }
 
@@ -121,11 +130,11 @@ public class MemberController {
       String uid = request.getParameter("uid");
       String pwd = request.getParameter("pwd");
       String auto_login = request.getParameter("auto_login");
-      MemberDTO inMember = new MemberDTO(uid, pwd, "y".equalsIgnoreCase(auto_login));
+      MemberDTO inMember = new MemberDTO(uid, pwd, auto_login);
       MemberDTO member = memberService.login(inMember);
       if (member != null) {
-        if (inMember.getAuto_login().equals("true")) {
-          Cookie cookie = new Cookie("remember_me", member.getUuid());
+        if (!inMember.getAuto_Login().equals(null)) {
+          Cookie cookie = new Cookie("remember_me", member.getAuto_Login());
           cookie.setMaxAge(60 * 10);
           cookie.setPath("/");
           response.addCookie(cookie);
@@ -141,11 +150,10 @@ public class MemberController {
     @RequestMapping("/logout")
     public String logout(HttpSession session) {
         MemberDTO member = (MemberDTO) session.getAttribute("loginInfo");
-        member.setUuid("");
-        memberService.modify_uuid(mapper.map(member, MemberVO.class));
+        member.setAuto_Login("");
+        memberService.modify_uuid(mapperUtil.map(member, MemberVO.class));
         session.invalidate();
         return "redirect:/main";
     }
-  }
 }
 

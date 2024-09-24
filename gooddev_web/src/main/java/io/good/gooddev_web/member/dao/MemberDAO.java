@@ -3,10 +3,12 @@ package io.good.gooddev_web.member.dao;
 
 import java.util.List;
 import java.util.Optional;
-import org.apache.ibatis.annotations.Mapper;
+
 import org.springframework.stereotype.Repository;
-import io.good.gooddev_web.member.vo.MemberVO;
+
 import io.good.gooddev_web.member.dto.MemberDTO;
+import io.good.gooddev_web.member.vo.MemberVO;
+import io.good.gooddev_web.search.dto.PageRequestDTO;
 
 @Repository
 public interface MemberDAO { 
