@@ -72,7 +72,7 @@
         <tr>
             <td><strong>팀장(PM)</strong></td>
             <td><code>하늘샘</code></td>
-            <td>- Git 저장소 생성 및 관리<br>- 코드 리뷰 및 PR 관리<br>- 회원관리 CRUD- 마이페이지 구현<br>- 유효성 검증</td>
+            <td>- Git 저장소 생성 및 관리<br>- 코드 리뷰 및 PR 관리<br>- 회원관리 CRUD- 메인페이지 구현<br>- 회원가입 및 유효성 검증 <br>- 아이디/비밀번호 찾기</td>
         </tr>
         <tr>
             <td><strong>팀원(개발자)</strong></td>
@@ -82,12 +82,12 @@
         <tr>
             <td><strong>팀원(개발자)</strong></td>
             <td><code>이종남</code></td>
-            <td>- 게시판 관리 (답변형)<br>- 답글 작성 기능<br>- 좋아요/싫어요 기능<br>- 게시글 TOP5 구현</td>
+            <td>- 게시판 관리 (답변형)<br>- 답글 작성 기능<br>- 좋아요/싫어요 기능<br>- 게시글 TOP10 구현</td>
         </tr>
         <tr>
             <td><strong>팀원(개발자)</strong></td>
             <td><code>곽동현</code></td>
-            <td>- 관리자 기능 구현<br>- 게시판 관리: 게시글 삭제<br>- 회원관리: 회원정보 조회/회원탈퇴</td>
+            <td>- 관리자 기능 구현<br>- 게시판 관리: 게시글 삭제<br>- 회원관리: 회원정보 조회/회원탈퇴 <br>- 마이페이지</td>
         </tr>
     </tbody>
 </table>
