@@ -1,4 +1,5 @@
 package io.good.gooddev_web.member.vo;
+
     /*  뷰와 데이터를 주고받는 객체로, 클라이언트와의 상호작용에 중점을 둔다.
        비즈니스 로직이 포함될 수 있다. */
 
@@ -44,7 +45,6 @@ import lombok.ToString;
 	public MemberDTO createMemberDTO() {
 		return new MemberDTO();  
 	}
-
 
 
 }

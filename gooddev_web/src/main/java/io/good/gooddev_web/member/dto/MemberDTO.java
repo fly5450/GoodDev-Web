@@ -1,7 +1,7 @@
 package io.good.gooddev_web.member.dto;
 
-import java.util.Date;
 
+import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,7 +26,4 @@ public class MemberDTO {
     private char isAdminYn; // 관리자 여부
     private Date signup_Date; // 가입날짜
     private Date signout_Date; // 탈퇴날짜(비활성화)
-
-
-  
 }
