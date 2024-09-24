@@ -1,9 +1,6 @@
 package io.good.gooddev_web.board.dto;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import org.springframework.format.annotation.DateTimeFormat;
+import java.time.LocalDate;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,18 +19,14 @@ public class BoardDTO {
 	private String title;
 	private String content;
 	private String mid;
-	private String board_password;
-	private int category_no;
-	private int view_cnt;
-	private Date insert_date;
-	private int parent_bno;
+	private String boardPassword;
+	private int categoryNo;
+	private int viewCnt;
+	private LocalDate insertDate;
+	private int parentBno;
 	private String deleteYn;
-	private int like_cnt;
-	private int hate_cnt;
-	
-	public String getFormatDate() {
-		SimpleDateFormat sdf = new SimpleDateFormat("yy/MM/dd");
-		return sdf.format(insert_date);
-	}
-	
+	private int likeCnt;
+	private int hateCnt;
+
+
 }
