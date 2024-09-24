@@ -1,0 +1,14 @@
+/target/
+
+
+# IDE settings
+/.settings/
+/.classpath
+/.project
+
+# Spring configuration
+/.springBeans
+
+# Logs and temporary files
+*.log
+*.tmp
