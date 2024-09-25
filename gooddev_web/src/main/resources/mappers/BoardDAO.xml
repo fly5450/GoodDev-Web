@@ -16,11 +16,27 @@
 		FROM good_board
 		)
 		WHERE rnum &gt; #{skip}
-		AND rnum &lt;= #{skip} + #{size}
+		AND rnum &lt; = #{skip} + #{size}
 	</select>
 
 	<select id="getTotalCount" resultType="int">
 		select count(*) from
 		good_board
 	</select>
+	
+	<select id="getRead" resultType="io.good.gooddev_web.board.vo.BoardVO">
+		SELECT * FROM good_board where bno = #{bno, jdbcType=NUMERIC}
+	</select>	
+	
+	<update id="viewCount" parameterType="int">
+		update good_board set view_cnt = view_cnt+1 where bno = #{bno, jdbcType=NUMERIC}
+	</update>
+	
+	<insert id="insert">
+		insert into good_board (bno, title, content, mid, board_password, category_no) values (bno_sequence.NEXTVAL, #{title}, #{content}, #{mid, jdbcType=VARCHAR}, #{board_password, jdbcType=VARCHAR}, #{category_no})
+	</insert>
+	
 </mapper>
+
+
+

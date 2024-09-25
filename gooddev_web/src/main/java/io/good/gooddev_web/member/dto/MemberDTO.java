@@ -27,9 +27,8 @@ public class MemberDTO {
     private Date signup_Date; 
     private Date signout_Date;
 
-    public MemberDTO(String mid, String password, String auto_Login) {
+    public MemberDTO(String mid, String password) {
         this.mid = mid;
         this.password = password;
-        this.auto_Login = auto_Login;
     }
 }

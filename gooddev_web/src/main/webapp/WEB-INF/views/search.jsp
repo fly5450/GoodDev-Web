@@ -62,22 +62,20 @@
 	<script>
 		 document.addEventListener('DOMContentLoaded', function() {
 	        let links = document.querySelectorAll('.detail-link');
-			console.log(links);
 	        links.forEach(function(link) {
 	            link.addEventListener('click', function() {
 	                let boardBno = link.getAttribute('data-board-bno');
 	                let pageLink = link.getAttribute('data-link');
 	                let page = link.getAttribute('data-page');
 					let encodedLink = encodeURIComponent(pageLink);
-	                link.href = "board/read?bno=" + boardBno + "&page="+page+"&link"+encodedLink;
+	                link.href = "board/read?bno=" + boardBno + "&link"+encodedLink;
 	            });
 	        });
 			links = document.querySelectorAll('.plus-link');
-			console.log(links);
 	        links.forEach(function(link) {
 	            link.addEventListener('click', function() {
 	                let pageLink = link.getAttribute('data-link');
-	                link.href = "board/list?&page=1"+pageLink;
+	                link.href = "board/list?"+pageLink;
 	            });
 	        });
 	    });

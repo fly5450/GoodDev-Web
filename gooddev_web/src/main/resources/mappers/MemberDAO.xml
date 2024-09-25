@@ -12,5 +12,15 @@
         SELECT COUNT(*) FROM good_member
     </select>
     
-    
+    <select id="getReadMember_Optional" resultType="io.good.gooddev_web.member.vo.MemberVO"> 
+        SELECT * FROM GOOD_MEMBER where mid = #{mid}
+    </select>
+
+    <select id="getRead_Auto_Login" resultType="io.good.gooddev_web.member.vo.MemberVO"> 
+        SELECT * FROM GOOD_MEMBER where auto_Login = #{auto_Login}
+    </select>
+
+    <update id="modify_Auto_Login">
+        update GOOD_MEMBER set AUTO_LOGIN = #{auto_Login} where MID = #{mid}
+    </update>
 </mapper>

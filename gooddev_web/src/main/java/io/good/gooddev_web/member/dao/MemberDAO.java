@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
-import io.good.gooddev_web.member.dto.MemberDTO;
 import io.good.gooddev_web.member.vo.MemberVO;
 import io.good.gooddev_web.search.dto.PageRequestDTO;
 
@@ -20,11 +19,7 @@ public interface MemberDAO {
   public int modifyMember(MemberVO member); 
   public int registerMember(MemberVO member); 
   public int getTotalCount(PageRequestDTO pageRequestDTO);
-  public void modify_Uuid(MemberVO member);
-  MemberDTO getRead_uuid();
-
-  MemberDTO getLogin(MemberDTO inMember);
-
-  int modify_uuid(MemberVO modify_uuid);
+  MemberVO getRead_Auto_Login(String auto_Login);
+  int modify_Auto_Login(MemberVO modify_auto_login);
 
 }

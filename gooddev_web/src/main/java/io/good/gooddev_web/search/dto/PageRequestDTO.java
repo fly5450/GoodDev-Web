@@ -27,6 +27,7 @@ public class PageRequestDTO {
 
 	public String getLink() {
 		StringBuilder builder = new StringBuilder();
+ 		builder.append("page=" + page);
 		builder.append("&size=" + size);
 		if(keyword != null) {
 			try {

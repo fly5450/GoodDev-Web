@@ -10,7 +10,7 @@
 	<h1>Board Read</h1>
 	<div>
 		<h3>
-			<span name="bno">bno : </span> <span>${board.bno}</span>
+			<span>게시판 번호 : </span> <span>${board.bno}</span>
 		</h3>
 	</div>
 	<div>
@@ -25,13 +25,37 @@
 	</div>
 	<div>
 		<h3>
-			<span>날짜: </span> <span>${board.insertDate}</span>
+			<span>내용: </span> <span>${board.content}</span>
 		</h3>
 	</div>
+	<div>
+		<h3>
+			<span>일자: </span> <span>${board.formatDate}</span>
+		</h3>
+	</div>
+	<div>
+		<h3>
+			<span>조회수: </span> <span>${board.view_cnt}</span>
+		</h3>
+	</div>
+	<div>
+		<h3>
+			<span>좋아요: </span> <span>${board.like_cnt}</span>
+		</h3>
+	</div>
+	<div>
+		<h3>
+			<span>싫어요: </span> <span>${board.hate_cnt}</span>
+		</h3>
+	</div>
+	 <a href="list?&${pageRequestDTO.link}">뒤로가기</a> 
 
-<%-- 	<a href="modify?id=${param.id}&${pageRequestDTO.link}">수정</a>
-	<a href="remove?id=${param.id}&${pageRequestDTO.link}">삭제</a>
+	<a href="update?bno=${param.bno}&${pageRequestDTO.link}">수정</a>
+	<button>좋아요</button>
+	<button>싫어요</button>
+	<%-- 	<a href="remove?id=${param.id}&${pageRequestDTO.link}">삭제</a>
 	<a href="list?&${pageRequestDTO.link}">목록</a>
  --%>
+
  </body>
 </html>
