@@ -56,7 +56,7 @@ public class MemberController {
         memberDTO.setEmail(memberVO.getEmail());
 
         memberService.registerMember(mapperUtil.map(memberDTO, MemberVO.class));
-        return "redirect:/member/list";
+        return "redirect:member/list";
     }
 
     // 회원 목록 조회
@@ -95,22 +95,22 @@ public class MemberController {
         memberDTO.setEmail(memberVO.getEmail());
 
         memberService.modifyMember(mapperUtil.map(memberDTO, MemberVO.class));
-        return "redirect:/member/list";
+        return "redirect:member/list";
     }
 
     // 회원 삭제 처리
     @PostMapping("/delete/{mid}")
     public String deleteMember(@PathVariable String mid) {
         memberService.removeMember(mid);
-        return "redirect:/member/list";
+        return "redirect:member/list";
     }
 
    @GetMapping("/login")
     public String loginGet(HttpServletRequest request,HttpServletResponse response) {
       if(request.getCookies() != null){
         for (Cookie cookie : request.getCookies()) {
-          if (cookie.getName().equals("remember_me")) {
-            MemberDTO member = memberService.getRead_uuid(cookie.getValue());
+          if (cookie.getName().equals("autoLoginTrue")) {
+            MemberDTO member = memberService.getRead_Auto_Login(cookie.getValue());
             if (member != null) {
               HttpSession session = request.getSession();
               session.setAttribute("loginInfo", member);
@@ -121,20 +121,21 @@ public class MemberController {
           }
         }
       }
-      return "login";
+      return "member/login";
     }
 
     @PostMapping("/login")
     public String loginPost(HttpServletRequest request,HttpServletResponse response) {
       HttpSession session = request.getSession();
-      String uid = request.getParameter("uid");
-      String pwd = request.getParameter("pwd");
-      String auto_login = request.getParameter("auto_login");
-      MemberDTO inMember = new MemberDTO(uid, pwd, auto_login);
-      MemberDTO member = memberService.login(inMember);
+      String mid = request.getParameter("mid");
+      String password = request.getParameter("password");
+      String auto_login_check = request.getParameter("auto_login_check");
+      if(auto_login_check==null) auto_login_check="false";
+      MemberDTO inMember = new MemberDTO(mid, password);
+      MemberDTO member = memberService.login(mapperUtil.map(inMember,MemberVO.class),auto_login_check);
       if (member != null) {
-        if (!inMember.getAuto_Login().equals(null)) {
-          Cookie cookie = new Cookie("remember_me", member.getAuto_Login());
+        if (auto_login_check.equals("on")) {
+          Cookie cookie = new Cookie("autoLoginTrue", member.getAuto_Login());
           cookie.setMaxAge(60 * 10);
           cookie.setPath("/");
           response.addCookie(cookie);
@@ -143,7 +144,7 @@ public class MemberController {
         return "redirect:/";
       } else {
 
-        return "redirect:/login?error=error";
+        return "redirect:login?error=error";
       }
     }
 
@@ -151,9 +152,9 @@ public class MemberController {
     public String logout(HttpSession session) {
         MemberDTO member = (MemberDTO) session.getAttribute("loginInfo");
         member.setAuto_Login("");
-        memberService.modify_uuid(mapperUtil.map(member, MemberVO.class));
+        memberService.modify_Auto_Login(mapperUtil.map(member, MemberVO.class));
         session.invalidate();
-        return "redirect:/main";
+        return "redirect:/";
     }
 }
 

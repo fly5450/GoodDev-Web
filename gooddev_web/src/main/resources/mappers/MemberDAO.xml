@@ -2,5 +2,16 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="io.good.gooddev_web.member.dao.MemberDAO">
-    
+
+    <select id="getReadMember_Optional" resultType="io.good.gooddev_web.member.vo.MemberVO"> 
+        SELECT * FROM GOOD_MEMBER where mid = #{mid}
+    </select>
+
+    <select id="getRead_Auto_Login" resultType="io.good.gooddev_web.member.vo.MemberVO"> 
+        SELECT * FROM GOOD_MEMBER where auto_Login = #{auto_Login}
+    </select>
+
+    <update id="modify_Auto_Login">
+        update GOOD_MEMBER set AUTO_LOGIN = #{auto_Login} where MID = #{mid}
+    </update>
 </mapper>

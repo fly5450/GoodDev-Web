@@ -62,7 +62,6 @@
 	<script>
 		 document.addEventListener('DOMContentLoaded', function() {
 	        let links = document.querySelectorAll('.detail-link');
-			console.log(links);
 	        links.forEach(function(link) {
 	            link.addEventListener('click', function() {
 	                let boardBno = link.getAttribute('data-board-bno');
@@ -73,7 +72,6 @@
 	            });
 	        });
 			links = document.querySelectorAll('.plus-link');
-			console.log(links);
 	        links.forEach(function(link) {
 	            link.addEventListener('click', function() {
 	                let pageLink = link.getAttribute('data-link');
