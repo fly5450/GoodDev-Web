@@ -1,0 +1,109 @@
+.login-container {
+    width: 5%;
+    height: 120px;
+    margin: 100px auto; /* 중앙 정렬 및 여백 */
+    padding: 20px; /* 패딩 */
+    border: 1px solid #ddd; /* 테두리 */
+    border-radius: 5px; /* 모서리 둥글게 */
+    background-color: #fff; /* 배경 색상 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+}
+.login-button {
+    display: flex; /* Flexbox 활성화 */
+    justify-content: center; /* 수평 중앙 정렬 */
+    align-items: center;
+    width: 100%; /* 버튼을 가득 채움 */
+    padding: 15px; /* 버튼 패딩 */
+    font-size: 20px; /* 버튼 글자 크기 */
+    background-color: #0eb4fc; /* 네이버 초록색 */
+    color: white; /* 글자 색상 */
+    border: none; /* 테두리 제거 */
+    border-radius: 5px; /* 모서리 둥글게 */
+    cursor: pointer; /* 커서 변경 */
+    text-decoration: none; /* 링크 스타일 제거 */
+}
+.login-button:hover {
+    background-color: #18B600; /* 호버 시 색상 변경 */
+}
+.login-plus{
+    display: flex; /* Flexbox 활성화 */
+    justify-content: center; /* 수평 중앙 정렬 */
+}
+.login-message {
+    font-size: 24px; /* 글씨 크기를 크게 설정 */
+    color: #4CAF50;  /* 녹색 계열로 설정 */
+    font-weight: bold; /* 굵은 글씨체 */
+    display: flex;
+    justify-content: center; /* 수평 정렬 */
+    align-items: center;
+    font-family: 'Arial', sans-serif; /* 폰트 설정 */
+}
+.input-group {
+    max-width: 400px; /* 원하는 너비로 설정 (예: 400px) */
+    margin: auto; /* 중앙 정렬 */
+}
+.input-group .form-control {
+    width: auto; /* 자동 너비 조정 */
+    flex: 1; /* 버튼과 입력 필드가 같은 비율로 공간을 차지하도록 설정 */
+}
+.btn {
+    white-space: nowrap; /* 버튼 텍스트가 줄바꿈되지 않도록 설정 */
+}
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+header, nav, section, footer {
+    width: 100%;
+    text-align: center;
+}
+header {
+    background-color: #f2f2f2;
+    padding: 20px;
+}
+nav {
+    background-color: #0044cc;
+    color: white;
+    padding: 15px;
+}
+nav a {
+    margin: 0 15px;
+    color: white;
+    text-decoration: none;
+}
+.main-content {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+}
+.sidebar {
+    width: 20%;
+    background-color: #f9f9f9;
+    padding: 10px;
+}
+.content {
+    width: 75%;
+    background-color: #e9e9e9;
+    padding: 20px;
+}
+.content h2 {
+    margin-top: 0;
+}
+footer {
+    background-color: #f2f2f2;
+    padding: 10px;
+}
+.notice-board, .gallery{
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+}
