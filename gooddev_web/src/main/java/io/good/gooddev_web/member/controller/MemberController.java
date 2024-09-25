@@ -29,26 +29,22 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class MemberController {
 
-  private final MemberService memberService;
+	private final MemberService memberService;
 	private final MapperUtil mapperUtil;
 
-    // 회원 등록 페이지로 이동
-    @GetMapping("/register") //  HTTP GET 요청을 처리
-    //사용자가 브라우저에서 ..../member/register URL을 요청했을 때 이 메서드가 호출된다.
-    public String showRegisterForm(Model model) //Controller -> View(JSP)로 데이터를 전달
+    @GetMapping("/register") 
+    public String showRegisterForm(Model model) 
     {
-        model.addAttribute("memberVO", new MemberVO()); //익명객체 사용(사용자가 폼을 요청할때에 초기화된 상태의 객체를 전달받는다.)
-        return "member/register"; //register.jsp로 이동한다.
+        model.addAttribute("memberVO", new MemberVO()); 
+        return "member/register"; 
     }
 
-    // 회원 등록 처리
     @PostMapping("/register")
     public String registerMember(@Validated @ModelAttribute("memberVO") MemberVO memberVO, BindingResult result) {
         if (result.hasErrors()) {
             return "member/register";
         }
         
-        // MemberVO에서 MemberDTO로 변환
         MemberDTO memberDTO = new MemberDTO();
         memberDTO.setMid(memberVO.getMid());
         memberDTO.setPassword(memberVO.getPassword());
@@ -59,22 +55,19 @@ public class MemberController {
         return "redirect:/member/list";
     }
 
-    // 회원 목록 조회
     @GetMapping("/list")
     public String showlistMembers(@Validated PageRequestDTO pageRequestDTO, BindingResult bindingResult, Model model) {
-        // 예시로 전체 회원 조회 기능
         if (bindingResult.hasErrors()) {
           pageRequestDTO = new PageRequestDTO();
         }
 		model.addAttribute("pageResponseDTO", memberService.getList(pageRequestDTO));
 		
         // model.addAttribute("members", memberService.getAllMembers());
-        return "member/list";  // 회원 목록을 보여주는 JSP 페이지
+        return "member/list";  
     }
 	
 		
 	
-    // 회원 정보 수정
     @GetMapping("/edit/{mid}")
     public String showEditForm(@PathVariable String mid, Model model) {
         MemberDTO member = memberService.getRead(mid);
@@ -98,7 +91,6 @@ public class MemberController {
         return "redirect:/member/list";
     }
 
-    // 회원 삭제 처리
     @PostMapping("/delete/{mid}")
     public String deleteMember(@PathVariable String mid) {
         memberService.removeMember(mid);
@@ -154,6 +146,34 @@ public class MemberController {
         memberService.modify_uuid(mapperUtil.map(member, MemberVO.class));
         session.invalidate();
         return "redirect:/main";
+    }
+    
+    //회원 마이페이지
+    @RequestMapping("/mypage")
+    public String myPage(Model model) {
+    	
+    	return "member/mypage/myPage";
+    }
+        
+    //나의 게시물 가져오기
+    @RequestMapping("myBoardList")
+    public String myBoardList(Model model) {
+    	//게시물 객체 가져오기
+    	
+    	return "member/mypage/myBoardList";
+    }
+    
+  //회원 정보 수정
+    @RequestMapping("updateMember")
+    public String updateMember(Model model) {
+    	
+    	return "member/mypage/updateMember";
+    }
+    
+    @RequestMapping("removeMember")
+    public String removeMember() {
+    	
+    	return "member/mypage/removeMember";
     }
 }
 

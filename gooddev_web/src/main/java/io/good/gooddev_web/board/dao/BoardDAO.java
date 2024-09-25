@@ -13,4 +13,5 @@ public interface  BoardDAO {
     List<BoardVO> getList(PageRequestDTO pageRequestDTO);
     public List<BoardVO> getList();
     int getTotalCount(PageRequestDTO pageRequestDTO);
+	public int remove(long mid);
 }

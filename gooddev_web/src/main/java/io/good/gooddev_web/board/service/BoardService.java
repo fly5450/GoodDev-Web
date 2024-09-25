@@ -37,4 +37,8 @@ public class BoardService {
 		return new PageResponseDTO(pageRequestDTO, getList, boardDAO.getTotalCount(pageRequestDTO));
 	}
     
+	public int remove(long mid) {
+		return boardDAO.remove(mid);
+	}
+    
 }

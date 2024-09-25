@@ -14,7 +14,6 @@ import io.good.gooddev_web.search.dto.PageResponseDTO;
 import io.good.gooddev_web.util.MapperUtil;
 import lombok.RequiredArgsConstructor;
 
-//비즈니스로직 처리
 @Service
 @RequiredArgsConstructor
 public class MemberService {
@@ -28,7 +27,7 @@ public class MemberService {
 
     return new PageResponseDTO<MemberDTO>(pageRequestDTO, list, memberDAO.getTotalCount(pageRequestDTO));
     }
-
+    
 
     public MemberDTO getRead(String mid) {
     MemberVO member = memberDAO.getReadMember_Optional(mid).orElse(null);

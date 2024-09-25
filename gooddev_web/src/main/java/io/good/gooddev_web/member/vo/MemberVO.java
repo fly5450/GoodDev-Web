@@ -1,7 +1,5 @@
 package io.good.gooddev_web.member.vo;
 
-    /*  뷰와 데이터를 주고받는 객체로, 클라이언트와의 상호작용에 중점을 둔다.
-       비즈니스 로직이 포함될 수 있다. */
 
 import io.good.gooddev_web.member.dto.MemberDTO;
 import lombok.AllArgsConstructor;
@@ -17,12 +15,12 @@ import lombok.ToString;
 @NoArgsConstructor
     public class MemberVO {
 
-        private String mid; // 아이디
-        private String password; // 비밀번호
-        private String memberName; // 회원명(실명)
-        private String nickname; // 닉네임
-        private String phone; // 전화번호
-        private String email; // 이메일
+        private String mid; 
+        private String password; 
+        private String memberName; 
+        private String nickname; 
+        private String phone; 
+        private String email; 
 	
 	public boolean isEqualPasswordd(String password) {
 		return this.password.equals(password);
