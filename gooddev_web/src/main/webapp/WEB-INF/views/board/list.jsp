@@ -34,7 +34,7 @@
 				<c:forEach var="board" items="${pageResponseDTO.list}">
 					<tr>
 						<td>${board.bno}</td>
-						<td><a href="read?id=${board.bno}&${pageRequestDTO.link}">${board.title}</a></td>
+						<td><a href="read?bno=${board.bno}&${pageRequestDTO.link}">${board.title}</a></td>
 						<td>${board.mid}</td>
 						<td>${board.formatDate}</td>
 						<td>${board.view_cnt}</td>
@@ -44,6 +44,26 @@
 			</tbody>
 		</table>
 	</div>
+	
+	<div>
+	    <div>
+	        <p>실시간 TOP10</p>
+	    </div>
+	    <div>
+	        <table>
+	            <tbody>
+	                <c:forEach var="board" items="${pageResponseDTO.list}">
+	                    <tr>
+	                        <td><a href="read?bno=${board.bno}&${pageRequestDTO.link}">${board.title}</a></td>
+	                    </tr>
+	                </c:forEach>
+	            </tbody>
+	        </table>
+	    </div>
+	</div>
+	<br/>
+	<a href="insert">글쓰기</a>
+	
 	<jsp:include page="/WEB-INF/views/inc/page_nav.jsp"></jsp:include>
 </body>
 </html>
