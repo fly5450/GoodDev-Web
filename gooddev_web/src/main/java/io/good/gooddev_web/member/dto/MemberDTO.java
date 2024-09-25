@@ -27,9 +27,8 @@ public class MemberDTO {
     private Date signup_Date; // 가입날짜
     private Date signout_Date; // 탈퇴날짜(비활성화)
 
-    public MemberDTO(String mid, String password, String auto_Login) {
+    public MemberDTO(String mid, String password) {
         this.mid = mid;
         this.password = password;
-        this.auto_Login = auto_Login;
     }
 }
