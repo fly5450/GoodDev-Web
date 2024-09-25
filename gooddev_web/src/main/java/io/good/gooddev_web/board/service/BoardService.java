@@ -37,4 +37,16 @@ public class BoardService {
 		return new PageResponseDTO(pageRequestDTO, getList, boardDAO.getTotalCount(pageRequestDTO));
 	}
     
+    public BoardDTO getRead(int bno) {
+    	BoardVO board = boardDAO.getRead(bno).orElse(null);
+    	return board != null ? mapper.map(board, BoardDTO.class) : null;
+    }
+    
+    public void viewCount(int num) {
+    	boardDAO.viewCount(num);
+    }
+    
+    public int insert(final BoardVO boardVO) {
+    	return boardDAO.insert(boardVO);
+    }
 }
