@@ -51,9 +51,10 @@ public class MemberController {
             redirectAttributes.addFlashAttribute("message", bindingResult.getFieldError().getDefaultMessage()); //에러메시지를 출력하고
             return "redirect:/member/register"; // 등록 페이지로 리다이렉트 한다.
         }
-    
+
         MemberDTO memberDTO = mapperUtil.map(memberVO, MemberDTO.class); //MemverVO를 DTO로 변환하고
         memberService.registerMember(memberVO); //회원등록 처리를 요청하고
+        memberService.registerMember(memberVO);
         return "redirect:/member/list"; // 회원 목록 페이지로 리다이렉트한다.
     }
     // public String registerMember(@ModelAttribute("memberVO") MemberVO memberVO, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
@@ -77,7 +78,7 @@ public class MemberController {
           redirectAttributes.addFlashAttribute("message", "해당 이메일에 등록된 아이디가 없습니다.");
       }
       
-      return "redirect:/member/findId"; // findId.jsp로 이동
+      return "redirect:/member/login"; // login.jsp로 이동
     }
 
     // 비밀번호 찾기 페이지로 이동 Get
@@ -98,12 +99,12 @@ public class MemberController {
        } else {
            redirectAttributes.addFlashAttribute("message", "아이디 또는 이메일이 일치하지 않습니다.");
        }
-       return "redirect:/member/findPwd"; // 다시 비밀번호 찾기 페이지로 리다이렉트
+       return "redirect:/member/login"; // 다시 비밀번호 찾기 페이지로 리다이렉트
    }
    
 	 // 회원 목록 조회
     @GetMapping("/list")
-    public String showlistMembers(@Validated PageRequestDTO pageRequestDTO, BindingResult bindingResult, Model model) {
+    public String listMembers(@Validated PageRequestDTO pageRequestDTO, BindingResult bindingResult, Model model) {
         // 예시로 전체 회원 조회 기능
         if (bindingResult.hasErrors()) {
           pageRequestDTO = new PageRequestDTO();
@@ -115,7 +116,7 @@ public class MemberController {
 		
     // 회원 정보 수정
     @GetMapping("/edit/{mid}")
-    public String showEditForm(@PathVariable String mid, Model model) {
+    public String EditForm(@PathVariable String mid, Model model) {
         MemberDTO member = memberService.getRead(mid);
         model.addAttribute("memberDTO", member);
         return "member/edit";
@@ -151,7 +152,7 @@ public class MemberController {
         member.setAuto_Login("");
         memberService.modify_Auto_Login(mapperUtil.map(member, MemberVO.class));
         session.invalidate();
-        return "redirect:/";
+        return "redirect:/main.jsp"; 
     }
     //로그인 POST처리
     @PostMapping("/login")
