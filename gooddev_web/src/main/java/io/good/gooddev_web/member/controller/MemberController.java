@@ -54,7 +54,6 @@ public class MemberController {
 
         MemberDTO memberDTO = mapperUtil.map(memberVO, MemberDTO.class); //MemverVO를 DTO로 변환하고
         memberService.registerMember(memberVO); //회원등록 처리를 요청하고
-        memberService.registerMember(memberVO);
         return "redirect:/member/list"; // 회원 목록 페이지로 리다이렉트한다.
     }
     // public String registerMember(@ModelAttribute("memberVO") MemberVO memberVO, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
