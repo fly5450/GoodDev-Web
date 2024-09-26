@@ -3,6 +3,8 @@ package io.good.gooddev_web.search;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +24,7 @@ public class SearchController {
     private final BoardService boardService;
 
     @PostMapping("/search")
-    public String serachPost(String keyword,Model model,RedirectAttributes redirectAttributes,PageRequestDTO pageRequestDTO){
+    public String serachPost(String keyword,Model model,RedirectAttributes redirectAttributes,PageRequestDTO pageRequestDTO, HttpSession session){
         log.info(keyword);
         if (keyword == null) {
             redirectAttributes.addFlashAttribute("message", "검색어를 입력해 주세요");

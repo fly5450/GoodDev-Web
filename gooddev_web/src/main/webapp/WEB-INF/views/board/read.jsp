@@ -10,7 +10,7 @@
 	<h1>Board Read</h1>
 	<div>
 		<h3>
-			<span>게시판 번호 : </span> <span>${board.bno}</span>
+			<span>게시판 번호 : </span> <span id="bno">${board.bno}</span>
 		</h3>
 	</div>
 	<div>
@@ -40,22 +40,47 @@
 	</div>
 	<div>
 		<h3>
-			<span>좋아요: </span> <span>${board.like_cnt}</span>
+			<span>좋아요: </span> <span id="likeCount">${board.like_cnt}</span>
 		</h3>
 	</div>
 	<div>
 		<h3>
-			<span>싫어요: </span> <span>${board.hate_cnt}</span>
+			<span>싫어요: </span> <span id="hateCount">${board.hate_cnt}</span>
 		</h3>
 	</div>
-	 <a href="list?&${pageRequestDTO.link}">뒤로가기</a> 
+	<a href="list?&${pageRequestDTO.link}">뒤로가기</a>
 
-	<a href="update?bno=${param.bno}&${pageRequestDTO.link}">수정</a>
-	<button>좋아요</button>
-	<button>싫어요</button>
+	<a href="update?bno=${board.bno}&${pageRequestDTO.link}">수정</a>
+	<button onclick="handleLikeHate('like')">좋아요</button>
+	<button onclick="handleLikeHate('hate')">싫어요</button>
 	<%-- 	<a href="remove?id=${param.id}&${pageRequestDTO.link}">삭제</a>
 	<a href="list?&${pageRequestDTO.link}">목록</a>
  --%>
-
- </body>
+	<script>
+    function handleLikeHate(action) {
+    	const bno = parseInt(document.getElementById('bno').textContent);
+        console.log("bno 값: ", bno);
+        const url = "<%= request.getContextPath() %>/board/" + action;
+        
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: 'bno=' + bno
+        })
+        .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json(); // JSON으로 응답을 파싱
+    	})
+        .then(data => {
+        	console.log(data);
+            document.getElementById('likeCount').innerText = data.likeCount;
+            document.getElementById('hateCount').innerText = data.hateCount;
+        });
+    }
+</script>
+</body>
 </html>

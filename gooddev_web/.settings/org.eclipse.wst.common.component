@@ -18,6 +18,7 @@
         
         <property name="context-root" value="gooddev_web"/>
         <property name="java-output-path" value="/gooddev_web/target/classes"/>
+
                 	
     
     </wb-module>
