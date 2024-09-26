@@ -1,0 +1,24 @@
+package io.good.gooddev_web.member.dao;
+
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class MemberDAOImpl implements MemberDAO {
+
+    private final SqlSessionTemplate sqlSessionTemplate;
+
+    public MemberDAOImpl(SqlSessionTemplate sqlSessionTemplate) {
+        this.sqlSessionTemplate = sqlSessionTemplate;
+    }
+
+    @Override
+    public Boolean validateUser(String mid, String email) {
+        Map<String, String> params = new HashMap<>();
+        params.put("mid", mid);
+        params.put("email", email);
+        
+        Integer count = sqlSessionTemplate.selectOne("io.good.gooddev_web.member.dao.MemberDAO.validateUser", params);
+        return count != null && count > 0;
+    }
+}

@@ -105,25 +105,16 @@ public class MemberController {
         return "redirect:member/list";
     }
 
-   @GetMapping("/login")
-    public String loginGet(HttpServletRequest request,HttpServletResponse response) {
-      if(request.getCookies() != null){
-        for (Cookie cookie : request.getCookies()) {
-          if (cookie.getName().equals("autoLoginTrue")) {
-            MemberDTO member = memberService.getRead_Auto_Login(cookie.getValue());
-            if (member != null) {
-              HttpSession session = request.getSession();
-              session.setAttribute("loginInfo", member);
-              cookie.setMaxAge(60 * 10);
-              response.addCookie(cookie);
-              return "redirect:/";
-            }
-          }
-        }
-      }
-      return "member/login";
+    //로그아웃
+    @RequestMapping("/logout")
+    public String logout(HttpSession session) {
+        MemberDTO member = (MemberDTO) session.getAttribute("loginInfo");
+        member.setAuto_Login("");
+        memberService.modify_Auto_Login(mapperUtil.map(member, MemberVO.class));
+        session.invalidate();
+        return "redirect:/";
     }
-
+    //로그인 POST처리
     @PostMapping("/login")
     public String loginPost(HttpServletRequest request,HttpServletResponse response) {
       HttpSession session = request.getSession();
@@ -148,13 +139,5 @@ public class MemberController {
       }
     }
 
-    @RequestMapping("/logout")
-    public String logout(HttpSession session) {
-        MemberDTO member = (MemberDTO) session.getAttribute("loginInfo");
-        member.setAuto_Login("");
-        memberService.modify_Auto_Login(mapperUtil.map(member, MemberVO.class));
-        session.invalidate();
-        return "redirect:/";
-    }
 }
 

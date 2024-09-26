@@ -25,32 +25,58 @@ public class MemberService {
     private final MapperUtil mapperUtil;
     private final MemberDAO memberDAO;
 
+
+    //회원정보 추
     public PageResponseDTO<MemberDTO> getList(PageRequestDTO pageRequestDTO) {
     List<MemberDTO> list = memberDAO.getList(pageRequestDTO).
-    stream().map(member -> mapperUtil.map(member, MemberDTO.class)).collect(Collectors.toList());
+                                     stream().map(member -> mapperUtil.map(member, MemberDTO.class)).
+                                     collect(Collectors.toList());
 
-    return new PageResponseDTO<>(pageRequestDTO, list, memberDAO.getTotalCount(pageRequestDTO));
+    return new PageResponseDTO<MemberDTO>(pageRequestDTO, list, memberDAO.getTotalCount(pageRequestDTO));
     }
-
-
+    //회원정보 조회
     public MemberDTO getRead(String mid) {
-    MemberVO member = memberDAO.getReadMember_Optional(mid).orElse(null);
-      return member != null ? mapperUtil.map(member, MemberDTO.class) : null;
+      MemberVO member = memberDAO.getReadMember_Optional(mid).orElse(null);
+      return member != null ? mapperUtil.map(member, MemberDTO.class) : null; 
+    }
+    //회원 탈퇴
+    public int removeMember(String mid) {
+      return memberDAO.removeMember(mid);
+    }
+    //회원정보 수정
+    public int modifyMember(final MemberVO Member) {
+      return memberDAO.modifyMember(Member); 
+    }
+    //회원가입
+    public int registerMember(final MemberVO Member) {
+      return memberDAO.registerMember(Member);
+    }
+    //아이디찾기
+    public String findIdByEmail(String email) {
+      return memberDAO.findIdByEmail(email); 
+    }
+    // 비밀번호 찾기
+    public Boolean findPwd(String mid, String email, String newPassword) {
+      // 유저 검증
+      Boolean isValidUser = memberDAO.validateUser(mid, email); //id, email로 유저가존재하는지 확인
+      if (isValidUser) {
+          // 비밀번호 재설정
+          MemberVO member = new MemberVO();
+          member.setMid(mid);
+          member.setPassword(newPassword); // 새 비밀번호 설정
+          memberDAO.modifyMember(member); // 비밀번호 업데이트
+          return true; // 비밀번호 찾기 성공
+      } else {
+          return false; // 유효하지 않은 사용자
+      }
     }
 
-
-    public int removeMember(String uid) {
-      return memberDAO.removeMember(uid);
+   // 유저 검증
+      public Boolean isUserValid(String mid, String email) {
+        return memberDAO.validateUser(mid, email);
     }
+ 
 
-    public int modifyMember(final MemberVO memberDTO) {
-      return memberDAO.modifyMember(memberDTO); 
-    }
-
-
-    public int registerMember(final MemberVO memberDTO) {
-      return memberDAO.registerMember(memberDTO);
-    }
 
     public MemberDTO getRead_Auto_Login(String auto_Login) {
       MemberVO member = memberDAO.getRead_Auto_Login(auto_Login);
