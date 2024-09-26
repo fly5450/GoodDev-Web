@@ -58,12 +58,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </update>
 
 <!-- 아이디찾기 -->
-<select id="findById" resultType="String">
+<select id="findIdByEmail" resultType="String">
     SELECT mid FROM good_member WHERE email = #{email}
 </select>
 
 <!-- 비밀번호 찾기-->
-<select id="findByPwd" resultType="String">
+<select id="findPwdById" resultType="String">
     SELECT password FROM good_member WHERE mid = #{mid}
 </select>
 

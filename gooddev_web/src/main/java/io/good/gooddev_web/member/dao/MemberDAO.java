@@ -19,7 +19,7 @@ public interface MemberDAO {
   public MemberVO getRead_Auto_Login(String auto_Login);  //
   public int modify_Auto_Login(MemberVO modify_auto_login); //자동로그인 -set
   public MemberDTO getLogin(MemberDTO inMember);  //로그인
-  public Boolean findpwd(String mid, String email); //비밀번호 찾기
+  public Boolean findPwdById(String mid, String email); //비밀번호 찾기
   public String findIdByEmail(String email); //아이디찾기(이메일로)
   public MemberDTO getRead_uuid(); 
   public int modify_uuid(MemberVO modify_uuid);
