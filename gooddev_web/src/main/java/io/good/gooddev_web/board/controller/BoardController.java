@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.ResponseEntity;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import io.good.gooddev_web.board.dao.BoardDAO;
 import io.good.gooddev_web.board.dto.BoardDTO;
 import io.good.gooddev_web.board.service.BoardService;
 import io.good.gooddev_web.board.vo.BoardVO;
@@ -71,8 +69,8 @@ public class BoardController {
 	@ResponseBody
 	public ResponseEntity<Map<String, Integer>> likeBoard(@RequestParam int bno, HttpSession session) {
 	    Map<String, Integer> response = new HashMap<>();
-	    String mid = (String) session.getAttribute("mid");
-
+	    MemberDTO member = (MemberDTO) session.getAttribute("loginInfo");
+		String mid = member.getMid();
 	    if (mid != null) {
 	        // 좋아요 상태 확인
 	        boolean hasLiked = boardService.hasUserLiked(bno, mid);
@@ -96,8 +94,8 @@ public class BoardController {
 	@ResponseBody
 	public ResponseEntity<Map<String, Integer>> hateBoard(@RequestParam int bno, HttpSession session) {
 	    Map<String, Integer> response = new HashMap<>();
-	    String mid = (String) session.getAttribute("mid");
-
+	    MemberDTO member = (MemberDTO) session.getAttribute("loginInfo");
+		String mid = member.getMid();
 	    if (mid != null) {
 	        // 싫어요 상태 확인
 	        boolean hasLiked = boardService.hasUserLiked(bno, mid);

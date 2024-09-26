@@ -20,8 +20,9 @@
 		</where>
 	</sql>
 	<select id="getTotalCategory" resultType="int">
-		SELECT CLASS_NO FROM
-		GOOD_MEMBERCLASS
+		SELECT 
+			CLASS_NO 
+		FROM	GOOD_MEMBERCLASS
 	</select>
 
 	<select id="getList"
@@ -35,8 +36,11 @@
 		)
 
 		<where>
-			AND rnum &gt; #{skip}
-			AND rnum &lt;= #{skip} + #{size}
+			<![CDATA[ 
+			AND rnum > #{skip}
+			AND rnum <= #{skip} + #{size}
+			]]>
+
 		</where>
 		ORDER BY bno DESC
 

@@ -35,8 +35,8 @@ public class MainController {
                 }
             }
         }
-        MemberDTO member = (MemberDTO) session.getAttribute("loginInfo");
-        model.addAttribute("loginInfo",member);
+        // MemberDTO member = (MemberDTO) session.getAttribute("loginInfo");
+        // model.addAttribute("loginInfo",member);
         return "main";
     }
 }

@@ -56,7 +56,7 @@ public class BoardService {
     	return boardDAO.insert(boardVO);
     }
     
-    public void addLike(int bno, String mid) {
+    public void addLike(final int bno, String mid) {
         if (!boardDAO.existsLike(mid, bno)) {
             // 좋아요가 없으면 추가 (DELETEYN 'N' 설정 및 like_board 1)
             boardDAO.insertLike(mid, bno, 1);
