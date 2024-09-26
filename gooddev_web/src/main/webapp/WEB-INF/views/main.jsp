@@ -8,18 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>굿이야 사이트</title>
-    <%-- <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-            crossorigin="anonymous"/>
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-            crossorigin="anonymous">
-            </script>
-    --%>
-        <link rel="stylesheet" href="<c:url value='/resources/css/style.css'/>"> 
+        <link rel="stylesheet" href="<c:url value='/resources/css/style.css'/>">
 </head>
 <body>
 
@@ -27,26 +16,47 @@
         <!-- Header -->
         <header>
         <div class="header-container">
-            <h1>굿이야 웹사이트</h1>
-            <div class="card-body">
-            <form action="search" method="post" id = "searchForm">
-                <div class="input-group mb-3">
-                    <span class="input-group-text">통합검색</span>
-                    <input name="keyword" id="keyword" class="form-control" placeholder="검색어를 입력해주세요">
-                    <button type="submit" class="btn btn-primary">검색</button>
+            <div class="logo-container">
+                <img src="resources/img/good.png" alt="로고">
+            </div>
+            <div class="search-wrapper">
+                <span class="search-label">통합검색</span>
+                <div class="search-container">
+                    <form action="search" method="post" id = "searchForm" class="search-form">
+                            <input name="keyword" id="keyword" class="search-input" placeholder="검색어를 입력해주세요">
+                            <button type="submit" class="search-button">검색</button>
+                    </form>
                 </div>
-            </form>
             </div>
         </div>
         </header>
 
         <!-- Navigation -->
         <nav>
-            <a href="#" class = "navbar a">공지사항</a>
-            <a href="#" class = "navbar a">게시판</a>
-            <a href="#" class = "navbar a">갤러리</a>
-            <a href="#" class = "navbar a">커리큘럼</a>
-            <a href="#" class = "navbar a">교육신청</a>
+            <div class="menu-item">
+                <a href="board/list?page=1&size=10&category=10" class = "navbar a">공지사항</a>
+            </div>
+            <div class = "menu-item">
+                <a href="#" class = "navbar a">게시판</a>
+                <div class="dropdown">
+                    <div class="dropdown-item">
+                        <a href="board/list?page=1&size=10&category=20" class = "navbar a">MSA5차</a>
+                    </div>
+                    <div class="dropdown-item">
+                        <a href="board/list?page=1&size=10&category=30" class = "navbar a">MSA6차</a>
+                    </div>
+                    <div class="dropdown-item">
+                        <a href="board/list?page=1&size=10&category=40" class = "navbar a">MSA7차</a>
+                    </div>
+                </div>
+            </div>
+            <div class="menu-item">
+                <a href="board/gallery">갤러리</a>
+            </div> <div class="menu-item">
+                <a href="board/curicurum">커리큘럼</a>
+            </div> <div class="menu-item">
+                <a href="https://www.sw.or.kr/site/sw/edu/selectEduListGallery.do" >교육신청</a>
+            </div>
         </nav>
         <div class = "main">
             <div class="sidebar">
@@ -83,7 +93,6 @@
                             <p>내용</p>
                         </div>
                     </div>
-
                     <!-- Gallery Section -->
                     <div class="gallery">
                         <h2>갤러리</h2>
@@ -101,23 +110,27 @@
                 <c:if test = "${empty mid}">
                     <div class="login-container">
                         <div>
-                            <a href="member/login" class="login-button">로그인하기</a>
-                        </div>
-                        <div>
-                            <a href="member/findId" >아이디찾기</a>
-                            <a href="member/findPassword" >비밀번호찾기</a>
-                            <a href="member/register" >회원가입</a>
+                            <div class="login-btn">
+                                <a href="member/login">로그인하기</a>
+                            </div>
+                            <div class="login-links">
+                                <a href="member/findId" >아이디찾기</a>
+                                <a href="member/findPassword" >비밀번호찾기</a>
+                                <a href="member/register" >회원가입</a>
+                            </div>
                         </div>
                     </div>
                 </c:if>
                 <c:if test = "${not empty mid}">
                     <div class="login-container" >
                         <div>
-                            <label class="login-message">${loginInfo.nickname}님 환영합니다</label>
-                        </div>
-                        <div>
-                            <a href="member/myPage" >마이페이지</a>
-                            <a href="member/logout" >로그아웃</a>
+                            <div>
+                                <label class="login-message">${loginInfo.nickname}님 환영합니다</label>
+                            </div>
+                            <div class="login-links">
+                                <a href="member/myPage" >마이페이지</a>
+                                <a href="member/logout" >로그아웃</a>
+                            </div>
                         </div>
                     </div>
                 </c:if>
@@ -151,7 +164,7 @@
 
             let message = "${message}";
             if (message !== null && message !== "") alert(message);
-
+            
         </script>
 </body>
 </html>
