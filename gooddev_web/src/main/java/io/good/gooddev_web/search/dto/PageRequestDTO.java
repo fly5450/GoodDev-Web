@@ -17,7 +17,7 @@ public class PageRequestDTO {
 	private int page = 1;
 	private int size = 10;
 	private String keyword;
-	private String category;
+	private String category_no;
     private String searchType;
     
 
@@ -36,8 +36,8 @@ public class PageRequestDTO {
 				e.printStackTrace();
 			}
 		}
-        if(category != null) {
-			builder.append("&category=" +category);
+        if(category_no != null) {
+			builder.append("&category=" +category_no);
 		}
 
 		// if(searchType != null) {
@@ -50,7 +50,7 @@ public class PageRequestDTO {
 	public String getParam(int page)  {
 		StringBuilder builder = new StringBuilder();
 		builder.append("page=" + page);
-		builder.append("&size=" + size);
+		builder.append("&size=" + this.size);
 		
 		
 		if (keyword != null && keyword.length() > 0) {

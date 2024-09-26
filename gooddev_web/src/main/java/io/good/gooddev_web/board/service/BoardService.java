@@ -25,7 +25,7 @@ public class BoardService {
         List<Integer> totalCategory= boardDAO.getTotalCategory();
         for(int category : totalCategory){
             String categoryName = String.valueOf(category);
-            pageRequestDTO.setCategory(String.valueOf(category));
+            pageRequestDTO.setCategory_no(String.valueOf(category));
             List <BoardDTO> boardlist = boardDAO.getList(pageRequestDTO).stream().map(board -> mapper.map(board, BoardDTO.class)).collect(Collectors.toList());
             map.put(categoryName,boardlist);
         }
@@ -35,6 +35,10 @@ public class BoardService {
     public PageResponseDTO<BoardDTO> getList(PageRequestDTO pageRequestDTO) {
 		List<BoardDTO> getList = boardDAO.getList(pageRequestDTO).stream().map(board -> mapper.map(board, BoardDTO.class)).collect(Collectors.toList());
 		return new PageResponseDTO(pageRequestDTO, getList, boardDAO.getTotalCount(pageRequestDTO));
+	}
+    
+	public int remove(long mid) {
+		return boardDAO.remove(mid);
 	}
     
     public BoardDTO getRead(int bno) {

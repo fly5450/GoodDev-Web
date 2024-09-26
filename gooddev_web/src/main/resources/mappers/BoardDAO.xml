@@ -2,7 +2,23 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="io.good.gooddev_web.board.dao.BoardDAO">
-
+	<sql id="search">
+		<where>
+			<if test="keyword != null and keyword.length >0">
+				(
+					title LIKE concat('%', #{keyword}, '%')
+					OR
+					content LIKE concat('%', #{keyword}, '%')
+				)
+			</if>
+			<if test="mid != null and mid.length >0">
+				<trim prefix="and"> mid = #{mid} </trim>
+			</if>
+			<if test="category_no != null and category_no.length >0">
+				<trim prefix="and"> category_no = #{category_no} </trim>
+			</if>
+		</where>
+	</sql>
 	<select id="getTotalCategory" resultType="int">
 		SELECT CLASS_NO FROM
 		GOOD_MEMBERCLASS
@@ -15,22 +31,28 @@
 		SELECT good_board.*, ROW_NUMBER() OVER (ORDER
 		BY bno DESC) AS rnum
 		FROM good_board
+		<include refid="search"/>
 		)
-		WHERE rnum &gt; #{skip}
-		AND rnum
-		&lt; = #{skip} + #{size}
+
+		<where>
+			AND rnum &gt; #{skip}
+			AND rnum &lt;= #{skip} + #{size}
+		</where>
+		ORDER BY bno DESC
+
 	</select>
 
 	<select id="getTotalCount" resultType="int">
 		select count(*) from
 		good_board
+		<include refid="search"/>
 	</select>
 
-	<select id="getRead"
-		resultType="io.good.gooddev_web.board.vo.BoardVO">
-		SELECT * FROM good_board where bno = #{bno,
-		jdbcType=NUMERIC}
+	
+	<select id="getRead" resultType="io.good.gooddev_web.board.vo.BoardVO">
+		SELECT * FROM good_board where bno = #{bno, jdbcType=NUMERIC}
 	</select>
+	
 
 	<update id="viewCount" parameterType="int">
 		update good_board set
@@ -103,6 +125,3 @@
 	</select>
 
 </mapper>
-
-
-
