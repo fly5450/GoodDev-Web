@@ -36,7 +36,6 @@ public class AdminService {
 	
 	public PageResponseDTO<MemberDTO> getList(PageRequestDTO pageRequestDTO) {
 		List<MemberDTO> list = memberDAO.getList(pageRequestDTO).stream().map(member -> mapperUtil.map(member, MemberDTO.class)).collect(Collectors.toList());
-		log.info("Executing getList with skip값 가져오기 ={}, size={}", pageRequestDTO.getSkip(), pageRequestDTO.getSize());
 		return new PageResponseDTO<MemberDTO>(pageRequestDTO, list, memberDAO.getTotalCount(pageRequestDTO));
 	}
 	

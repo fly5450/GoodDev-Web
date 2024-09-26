@@ -4,11 +4,11 @@
 <mapper namespace="io.good.gooddev_web.board.dao.BoardDAO">
 	<sql id="search">
 		<where>
-			<if test="keyword != null and keyword.length >0">
+			<if test="keyword != null and keyword.length() > 0">
 				(
-					title LIKE concat('%', #{keyword}, '%')
+					title LIKE '%' || #{keyword} || '%'
 					OR
-					content LIKE concat('%', #{keyword}, '%')
+					content LIKE '%' || #{keyword} || '%'
 				)
 			</if>
 			<if test="mid != null and mid.length >0">

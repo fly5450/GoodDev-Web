@@ -150,7 +150,7 @@ public class MemberController {
         member.setAuto_Login("");
         memberService.modify_Auto_Login(mapperUtil.map(member, MemberVO.class));
         session.invalidate();
-        return "redirect:/main.jsp"; 
+        return "redirect:/"; 
     }
 
     @GetMapping("/login")
@@ -190,10 +190,10 @@ public class MemberController {
           response.addCookie(cookie);
         }
         session.setAttribute("loginInfo", member);
-        return "redirect:/login";
+        return "redirect:/";
       } else {
 
-        return "redirect:/login?error=error";
+        return "redirect:login?error=error";
       }
     }
     

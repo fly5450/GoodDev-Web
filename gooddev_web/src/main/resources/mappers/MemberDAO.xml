@@ -50,7 +50,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     WHERE deleteYn = 'N'
 </select>
 
-<update id="modify_Uuid">
+<update id="modify_Auto_Login">
     UPDATE good_member
     SET auto_Login = #{auto_Login}
     WHERE mid = #{mid}

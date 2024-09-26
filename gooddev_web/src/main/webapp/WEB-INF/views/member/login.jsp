@@ -61,9 +61,9 @@
             </form>
         </div>
         <div>
-            <a href="member/findId" >아이디찾기</a>
-            <a href="member/findPassword" >비밀번호찾기</a>
-            <a href="member/register" >회원가입</a>
+            <a href="findId" >아이디찾기</a>
+            <a href="findPassword" >비밀번호찾기</a>
+            <a href="register" >회원가입</a>
         </div>
     </div>
 </body>
