@@ -13,9 +13,11 @@ import io.good.gooddev_web.search.dto.PageRequestDTO;
 import io.good.gooddev_web.search.dto.PageResponseDTO;
 import io.good.gooddev_web.util.MapperUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BoardService {
     private final BoardDAO boardDAO;
     private final MapperUtil mapper;
@@ -84,6 +86,7 @@ public class BoardService {
         return boardDAO.topTenList().stream()
                        .map(board -> mapper.map(board, BoardDTO.class))
                        .collect(Collectors.toList());
+        
     }
 
 }
