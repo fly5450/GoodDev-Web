@@ -81,13 +81,13 @@ public class MemberController {
     }
 
     // 비밀번호 찾기 페이지로 이동 Get
-    @GetMapping("/findPwd")
+    @GetMapping("/findPassword")
     public String moveFindPwdForm() {
         return "member/findPwd"; // findPassword.jsp로 이동
     }
 
    // 비밀번호 찾기 처리 POST
-   @PostMapping("/findPwd")
+   @PostMapping("/findPassword")
    public String findPwdPost(@ModelAttribute("mid") String mid,
                               @RequestParam("email") String email,
                               @RequestParam("newPassword") String newPassword, // 수정: @ModelAttribute -> @RequestParam

@@ -34,19 +34,19 @@
         <!-- Navigation -->
         <nav>
             <div class="menu-item">
-                <a href="board/list?page=1&size=10&category=10" class = "navbar a">공지사항</a>
+                <a href="board/list?page=1&size=10&category_no=10" class = "navbar a">공지사항</a>
             </div>
             <div class = "menu-item">
                 <a href="#" class = "navbar a">게시판</a>
                 <div class="dropdown">
                     <div class="dropdown-item">
-                        <a href="board/list?page=1&size=10&category=20" class = "navbar a">MSA5차</a>
+                        <a href="board/list?page=1&size=10&category_no=20" class = "navbar a">MSA5차</a>
                     </div>
                     <div class="dropdown-item">
-                        <a href="board/list?page=1&size=10&category=30" class = "navbar a">MSA6차</a>
+                        <a href="board/list?page=1&size=10&category_no=30" class = "navbar a">MSA6차</a>
                     </div>
                     <div class="dropdown-item">
-                        <a href="board/list?page=1&size=10&category=40" class = "navbar a">MSA7차</a>
+                        <a href="board/list?page=1&size=10&category_no=40" class = "navbar a">MSA7차</a>
                     </div>
                 </div>
             </div>
