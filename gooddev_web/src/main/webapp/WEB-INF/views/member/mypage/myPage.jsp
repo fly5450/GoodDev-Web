@@ -28,7 +28,7 @@
 		
 </head>
 <body>
-	<h1>여기가 include 헤더</h1>
+	<h1>여기가 include 헤더 들어갈 부분</h1>
 	<div>
 		<div class="container wrap" style="width:100%; height: 100%; padding-top:100px; padding-bottom: 300px;">
 			<div class="d-flex">
@@ -45,14 +45,10 @@
 						</li>
 					</ul>
 				</div>
-				
 				<div class="content" style="width:80%; padding:0px 30px;">
 					<div class="profile">
 						<div class="user_info">
-							<span class="name" id="spanNickname"> 님</span>
-							<a href="updateMember" class="btn_edit">
-								<span class="blind">프로필 편집하기</span>
-							</a>
+							<span class="name" id="spanNickname">누구누구 님</span>
 							<p class="date">가입일 : <span>가입날짜 적을부분(db)</span></p>
 						</div>
 					</div>
@@ -60,5 +56,6 @@
 			</div>
 		</div>
 	</div>
+	<h1>여기가 footer 들어갈 부분</h1>
 </body>
 </html>

@@ -29,6 +29,52 @@
 		
 </head>
 <body>
-	<h1>마이페이지 게시물 리스트</h1>
+	<div class="wrapper">
+		<!-- contents -->
+		<div class="main p-3">
+			<div class="headingArea">
+				<div class="title">
+					<h1 id="itemTitle">내가 작성한 게시글 조회</h1>
+				</div>
+			</div>
+			
+			<div class="section_block">
+				<div class="container mt-3">
+				  <!-- <h2>내 게시물 목록</h2> -->
+				  <table class="table">
+				    <thead class="table-dark">
+				      <tr>
+				        <th>No</th>
+				        <th>이름</th>
+				        <th>닉네임</th>
+				        <th>작성일시</th>
+				        <th>수정/삭제</th>
+				      </tr>
+				    </thead>
+				    <tbody>
+				    	<c:forEach var="member" items="${pageResponseDTO.list}">
+					      <tr>
+					        <td>${member.class_No}</td>
+					        <td>${member.mid}</td>
+					        <td>${member.memberName}</td>
+					        <td>${member.nickname}</td>
+					        <td>${member.email}</td>
+					        <td>${member.signup_Date}</td>
+					        <td>
+					        	<div class="btn_big_wrap">
+									<button type="button" onclick="location.href='${pageContext.request.contextPath}/admin/memberUpdate'" class="btn btn-outline-dark">수정</button>
+									<button type="button" onclick="location.href='#'" class="btn btn-outline-dark">삭제</button>
+								</div>
+					        </td>
+					      </tr>
+				    	</c:forEach>
+				    </tbody>
+				  </table>
+					  <!-- 페이지네이션 -->
+
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

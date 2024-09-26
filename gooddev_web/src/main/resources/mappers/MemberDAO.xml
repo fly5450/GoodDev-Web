@@ -4,8 +4,13 @@
 <mapper namespace="io.good.gooddev_web.member.dao.MemberDAO">
     
     <select id="getList" resultType="io.good.gooddev_web.member.vo.MemberVO">
-    	SELECT * FROM good_member  <!-- 모든 회원 정보 가져오는 쿼리 -->
-    	order by member_name desc
+    	SELECT * FROM (
+	        SELECT good_member.*, ROWNUM AS rnum
+	        FROM good_member
+	        WHERE #{size} + #{skip} >= ROWNUM
+	        ORDER BY member_name DESC
+		    )
+	    WHERE rnum > #{skip}
     </select>
     
     <select id="getTotalCount" resultType="int">

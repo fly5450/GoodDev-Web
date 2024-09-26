@@ -26,6 +26,7 @@ public class MemberDTO {
     private char isAdminYn; 
     private Date signup_Date; 
     private Date signout_Date;
+    private int class_No;
 
     public MemberDTO(String mid, String password) {
         this.mid = mid;

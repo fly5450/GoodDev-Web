@@ -40,7 +40,7 @@
 			
 			<div class="section_block">
 				<div class="container mt-3">
-				  <!-- <h2>전체 상품 목록</h2> -->
+				  <!-- <h2>전체 회원 목록</h2> -->
 				  <table class="table">
 				    <thead class="table-dark">
 				      <tr>
@@ -54,14 +54,14 @@
 				      </tr>
 				    </thead>
 				    <tbody>
-				    	<c:forEach var="member" items="${good_member}">
+				    	<c:forEach var="member" items="${pageResponseDTO.list}">
 					      <tr>
-					        <td>${member.class_no}</td>
+					        <td>${member.class_No}</td>
 					        <td>${member.mid}</td>
-					        <td>${member.member_name}</td>
+					        <td>${member.memberName}</td>
 					        <td>${member.nickname}</td>
 					        <td>${member.email}</td>
-					        <td>${member.signup_date}</td>
+					        <td>${member.signup_Date}</td>
 					        <td>
 					        	<div class="btn_big_wrap">
 									<button type="button" onclick="location.href='${pageContext.request.contextPath}/admin/memberUpdate'" class="btn btn-outline-dark">수정</button>
@@ -72,6 +72,9 @@
 				    	</c:forEach>
 				    </tbody>
 				  </table>
+					  <!-- 페이지네이션 -->
+					  <jsp:include page="/WEB-INF/views/commons/page_nav.jsp"></jsp:include>
+
 				</div>
 			</div>
 		</div>

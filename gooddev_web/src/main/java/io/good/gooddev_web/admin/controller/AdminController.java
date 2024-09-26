@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import io.good.gooddev_web.board.dto.BoardDTO;
 import io.good.gooddev_web.board.service.BoardService;
+import io.good.gooddev_web.member.dto.MemberDTO;
 import io.good.gooddev_web.member.service.MemberService;
 import io.good.gooddev_web.search.dto.PageRequestDTO;
 import io.good.gooddev_web.search.dto.PageResponseDTO;
@@ -38,7 +39,15 @@ public class AdminController {
 	    if (bindingResult.hasErrors()) {
 	        log.error("Binding errors: {}", bindingResult.getAllErrors());
 	    }
-
+	    
+	    // PageRequestDTO 값 확인
+	    log.info("PageRequestDTO값 확인: page={}, size={}", pageRequestDTO.getPage(), pageRequestDTO.getSize());
+	    
+	    // 서비스에서 회원 목록과 전체 카운트 가져오기
+	    PageResponseDTO<MemberDTO> responseDTO = memberService.getList(pageRequestDTO);
+	    log.info("Total members 값: {}", responseDTO.getTotal());
+	    log.info("Member list size 값: {}", responseDTO.getList().size());
+	    
 	    // 서비스에서 회원 목록과 전체 카운트 가져오기
 	    model.addAttribute("pageResponseDTO", memberService.getList(pageRequestDTO));
 
@@ -46,7 +55,7 @@ public class AdminController {
 	}
 	
 	//관리자 페이지 게시물 목록 가져오기
-	@GetMapping("/board/list")
+	@GetMapping("/noticeList")
 	public void boardListView(PageRequestDTO pageRequestDTO, Model model) {
 		
 		PageResponseDTO<BoardDTO> pageResponseDTO = boardService.getList(pageRequestDTO);
@@ -59,7 +68,7 @@ public class AdminController {
 		
 		boardService.remove(mid);
 		
-		return "redirect:/board/list" + pageRequestDTO.getLink();
+		return "redirect:noticeList" + pageRequestDTO.getLink();
 	}
 	
 	//공지사항 상세보기

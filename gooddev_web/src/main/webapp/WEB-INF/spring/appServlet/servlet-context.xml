@@ -16,7 +16,7 @@
 	<annotation-driven />
 
 	
-	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<!-- 외부 css파일 설정 Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
 
  	<!-- 뷰 리졸버 설정 -->

@@ -149,6 +149,8 @@ public class MemberController {
         return "redirect:/";
     }
     
+    //---------------- 마이페이지 ------------------
+    
     //회원 마이페이지
     @RequestMapping("/mypage")
     public String myPage(Model model) {
@@ -157,21 +159,20 @@ public class MemberController {
     }
         
     //나의 게시물 가져오기
-    @RequestMapping("myBoardList")
+    @RequestMapping("/myBoardList")
     public String myBoardList(Model model) {
     	//게시물 객체 가져오기
-    	
     	return "member/mypage/myBoardList";
     }
     
-  //회원 정보 수정
-    @RequestMapping("updateMember")
+    //회원 정보 수정
+    @RequestMapping("/updateMember")
     public String updateMember(Model model) {
-    	
+    	log.info("updateMember() 실행");
     	return "member/mypage/updateMember";
     }
     
-    @RequestMapping("removeMember")
+    @RequestMapping("/removeMember")
     public String removeMember() {
     	
     	return "member/mypage/removeMember";
