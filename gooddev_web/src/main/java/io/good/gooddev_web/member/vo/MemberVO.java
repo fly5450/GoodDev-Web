@@ -1,6 +1,8 @@
 package io.good.gooddev_web.member.vo;
 
 
+import java.util.Date;
+
 import io.good.gooddev_web.member.dto.MemberDTO;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -9,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
 @Getter
 @Setter
 @ToString
@@ -58,10 +61,5 @@ public class MemberVO {
         this.signup_Date = member.getSignup_Date();
         this.signout_Date = member.getSignout_Date();
     }
-
-   public MemberDTO createMemberDTO() {
-    return new MemberDTO(mid, password, memberName, nickname, phone, email, auto_Login, last_Login_Date, last_Logout_Date, deleteYn, isAdminYn, signup_Date, signout_Date);
-    }
-
 
 }
