@@ -49,4 +49,37 @@ public class BoardService {
     public int insert(final BoardVO boardVO) {
     	return boardDAO.insert(boardVO);
     }
+    
+    public void addLike(int bno, String mid) {
+        if (!boardDAO.existsLike(mid, bno)) {
+            // 좋아요가 없으면 추가 (DELETEYN 'N' 설정 및 like_board 1)
+            boardDAO.insertLike(mid, bno, 1);
+            boardDAO.updateLikeCount(bno, 1);
+        }
+    }
+
+    public void cancelLike(int bno, String mid) {
+        // 좋아요가 있으면 취소 (DELETEYN 'Y' 설정 및 like_board 0)
+        boardDAO.updateDeleteYN(mid, bno, 'Y');
+        boardDAO.updateLikeCount(bno, -1);
+    }
+
+    public boolean hasUserLiked(int bno, String mid) {
+        return boardDAO.existsLike(mid, bno);
+    }
+    
+    public int getLikeCount(int bno) {
+        return boardDAO.getLikeCount(bno);
+    }
+
+    public int getHateCount(int bno) {
+        return boardDAO.getHateCount(bno);
+    }
+
+    public List<BoardDTO> topTenList() {
+        return boardDAO.topTenList().stream()
+                       .map(board -> mapper.map(board, BoardDTO.class))
+                       .collect(Collectors.toList());
+    }
+
 }

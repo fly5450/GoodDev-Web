@@ -12,30 +12,96 @@
 		resultType="io.good.gooddev_web.board.vo.BoardVO">
 		SELECT *
 		FROM (
-		SELECT good_board.*, ROW_NUMBER() OVER (ORDER BY bno DESC) AS rnum
+		SELECT good_board.*, ROW_NUMBER() OVER (ORDER
+		BY bno DESC) AS rnum
 		FROM good_board
 		)
 		WHERE rnum &gt; #{skip}
-		AND rnum &lt; = #{skip} + #{size}
+		AND rnum
+		&lt; = #{skip} + #{size}
 	</select>
 
 	<select id="getTotalCount" resultType="int">
 		select count(*) from
 		good_board
 	</select>
-	
-	<select id="getRead" resultType="io.good.gooddev_web.board.vo.BoardVO">
-		SELECT * FROM good_board where bno = #{bno, jdbcType=NUMERIC}
-	</select>	
-	
+
+	<select id="getRead"
+		resultType="io.good.gooddev_web.board.vo.BoardVO">
+		SELECT * FROM good_board where bno = #{bno,
+		jdbcType=NUMERIC}
+	</select>
+
 	<update id="viewCount" parameterType="int">
-		update good_board set view_cnt = view_cnt+1 where bno = #{bno, jdbcType=NUMERIC}
+		update good_board set
+		view_cnt = view_cnt+1 where bno = #{bno, jdbcType=NUMERIC}
 	</update>
-	
+
 	<insert id="insert">
-		insert into good_board (bno, title, content, mid, board_password, category_no) values (bno_sequence.NEXTVAL, #{title}, #{content}, #{mid, jdbcType=VARCHAR}, #{board_password, jdbcType=VARCHAR}, #{category_no})
+		insert into good_board (bno, title, content, mid,
+		board_password, category_no) values (bno_sequence.NEXTVAL, #{title},
+		#{content}, #{mid, jdbcType=VARCHAR}, #{board_password,
+		jdbcType=VARCHAR}, #{category_no})
 	</insert>
-	
+
+	<!-- 좋아요 여부 확인 -->
+	<select id="existsLike" resultType="boolean">
+		SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END
+		FROM good_likeboard
+		WHERE mid = #{mid, jdbcType=VARCHAR}
+		AND bno = #{bno, jdbcType=NUMERIC}
+		AND deleteyn = 'N'
+	</select>
+
+	<!-- 좋아요 추가 -->
+	<insert id="insertLike">
+		INSERT INTO good_likeboard (lbno, mid, bno, like_board, LIKE_BOARD_DATE,
+		DELETEYN)
+		VALUES (lbno_sequence.NEXTVAL, #{mid, jdbcType=VARCHAR}, #{bno,
+		jdbcType=NUMERIC}, #{likeValue}, SYSDATE, 'N')
+	</insert>
+
+	<!-- DELETEYN 업데이트 (좋아요 취소) -->
+	<update id="updateDeleteYN">
+		UPDATE good_likeboard
+		SET deleteyn = #{deleteYN}, LIKE_BOARD_DATE = SYSDATE
+		WHERE mid = #{mid, jdbcType=VARCHAR}
+		AND bno = #{bno, jdbcType=NUMERIC}
+	</update>
+
+	<!-- 좋아요 수 업데이트 -->
+	<update id="updateLikeCount">
+		UPDATE good_board
+		SET like_cnt = like_cnt + #{likeValue}
+		WHERE bno = #{bno, jdbcType=NUMERIC}
+	</update>
+
+	<!-- 좋아요 개수 조회 -->
+	<select id="getLikeCount" resultType="int">
+		SELECT like_cnt
+		FROM good_board
+		WHERE bno = #{bno, jdbcType=NUMERIC}
+	</select>
+
+	<!-- 싫어요 개수 조회 -->
+	<select id="getHateCount" resultType="int">
+		SELECT hate_cnt
+		FROM good_board
+		WHERE bno = #{bno, jdbcType=NUMERIC}
+	</select>
+
+	<!-- TOP 10 기능 -->
+	<select id="topTenList" resultType="io.good.gooddev_web.board.vo.BoardVO">
+		SELECT *
+		FROM (
+		SELECT *
+		FROM good_board
+		WHERE like_cnt > 0
+		ORDER BY like_cnt DESC
+		)
+		WHERE ROWNUM &gt; 10
+	</select>
+
 </mapper>
 
 
