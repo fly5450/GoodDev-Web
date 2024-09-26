@@ -1,0 +1,16 @@
+@charset "UTF-8";
+
+
+.page-link {
+	color:black;
+}
+
+.active>.page-link {
+	background-color: #dee2e6;
+	border-color: #dee2e6;
+	color: black;
+}
+
+.page-link:hover {
+	color: black;
+}

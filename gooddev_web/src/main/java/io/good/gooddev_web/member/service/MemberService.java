@@ -16,7 +16,6 @@ import io.good.gooddev_web.util.MapperUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-//비즈니스로직 처리
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -35,7 +34,6 @@ public class MemberService {
       return new PageResponseDTO<>(pageRequestDTO, list, memberDAO.getTotalCount(pageRequestDTO));
     }
     
-    //회원정보 조회
     public MemberDTO getRead(String mid) {
       MemberVO member = memberDAO.getReadMember_Optional(mid).orElse(null);
       return member != null ? mapperUtil.map(member, MemberDTO.class) : null; 

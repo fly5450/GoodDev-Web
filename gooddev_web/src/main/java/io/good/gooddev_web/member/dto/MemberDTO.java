@@ -25,6 +25,7 @@ public class MemberDTO {
     private char isAdminYn; // 관리자 여부
     private Date signup_Date; // 가입날짜
     private Date signout_Date; // 탈퇴날짜
+    private int class_No;
 
     // 두 개의 인자만 받는 생성자를 정의할 필요 없음
     // 하지만 필요하다면 기존 생성자에 필드를 추가하도록 수정

@@ -14,6 +14,7 @@ public interface  BoardDAO {
     List<BoardVO> getList(PageRequestDTO pageRequestDTO);
     List<BoardVO> getList();
     int getTotalCount(PageRequestDTO pageRequestDTO);
+	public int remove(long mid);
     Optional<BoardVO> getRead(int bno);
     void viewCount(int num); 
     int insert(BoardVO boardVO);

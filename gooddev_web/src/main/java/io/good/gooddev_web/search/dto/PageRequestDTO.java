@@ -50,7 +50,7 @@ public class PageRequestDTO {
 	public String getParam(int page)  {
 		StringBuilder builder = new StringBuilder();
 		builder.append("page=" + page);
-		builder.append("&size=" + size);
+		builder.append("&size=" + this.size);
 		
 		
 		if (keyword != null && keyword.length() > 0) {

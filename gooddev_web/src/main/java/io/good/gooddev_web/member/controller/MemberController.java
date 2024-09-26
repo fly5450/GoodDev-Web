@@ -31,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class MemberController {
 
-  private final MemberService memberService;
+	private final MemberService memberService;
 	private final MapperUtil mapperUtil;
 
     // 회원 가입 페이지로 이동
@@ -39,9 +39,10 @@ public class MemberController {
     //사용자가 브라우저에서 ..../member/register URL을 요청했을 때 이 메서드가 호출된다.
     public String RegisterForm(Model model) //Controller -> View(JSP)로 데이터를 전달
     {
-        model.addAttribute("memberVO", new MemberVO()); //익명객체 사용(사용자가 폼을 요청할때에 초기화된 상태의 객체를 전달받는다.)
-        return "member/register"; //register.jsp로 이동한다.
+        model.addAttribute("memberVO", new MemberVO()); 
+        return "member/register"; 
     }
+
      // 회원 가입 처리 //@Validated 로 유효성검증 수행
     @PostMapping("/register")
     public String registerMember(@Validated @ModelAttribute("memberVO") MemberVO memberVO, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
@@ -110,10 +111,9 @@ public class MemberController {
         }
 		model.addAttribute("pageResponseDTO", memberService.getList(pageRequestDTO));
         // model.addAttribute("members", memberService.getAllMembers());
-        return "member/list";  // 회원 목록을 보여주는 JSP 페이지
+        return "member/list";  
     }
 		
-    // 회원 정보 수정
     @GetMapping("/edit/{mid}")
     public String EditForm(@PathVariable String mid, Model model) {
         MemberDTO member = memberService.getRead(mid);
@@ -137,7 +137,6 @@ public class MemberController {
         return "redirect:member/list";
     }
 
-    // 회원 삭제 처리
     @PostMapping("/delete/{mid}")
     public String deleteMember(@PathVariable String mid) {
         memberService.removeMember(mid);
@@ -178,5 +177,42 @@ public class MemberController {
       }
     }
 
+    @RequestMapping("/logout")
+    public String logout(HttpSession session) {
+        MemberDTO member = (MemberDTO) session.getAttribute("loginInfo");
+        member.setAuto_Login("");
+        memberService.modify_Auto_Login(mapperUtil.map(member, MemberVO.class));
+        session.invalidate();
+        return "redirect:/";
+    }
+    
+    //---------------- 마이페이지 ------------------
+    
+    //회원 마이페이지
+    @RequestMapping("/mypage")
+    public String myPage(Model model) {
+    	
+    	return "member/mypage/myPage";
+    }
+        
+    //나의 게시물 가져오기
+    @RequestMapping("/myBoardList")
+    public String myBoardList(Model model) {
+    	//게시물 객체 가져오기
+    	return "member/mypage/myBoardList";
+    }
+    
+    //회원 정보 수정
+    @RequestMapping("/updateMember")
+    public String updateMember(Model model) {
+    	log.info("updateMember() 실행");
+    	return "member/mypage/updateMember";
+    }
+    
+    @RequestMapping("/removeMember")
+    public String removeMember() {
+    	
+    	return "member/mypage/removeMember";
+    }
 }
 

@@ -1,6 +1,5 @@
 package io.good.gooddev_web.member.vo;
 
-import java.util.Date;
 
 import io.good.gooddev_web.member.dto.MemberDTO;
 import jakarta.validation.constraints.Email;

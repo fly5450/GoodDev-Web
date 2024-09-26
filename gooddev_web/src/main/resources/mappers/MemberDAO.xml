@@ -2,6 +2,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="io.good.gooddev_web.member.dao.MemberDAO">
+    
 
 <!-- 모든 회원정보 조회 (활성화된 회원) -->
 <select id="getList" resultType="io.good.gooddev_web.member.vo.MemberVO">
