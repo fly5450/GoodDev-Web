@@ -32,29 +32,24 @@ public class AdminController {
 	@Autowired
 	private BoardService boardService;
 	
-	//관리자 페이지 회원목록 가져오기
+
 	@GetMapping("/memberList")
 	public String getMemberList(@Validated PageRequestDTO pageRequestDTO, BindingResult bindingResult, Model model) {
-	    // BindingResult에 오류가 있는 경우 기존 pageRequestDTO 유지
 	    if (bindingResult.hasErrors()) {
 	        log.error("Binding errors: {}", bindingResult.getAllErrors());
 	    }
 	    
-	    // PageRequestDTO 값 확인
-	    log.info("PageRequestDTO값 확인: page={}, size={}", pageRequestDTO.getPage(), pageRequestDTO.getSize());
-	    
-	    // 서비스에서 회원 목록과 전체 카운트 가져오기
+	    log.info("PageRequestDTO占쏙옙 확占쏙옙: page={}, size={}", pageRequestDTO.getPage(), pageRequestDTO.getSize());
+
 	    PageResponseDTO<MemberDTO> responseDTO = memberService.getList(pageRequestDTO);
-	    log.info("Total members 값: {}", responseDTO.getTotal());
-	    log.info("Member list size 값: {}", responseDTO.getList().size());
+	    log.info("Total members 占쏙옙: {}", responseDTO.getTotal());
+	    log.info("Member list size 占쏙옙: {}", responseDTO.getList().size());
 	    
-	    // 서비스에서 회원 목록과 전체 카운트 가져오기
 	    model.addAttribute("pageResponseDTO", memberService.getList(pageRequestDTO));
 
 	    return "admin/memberList";  
 	}
 	
-	//관리자 페이지 게시물 목록 가져오기
 	@GetMapping("/noticeList")
 	public void boardListView(PageRequestDTO pageRequestDTO, Model model) {
 		
@@ -70,21 +65,18 @@ public class AdminController {
 		
 		return "redirect:noticeList" + pageRequestDTO.getLink();
 	}
-	
-	//공지사항 상세보기
+
 	@RequestMapping("/detailNotice")
 	public String detailNotice(Model model) {
 		
 		return "/admin/detailNotice";
 	}
-	
-	//공지사항 수정
+
 	@RequestMapping("/updateNoticeForm")
 	public String updateNoticeForm(Model model) {
 		return "/admin/updateNoticeForm";
 	}
-	
-	//공지사항 삭제
+
 	@RequestMapping("/removeNotice")
 	public String removeNotice(Model model) {
 		
