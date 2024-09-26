@@ -121,7 +121,7 @@
 		WHERE like_cnt > 0
 		ORDER BY like_cnt DESC
 		)
-		WHERE ROWNUM &gt; 10
+		WHERE ROWNUM &lt; 10
 	</select>
 
 </mapper>
