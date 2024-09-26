@@ -25,15 +25,16 @@ public class MemberService {
     private final MapperUtil mapperUtil;
     private final MemberDAO memberDAO;
 
-
-    //회원정보 추
+    //모든 회원정보 출력
     public PageResponseDTO<MemberDTO> getList(PageRequestDTO pageRequestDTO) {
-    List<MemberDTO> list = memberDAO.getList(pageRequestDTO).
-                                     stream().map(member -> mapperUtil.map(member, MemberDTO.class)).
-                                     collect(Collectors.toList());
+      List<MemberDTO> list = memberDAO.getList(pageRequestDTO)
+          .stream()
+          .map(member -> mapperUtil.map(member, MemberDTO.class))
+          .collect(Collectors.toList());
 
-    return new PageResponseDTO<MemberDTO>(pageRequestDTO, list, memberDAO.getTotalCount(pageRequestDTO));
+      return new PageResponseDTO<>(pageRequestDTO, list, memberDAO.getTotalCount(pageRequestDTO));
     }
+    
     //회원정보 조회
     public MemberDTO getRead(String mid) {
       MemberVO member = memberDAO.getReadMember_Optional(mid).orElse(null);
@@ -43,10 +44,34 @@ public class MemberService {
     public int removeMember(String mid) {
       return memberDAO.removeMember(mid);
     }
-    //회원정보 수정
-    public int modifyMember(final MemberVO Member) {
-      return memberDAO.modifyMember(Member); 
+    // 회원정보 수정
+    public int modifyMemberInfo(MemberVO modifyMember) {
+      // 먼저 현재 회원 정보를 데이터베이스에서 가져온다.
+      MemberVO currentMember = memberDAO.getReadMember_Optional(modifyMember.getMid()).orElse(null);
+      
+      if (currentMember != null) { //화원정보가 존재하면,
+          // 변경할 필드를 체크하고 수정
+          if (modifyMember.getPassword() != null) {
+              currentMember.setPassword(modifyMember.getPassword());
+          }
+          if (modifyMember.getMemberName() != null) {
+              currentMember.setMemberName(modifyMember.getMemberName());
+          }
+          if (modifyMember.getNickname() != null) {
+              currentMember.setNickname(modifyMember.getNickname());
+          }
+          if (modifyMember.getPhone() != null) {
+              currentMember.setPhone(modifyMember.getPhone());
+          }
+          if (modifyMember.getEmail() != null) {
+              currentMember.setEmail(modifyMember.getEmail());
+          }
+          // 변경된 정보를 업데이트
+          return memberDAO.modifyMember(currentMember); // 데이터베이스에 업데이트
+      }
+      return 0; // 수정할 회원이 없는 경우 0 반환
     }
+
     //회원가입
     public int registerMember(final MemberVO Member) {
       return memberDAO.registerMember(Member);
@@ -58,26 +83,24 @@ public class MemberService {
     // 비밀번호 찾기
     public Boolean findPwd(String mid, String email, String newPassword) {
       // 유저 검증
-      Boolean isValidUser = memberDAO.validateUser(mid, email); //id, email로 유저가존재하는지 확인
+      Boolean isValidUser = memberDAO.validateUser(mid, email); // id, email로 유저가 존재하는지 확인
       if (isValidUser) {
           // 비밀번호 재설정
-          MemberVO member = new MemberVO();
-          member.setMid(mid);
-          member.setPassword(newPassword); // 새 비밀번호 설정
-          memberDAO.modifyMember(member); // 비밀번호 업데이트
-          return true; // 비밀번호 찾기 성공
-      } else {
-          return false; // 유효하지 않은 사용자
+          MemberVO member = memberDAO.getReadMember_Optional(mid).orElse(null);
+          if (member != null) {
+              member.setPassword(newPassword); // 새 비밀번호 설정
+              memberDAO.modifyMember(member); // 비밀번호 업데이트
+              return true; // 비밀번호 찾기 성공
+          }
       }
-    }
+      return false; // 유효하지 않은 사용자
+  }
 
    // 유저 검증
-      public Boolean isUserValid(String mid, String email) {
-        return memberDAO.validateUser(mid, email);
+    public Boolean isUserValid(String mid, String email) {
+      return memberDAO.validateUser(mid, email);
     }
  
-
-
     public MemberDTO getRead_Auto_Login(String auto_Login) {
       MemberVO member = memberDAO.getRead_Auto_Login(auto_Login);
       if(member == null) return null;

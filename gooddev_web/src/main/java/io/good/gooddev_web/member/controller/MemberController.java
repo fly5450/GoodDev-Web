@@ -76,6 +76,7 @@ public class MemberController {
       } else {
           redirectAttributes.addFlashAttribute("message", "해당 이메일에 등록된 아이디가 없습니다.");
       }
+      
       return "redirect:/member/findId"; // findId.jsp로 이동
     }
 
@@ -86,19 +87,19 @@ public class MemberController {
     }
 
    // 비밀번호 찾기 처리 POST
-    @PostMapping("/findPwd")
-    public String findPwdPost(@ModelAttribute("mid") String mid,
-                               @RequestParam("email") String email,
-                               @ModelAttribute("newPassword") String newPassword,
-                               RedirectAttributes redirectAttributes) {
-        Boolean success = memberService.findPwd(mid, email, newPassword); //비밀번호찾기 성공시
-        if (success) {
-            redirectAttributes.addFlashAttribute("message", "비밀번호가 성공적으로 재설정되었습니다.");
-        } else {
-            redirectAttributes.addFlashAttribute("message", "아이디 또는 이메일이 일치하지 않습니다.");
-        }
-        return "redirect:/member/findPwd"; // 다시 비밀번호 찾기 페이지로 리다이렉트
-    }
+   @PostMapping("/findPwd")
+   public String findPwdPost(@ModelAttribute("mid") String mid,
+                              @RequestParam("email") String email,
+                              @RequestParam("newPassword") String newPassword, // 수정: @ModelAttribute -> @RequestParam
+                              RedirectAttributes redirectAttributes) {
+       Boolean success = memberService.findPwd(mid, email, newPassword); // 비밀번호 찾기 성공시
+       if (success) {
+           redirectAttributes.addFlashAttribute("message", "비밀번호가 성공적으로 재설정되었습니다.");
+       } else {
+           redirectAttributes.addFlashAttribute("message", "아이디 또는 이메일이 일치하지 않습니다.");
+       }
+       return "redirect:/member/findPwd"; // 다시 비밀번호 찾기 페이지로 리다이렉트
+   }
    
 	 // 회원 목록 조회
     @GetMapping("/list")
@@ -107,8 +108,7 @@ public class MemberController {
         if (bindingResult.hasErrors()) {
           pageRequestDTO = new PageRequestDTO();
         }
-		    model.addAttribute("pageResponseDTO", memberService.getList(pageRequestDTO));
-		
+		model.addAttribute("pageResponseDTO", memberService.getList(pageRequestDTO));
         // model.addAttribute("members", memberService.getAllMembers());
         return "member/list";  // 회원 목록을 보여주는 JSP 페이지
     }
@@ -120,7 +120,7 @@ public class MemberController {
         model.addAttribute("memberDTO", member);
         return "member/edit";
     }
-
+    // 회원 정보 수정 POST처리
     @PostMapping("/edit")
     public String editMember(@Validated @ModelAttribute("memberVO") MemberVO memberVO, BindingResult result) {
         if (result.hasErrors()) {
@@ -133,7 +133,7 @@ public class MemberController {
         memberDTO.setMemberName(memberVO.getMemberName());
         memberDTO.setEmail(memberVO.getEmail());
 
-        memberService.modifyMember(mapperUtil.map(memberDTO, MemberVO.class));
+        memberService.modifyMemberInfo(mapperUtil.map(memberDTO, MemberVO.class));
         return "redirect:member/list";
     }
 
@@ -171,10 +171,10 @@ public class MemberController {
           response.addCookie(cookie);
         }
         session.setAttribute("loginInfo", member);
-        return "redirect:/";
+        return "redirect:/login";
       } else {
 
-        return "redirect:login?error=error";
+        return "redirect:/login?error=error";
       }
     }
 
