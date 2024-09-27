@@ -19,7 +19,7 @@
 		crossorigin="anonymous"></script>
 		
 		<!-- external css -->
-		<link rel="stylesheet" href="<c:url value='/resources/css/mypage.css'/>">
+		<link rel="stylesheet" href="<c:url value='/resources/css/my_page.css'/>">
 		
 		<!-- 사용자 정의 자바스크립트 -->
 		<script>
@@ -34,10 +34,9 @@
 			<div class="d-flex">
 				<div id="my_box"  style="width:24%; height: 80%; padding: 0px 30px;">
 					<h2 style="padding-bottom: 60px; width:15rem;"><a href="mypage" style="text-decoration-line: none; color:black;"><b>마이페이지</b></a></h2>
-					
 					<ul class="my_menu">
 						<li id="menu1" style="height: 50%;">  
-							<a class="menu_depth01" href="#">나의 정보</a>
+							<a class="menu_depth01" href="#">내 정보</a>
 							<ul class="menu_depth02">
 								<li id="update"><a href="updateMember">회원 정보 수정</a></li>
 								<li id="myBoardList"><a href="myBoardList">나의 작성 게시물</a></li>
