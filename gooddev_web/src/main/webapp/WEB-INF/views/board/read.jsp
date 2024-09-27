@@ -56,6 +56,43 @@
 	<%-- 	<a href="remove?id=${param.id}&${pageRequestDTO.link}">삭제</a>
 	<a href="list?&${pageRequestDTO.link}">목록</a>
  --%>
+ 	
+ 	<h1>Comment</h1>
+ 	<table>
+ 		<tbody>
+ 			<c:forEach var="comment" items="${commentAllByBno}">
+	 			<tr>
+	 				<td>
+	 					<details>
+	 						<summary>
+								${comment.comment_content}	
+	 						</summary>
+								<input type="text">
+								<button>작성</button>
+ 								<c:forEach var="cocoment" items="${comment.cocomment}">
+									<tr>
+										<td>${cocomment.comment_content}</td>
+									</tr>
+								</c:forEach>
+	 					</details>
+	 				</td>
+	 			</tr>
+	 		</c:forEach>
+		</tbody>
+ 	</table>
+ 	<h5>댓글 작성</h5>
+ 	<form action="comment/insert" method="post">
+ 	<input type="hidden" name="bno" value="${board.bno}">
+ 	<input type="hidden" name="mid" value="${board.mid}">
+		<div>
+			<h3>
+				<span>내용: </span>
+				<input type="text" name="comment_content">
+			</h3>
+		</div>
+		<input type="submit" value="등록">
+		<input type="reset" value="초기화">
+ 	</form>
 	<script>
     function handleLikeHate(action) {
     	const bno = parseInt(document.getElementById('bno').textContent);
@@ -73,7 +110,7 @@
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
-        return response.json(); // JSON으로 응답을 파싱
+        return response.json(); 
     	})
         .then(data => {
         	console.log(data);

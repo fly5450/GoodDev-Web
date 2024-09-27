@@ -1,0 +1,22 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.good.gooddev_web.board.dao.CommentDAO">
+
+	<select id="findAllByBno" resultType="io.good.gooddev_web.board.vo.CommentVO">
+		select * from good_comment where bno = #{bno, jdbcType=NUMERIC} and parent_cno is null order by cno asc
+	</select>
+	
+	<insert	id="insert">
+		insert into good_comment (cno, mid, comment_content, bno) values (cno_sequence.NEXTVAL, #{mid, jdbcType=VARCHAR}, #{comment_content, jdbcType=VARCHAR}, #{bno, jdbcType=NUMERIC})
+	</insert>
+
+	<select id="notNullCommentList" resultType="io.good.gooddev_web.board.vo.CommentVO">
+		select * from good_comment where bno = #{bno, jdbcType=NUMERIC} and parent_cno = #{cno, jdbcType=NUMERIC}} and parent_cno is not null order by cno asc
+	</select>
+	
+	<select id="getComment" resultType="io.good.gooddev_web.board.vo.CommentVO">
+		select * from good_comment where cno = #{cno, jdbcType=NUMERIC}
+	</select>
+	
+</mapper>

@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.ResponseEntity;
@@ -15,11 +14,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import io.good.gooddev_web.board.dao.BoardDAO;
 import io.good.gooddev_web.board.dto.BoardDTO;
+import io.good.gooddev_web.board.dto.CommentDTO;
 import io.good.gooddev_web.board.service.BoardService;
+import io.good.gooddev_web.board.service.CommentService;
 import io.good.gooddev_web.board.vo.BoardVO;
-import io.good.gooddev_web.member.dto.MemberDTO;
 import io.good.gooddev_web.search.dto.PageRequestDTO;
 import io.good.gooddev_web.search.dto.PageResponseDTO;
 import io.good.gooddev_web.util.MapperUtil;
@@ -33,6 +32,7 @@ public class BoardController {
 	
 	private final MapperUtil mapper;
 	private final BoardService boardService;
+	private final CommentService commentService;
 	
 	@GetMapping("/board/list")
 	public void boardListView(PageRequestDTO pageRequestDTO, Model model) {
@@ -45,9 +45,13 @@ public class BoardController {
 	}
 	
 	@GetMapping("/board/read")
-	public void boardRead(@RequestParam int bno, PageRequestDTO pageRequestDTO, Model model) {
+	public void boardRead(@RequestParam int bno, int cno ,PageRequestDTO pageRequestDTO, Model model) {
 		boardService.viewCount(bno);
+		List<CommentDTO> commentAllByBno = commentService.getCommentByBno(bno);
+		List<CommentDTO> notNullCommentByBnoAndCno = commentService.getNotNullCommentByBnoAndCno(bno, cno);
 	    model.addAttribute("board", boardService.getRead(bno));
+	    model.addAttribute("commentAllByBno", commentAllByBno);
+	    model.addAttribute("cocomment",notNullCommentByBnoAndCno);
 	}
 	
 	@GetMapping("/board/update")
@@ -61,7 +65,7 @@ public class BoardController {
 	}
 	
 	@PostMapping("/board/insert")
-	public String boardInsert(BoardDTO boardDTO, Model model, MemberDTO memberDTO) {
+	public String boardInsert(BoardDTO boardDTO, Model model) {
 		boardService.insert(mapper.map(boardDTO, BoardVO.class));
 		
 		return "redirect:/board/list";
