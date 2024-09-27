@@ -41,12 +41,14 @@ public class BoardService {
     public HashMap<String,List<BoardDTO>> getTotalList(PageRequestDTO pageRequestDTO) {
         HashMap<String,List<BoardDTO>> map = new HashMap<>();
         List<Integer> totalCategory= boardDAO.getTotalCategory();
-            for(int category : totalCategory){
-                String categoryName = String.valueOf(category);
-                pageRequestDTO.setCategory_no(String.valueOf(category));
-                List <BoardDTO> boardlist = boardDAO.getList(pageRequestDTO).stream().map(board -> mapper.map(board, BoardDTO.class)).collect(Collectors.toList());
-                map.put(categoryName,boardlist);
+        for(int category : totalCategory){
+            pageRequestDTO.setCategory_no(String.valueOf(category));
+            List <BoardDTO> boardList = boardDAO.getList(pageRequestDTO).stream().map(board -> mapper.map(board, BoardDTO.class)).collect(Collectors.toList());
+            if (!boardList.isEmpty()) {
+                String categoryName = boardList.get(0).getCategory_name();
+                map.put(categoryName, boardList);
             }
+        }
         return map;
     }
 

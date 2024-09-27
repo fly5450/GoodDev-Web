@@ -357,3 +357,78 @@ footer {
     transform: scale(1.05); /* 살짝 확대되는 효과 */
     text-decoration: underline; /* 호버 시 밑줄 추가 */
 }
+
+.search-results-container {
+    width: 100%;
+}
+
+/* 개별 검색 보드 스타일 */
+.search-board {
+    width: 100%;
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
+
+/* 검색 보드 제목 스타일 */
+.search-board h2 {
+    font-size: 1.5em;
+    color: #333;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    text-align: left;
+}
+
+/* 검색 결과 리스트 스타일 */
+.search-board-list {
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+}
+
+/* 검색 결과 아이템 스타일 */
+.search-board-item {
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+/* 검색 결과 링크 스타일 */
+.search-board-item a {
+    color: #2c3e50;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    display: inline-block;
+    width: 100%;
+}
+
+.search-board-item a:hover {
+    color: #3498db;
+}
+
+/* '더보기' 링크 컨테이너 스타일 */
+.search-board-item.more-link {
+    width : 19%;
+    text-align: right;
+    margin-top: 10px;
+    margin-left :auto;
+}
+
+/* '더보기' 링크 스타일 */
+.search-plus-link {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #f0f0f0;
+    color: #333;
+    text-decoration: none;
+    border-radius: 3px;
+    text-align: center;
+}
+
+.search-plus-link:hover {
+    background-color: #e0e0e0;
+}

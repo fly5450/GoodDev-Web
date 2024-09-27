@@ -31,6 +31,7 @@ public class BoardDTO {
 	private String deleteYn;
 	private int like_cnt;
 	private int hate_cnt;
+	private String category_name;
 
 	private List<MultipartFile> file;
 	
