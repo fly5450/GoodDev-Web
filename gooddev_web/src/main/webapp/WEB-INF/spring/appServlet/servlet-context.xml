@@ -36,6 +36,6 @@
 		<!-- 파일 인코딩 설정 -->
 		<beans:property name="defaultEncoding" value="UTF-8" />
 	</beans:bean>
-	
+	<beans:bean class="io.good.gooddev_web.common.ExceptionHandling" />
 	
 </beans:beans>

@@ -39,8 +39,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <!-- 회원가입 -->
 <insert id="registerMember" useGeneratedKeys="true" keyProperty="mid">
-    INSERT INTO good_member (mid, password, memberName, nickname, phone, email, deleteYn)
-    VALUES (#{mid}, #{password}, #{memberName}, #{nickname}, #{phone}, #{email}, 'N')
+    INSERT INTO 
+        good_member (mid, password, memberName, nickname, phone, email, deleteYn)
+    VALUES
+            (#{mid}, #{password}, #{memberName}, #{nickname}, #{phone}, #{email}, 'N')
 </insert>
 
 <!-- 전체 회원 수 조회 -->
@@ -49,7 +51,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     FROM good_member
     WHERE deleteYn = 'N'
 </select>
-
+<!-- 자동로그인-->
 <update id="modify_Auto_Login">
     UPDATE good_member
     SET auto_Login = #{auto_Login}
@@ -57,13 +59,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </update>
 
 <!-- 아이디찾기 -->
-<select id="findIdByEmail" resultType="String">
-    SELECT mid FROM good_member WHERE email = #{email}
+<select id="findId" resultType="String">
+    SELECT mid 
+    FROM good_member 
+    WHERE email = #{email}
 </select>
 
 <!-- 비밀번호 찾기-->
-<select id="findPwdById" resultType="String">
-    SELECT password FROM good_member WHERE mid = #{mid}
+<select id="findPassword" resultType="String">
+    SELECT password
+    FROM good_member
+    WHERE mid = #{mid}
 </select>
 
 <!-- 유저 검증 -->
@@ -73,9 +79,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     WHERE mid = #{mid} AND email = #{email}
 </select>
 
-<!-- UUID 조회 -->
+
 <select id="getRead_Auto_Login" resultType="io.good.gooddev_web.member.vo.MemberVO"> 
-    SELECT * FROM good_member WHERE auto_Login = #{auto_Login}
+    SELECT * 
+    FROM good_member 
+    WHERE auto_Login = #{auto_Login}
 </select>
 
 </mapper>

@@ -1,6 +1,5 @@
 package io.good.gooddev_web.member.service;
 
-
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -35,68 +34,95 @@ public class MemberService {
     }
     
     public MemberDTO getRead(String mid) {
-      MemberVO member = memberDAO.getReadMember_Optional(mid).orElse(null);
-      return member != null ? mapperUtil.map(member, MemberDTO.class) : null; 
+      return memberDAO.getReadMember_Optional(mid)
+          .map(member -> mapperUtil.map(member, MemberDTO.class))
+          .orElse(null);
     }
+    
     //회원 탈퇴
     public int removeMember(String mid) {
       return memberDAO.removeMember(mid);
     }
     // 회원정보 수정
     public int modifyMemberInfo(MemberVO modifyMember) {
-      // 먼저 현재 회원 정보를 데이터베이스에서 가져온다.
-      MemberVO currentMember = memberDAO.getReadMember_Optional(modifyMember.getMid()).orElse(null);
-      
-      if (currentMember != null) { //화원정보가 존재하면,
-          // 변경할 필드를 체크하고 수정
-          if (modifyMember.getPassword() != null) {
-              currentMember.setPassword(modifyMember.getPassword());
-          }
-          if (modifyMember.getMemberName() != null) {
-              currentMember.setMemberName(modifyMember.getMemberName());
-          }
-          if (modifyMember.getNickname() != null) {
-              currentMember.setNickname(modifyMember.getNickname());
-          }
-          if (modifyMember.getPhone() != null) {
-              currentMember.setPhone(modifyMember.getPhone());
-          }
-          if (modifyMember.getEmail() != null) {
-              currentMember.setEmail(modifyMember.getEmail());
-          }
-          // 변경된 정보를 업데이트
-          return memberDAO.modifyMember(currentMember); // 데이터베이스에 업데이트
-      }
-      return 0; // 수정할 회원이 없는 경우 0 반환
+        MemberVO currentMember = memberDAO.getReadMember_Optional(modifyMember.getMid()).orElse(null);
+        
+        if (currentMember != null) {
+            updateMemberFields(currentMember, modifyMember);
+            int result = memberDAO.modifyMember(currentMember);
+            log.info("회원정보 수정: ID = {}, 결과 = {}", modifyMember.getMid(), result);
+            return result;
+        }
+        log.warn("회원정보 수정 실패: 존재하지 않는 회원 ID = {}", modifyMember.getMid());
+        return 0;
     }
 
-    //회원가입
-    public int registerMember(final MemberVO Member) {
-      return memberDAO.registerMember(Member);
+    /**
+     * 회원 정보 필드를 업데이트합니다.
+     * @param currentMember 현재 회원 정보
+     * @param modifyMember 수정할 회원 정보
+     */
+    private void updateMemberFields(MemberVO currentMember, MemberVO modifyMember) {
+        if (modifyMember.getPassword() != null) currentMember.setPassword(modifyMember.getPassword());
+        if (modifyMember.getMemberName() != null) currentMember.setMemberName(modifyMember.getMemberName());
+        if (modifyMember.getNickname() != null) currentMember.setNickname(modifyMember.getNickname());
+        if (modifyMember.getPhone() != null) currentMember.setPhone(modifyMember.getPhone());
+        if (modifyMember.getEmail() != null) currentMember.setEmail(modifyMember.getEmail());
     }
-    //아이디찾기
+
+    /**
+     * 새 회원을 등록합니다.
+     * @param member 등록할 회원 정보
+     * @return 처리 결과 (성공: 1, 실패: 0)
+     */
+    public int registerMember(final MemberVO member) {
+        int result = memberDAO.registerMember(member);
+        log.info("회원가입 처리: ID = {}, 결과 = {}", member.getMid(), result);
+        return result;
+    }
+
+    /**
+     * 이메일로 회원 ID를 찾습니다.
+     * @param email 이메일 주소
+     * @return 찾은 회원 ID, 없으면 null
+     */
     public String findIdByEmail(String email) {
-      return memberDAO.findIdByEmail(email); 
+        String foundId = memberDAO.findIdByEmail(email);
+        log.info("아이디 찾기: 이메일 = {}, 결과 = {}", email, foundId != null ? "성공" : "실패");
+        return foundId;
     }
-    // 비밀번호 찾기
-    public Boolean findPwd(String mid, String email, String newPassword) {
-      // 유저 검증
-      Boolean isValidUser = memberDAO.validateUser(mid, email); // id, email로 유저가 존재하는지 확인
-      if (isValidUser) {
-          // 비밀번호 재설정
-          MemberVO member = memberDAO.getReadMember_Optional(mid).orElse(null);
-          if (member != null) {
-              member.setPassword(newPassword); // 새 비밀번호 설정
-              memberDAO.modifyMember(member); // 비밀번호 업데이트
-              return true; // 비밀번호 찾기 성공
-          }
-      }
-      return false; // 유효하지 않은 사용자
-  }
 
-   // 유저 검증
-    public Boolean isUserValid(String mid, String email) {
-      return memberDAO.validateUser(mid, email);
+    /**
+     * 비밀번호를 재설정합니다.
+     * @param mid 회원 ID
+     * @param email 이메일 주소
+     * @param newPassword 새 비밀번호
+     * @return 처리 결과 (성공: true, 실패: false)
+     */
+    public boolean findPwd(String mid, String email, String newPassword) {
+        if (memberDAO.validateUser(mid, email)) {
+            MemberVO member = memberDAO.getReadMember_Optional(mid).orElse(null);
+            if (member != null) {
+                member.setPassword(newPassword);
+                int result = memberDAO.modifyMember(member);
+                log.info("비밀번호 재설정: ID = {}, 결과 = {}", mid, result > 0 ? "성공" : "실패");
+                return result > 0;
+            }
+        }
+        log.warn("비밀번호 재설정 실패: 유효하지 않은 사용자 ID = {}, 이메일 = {}", mid, email);
+        return false;
+    }
+
+    /**
+     * 사용자 유효성을 검증합니다.
+     * @param mid 회원 ID
+     * @param email 이메일 주소
+     * @return 유효성 검증 결과
+     */
+    public boolean isUserValid(String mid, String email) {
+        boolean isValid = memberDAO.validateUser(mid, email);
+        log.debug("사용자 검증: ID = {}, 이메일 = {}, 결과 = {}", mid, email, isValid);
+        return isValid;
     }
  
     public MemberDTO getRead_Auto_Login(String auto_Login) {
@@ -125,5 +151,4 @@ public class MemberService {
     public int modify_Auto_Login(MemberVO modify_auto_login) {
         return memberDAO.modify_Auto_Login(modify_auto_login);
     }
-
 }

@@ -35,8 +35,6 @@ public class PageResponseDTO<T> {
 		this.next = total>this.end*this.size;
 		this.list = list;
 		log.info(""+page+" "+total+" "+start+" "+end+prev+next);
-		
-	
 	}
 
 }

@@ -3,6 +3,7 @@ package io.good.gooddev_web.member.dto;
 import java.util.Date;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,6 +12,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class MemberDTO {
     private String mid; // 아이디
     private String password; // 비밀번호
@@ -27,12 +29,11 @@ public class MemberDTO {
     private Date signout_Date; // 탈퇴날짜
     private int class_No;
 
-    // 두 개의 인자만 받는 생성자를 정의할 필요 없음
-    // 하지만 필요하다면 기존 생성자에 필드를 추가하도록 수정
     public MemberDTO(String mid, String password) {
+         // 두 개의 인자만 받는 생성자를 정의할 필요 없음
         this.mid = mid;
         this.password = password;
-        // 나머지 필드는 기본값으로 초기화
+        // 나머지 필드는 기본값으로 초기화(필요하다면 기존 생성자에 필드를 추가하도록 수정)
         this.memberName = "";
         this.nickname = "";
         this.phone = "";

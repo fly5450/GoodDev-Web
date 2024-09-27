@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.ResponseEntity;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import io.good.gooddev_web.board.dao.BoardDAO;
 import io.good.gooddev_web.board.dto.BoardDTO;
 import io.good.gooddev_web.board.service.BoardService;
 import io.good.gooddev_web.board.vo.BoardVO;

@@ -15,7 +15,7 @@
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
-		<java-version>1.8</java-version>
+		<java-version>11</java-version>
 		<org.springframework-version>5.3.19</org.springframework-version>
 		<org.aspectj-version>1.6.10</org.aspectj-version>
 		<org.slf4j-version>2.0.7</org.slf4j-version>
@@ -84,6 +84,14 @@
 			<version>1.4</version>
 		</dependency>
 		
+		<!-- 필터 설정 -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+
 		 <!-- JSTL for JSP Pages 
 		 <dependency>
 			<groupId>javax.servlet</groupId>
@@ -191,6 +199,12 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.1</version>
+			<scope>provided</scope>
 		</dependency>
 	
 		<dependency>
