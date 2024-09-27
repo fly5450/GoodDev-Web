@@ -310,3 +310,50 @@ footer {
     box-sizing: border-box;
     font-size: 120%;
 }
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3열로 구성하여 9개 배치 */
+    gap: 1rem; /* 각 갤러리 아이템 사이의 간격 */
+    padding: 1rem;
+    justify-items: center; /* 아이템을 중앙 정렬 */
+}
+
+.gallery-item {
+    width: 100%; /* 모든 아이템의 너비를 동일하게 */
+    height: 200px; /* 동일한 높이 지정 */
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 84%; /* 이미지 영역의 비율 조정 */
+    object-fit: cover;
+}
+
+.gallery-item .title {
+    padding: 0.5rem;
+    text-align: center;
+    background-color: #f0f0f0; /* 배경 색 조정 */
+}
+@media (max-width: 768px) {
+    .gallery-item {
+        width: calc(50% - 1rem);
+    }
+}
+.gallery-item .title {
+    padding: 0.5rem;
+    text-align: center;
+    background-color: #f0f0f0;
+    font-size: 1rem; /* 글자 크기 조정 */
+    color: #333; /* 텍스트 색상 조정 */
+    text-decoration: none; /* 밑줄 제거 */
+    transition: color 0.3s, transform 0.3s; /* 호버 애니메이션 추가 */
+}
+
+.gallery-item .title:hover {
+    color: #007bff; /* 호버 시 색상 변경 */
+    transform: scale(1.05); /* 살짝 확대되는 효과 */
+    text-decoration: underline; /* 호버 시 밑줄 추가 */
+}

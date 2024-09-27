@@ -21,8 +21,8 @@
 	</sql>
 	<select id="getTotalCategory" resultType="int">
 		SELECT 
-			CLASS_NO 
-		FROM	GOOD_MEMBERCLASS
+			category_no
+		FROM	GOOD_boardcategory
 	</select>
 
 	<select id="getList"
