@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>굿이야 사이트</title>
-        <link rel="stylesheet" href="<c:url value='/resources/css/style.css'/>">
+    <link rel="stylesheet" href="<c:url value='/resources/css/style.css'/>">
 </head>
 <body>
 

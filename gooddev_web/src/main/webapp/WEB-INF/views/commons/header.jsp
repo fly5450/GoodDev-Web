@@ -4,7 +4,9 @@
 <header>
     <div class="header-container">
         <div class="logo-container">
-            <img src="resources/img/good.png" alt="로고">
+           <a href="${pageContext.request.contextPath}/">
+                <img src="${pageContext.request.contextPath}/resources/img/good.png" alt="로고">
+            </a>
         </div>
         <div class="search-wrapper">
             <span class="search-label">통합검색</span>
