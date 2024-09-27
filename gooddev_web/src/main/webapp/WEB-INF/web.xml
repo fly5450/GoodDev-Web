@@ -58,7 +58,7 @@
 	  <!-- 필터 등록 -->
 	  <filter>
 		<filter-name>LoginFilter</filter-name>
-		<filter-class>io.good.gooddev_web.common.CommonFilter</filter-class>
+		<filter-class>io.good.gooddev_web.common.LoginFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>LoginFilter</filter-name>
