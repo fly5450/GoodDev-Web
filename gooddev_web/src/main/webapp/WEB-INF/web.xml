@@ -57,21 +57,23 @@
 
 	  <!-- 필터 등록 -->
 	  <filter>
-        <filter-name>customFilter</filter-name>
-        <filter-class>io.good.gooddev_web.filter.CustomFilter</filter-class>
-    </filter>
-
-    <!-- 필터 URL 매핑 -->
-    <filter-mapping>
-        <filter-name>customFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-	
-    <!-- 로그인체크필터 -->
+		<filter-name>CommonFilter</filter-name>
+		<filter-class>io.good.gooddev_web.common.CommonFilter</filter-class>
+	</filter>
 	<filter-mapping>
-		<filter-name>loginCheckFilter</filter-name>
+		<filter-name>CommonFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	
+	<filter>
+		<filter-name>LoginCheckFilter</filter-name>
+		<filter-class>io.good.gooddev_web.common.LoginCheckFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>LoginCheckFilter</filter-name>
+		<url-pattern>/member/*</url-pattern>
+	</filter-mapping>
+	
 	  <!-- Welcome 파일 설정 -->
 	  <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
