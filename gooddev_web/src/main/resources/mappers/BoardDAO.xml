@@ -63,9 +63,12 @@
 		view_cnt = view_cnt+1 where bno = #{bno, jdbcType=NUMERIC}
 	</update>
 
-	<insert id="insert">
+	<insert id="insert" keyProperty="bno">
+		<selectKey order="BEFORE" keyProperty="bno" resultType="java.lang.Integer">
+			SELECT bno_sequence.NEXTVAL FROM dual
+		</selectKey>
 		insert into good_board (bno, title, content, mid,
-		board_password, category_no) values (bno_sequence.NEXTVAL, #{title},
+		board_password, category_no) values (#{bno}, #{title},
 		#{content}, #{mid, jdbcType=VARCHAR}, #{board_password,
 		jdbcType=VARCHAR}, #{category_no})
 	</insert>

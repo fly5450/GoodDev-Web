@@ -26,6 +26,9 @@
 		<property name="dataSource" ref="dataSource"/>
 		<property name ="mapperLocations" value="classpath:/mappers/*.xml"/>
 	</bean>
+	<bean id="uploadPath" class="java.lang.String">
+		<constructor-arg value="C:\uploads\gooddev_web\"/>
+	</bean>
 
   <mybatis:scan base-package="io.good.gooddev_web.board.dao"/>
   <mybatis:scan base-package="io.good.gooddev_web.member.dao"/>

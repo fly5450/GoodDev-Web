@@ -2,6 +2,9 @@ package io.good.gooddev_web.board.dto;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,7 +31,12 @@ public class BoardDTO {
 	private String deleteYn;
 	private int like_cnt;
 	private int hate_cnt;
+
+	private List<MultipartFile> file;
 	
+	private List<BoardFileDTO> BoardFileDTOList;
+
+
 	public String getFormatDate() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yy/MM/dd");
 		return sdf.format(insert_date);

@@ -43,7 +43,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/board/read")
-	public void boardRead(@RequestParam int bno, PageRequestDTO pageRequestDTO, Model model) {
+	public void boardRead(@RequestParam int bno,Model model) {
 		boardService.viewCount(bno);
 	    model.addAttribute("board", boardService.getRead(bno));
 	}
@@ -60,9 +60,12 @@ public class BoardController {
 	
 	@PostMapping("/board/insert")
 	public String boardInsert(BoardDTO boardDTO, Model model, MemberDTO memberDTO) {
-		boardService.insert(mapper.map(boardDTO, BoardVO.class));
-		
-		return "redirect:/board/list";
+		try{
+			int result = boardService.insert(mapper.map(boardDTO, BoardVO.class));
+			return "redirect:/board/read?bno="+result;
+		}catch(Exception e){
+			return "redirect:/board/list";
+		}
 	}
 	
 	@PostMapping("/board/like")
