@@ -43,7 +43,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/board/read")
-	public void boardRead(@RequestParam int bno, PageRequestDTO pageRequestDTO, Model model) {
+	public void boardRead(@RequestParam int bno,Model model) {
 		boardService.viewCount(bno);
 	    model.addAttribute("board", boardService.getRead(bno));
 	}
@@ -60,17 +60,20 @@ public class BoardController {
 	
 	@PostMapping("/board/insert")
 	public String boardInsert(BoardDTO boardDTO, Model model, MemberDTO memberDTO) {
-		boardService.insert(mapper.map(boardDTO, BoardVO.class));
-		
-		return "redirect:/board/list";
+		try{
+			int result = boardService.insert(mapper.map(boardDTO, BoardVO.class));
+			return "redirect:/board/read?bno="+result;
+		}catch(Exception e){
+			return "redirect:/board/list";
+		}
 	}
 	
 	@PostMapping("/board/like")
 	@ResponseBody
 	public ResponseEntity<Map<String, Integer>> likeBoard(@RequestParam int bno, HttpSession session) {
 	    Map<String, Integer> response = new HashMap<>();
-	    String mid = (String) session.getAttribute("mid");
-
+	    MemberDTO member = (MemberDTO) session.getAttribute("loginInfo");
+		String mid = member.getMid();
 	    if (mid != null) {
 	        // 좋아요 상태 확인
 	        boolean hasLiked = boardService.hasUserLiked(bno, mid);
@@ -94,8 +97,8 @@ public class BoardController {
 	@ResponseBody
 	public ResponseEntity<Map<String, Integer>> hateBoard(@RequestParam int bno, HttpSession session) {
 	    Map<String, Integer> response = new HashMap<>();
-	    String mid = (String) session.getAttribute("mid");
-
+	    MemberDTO member = (MemberDTO) session.getAttribute("loginInfo");
+		String mid = member.getMid();
 	    if (mid != null) {
 	        // 싫어요 상태 확인
 	        boolean hasLiked = boardService.hasUserLiked(bno, mid);

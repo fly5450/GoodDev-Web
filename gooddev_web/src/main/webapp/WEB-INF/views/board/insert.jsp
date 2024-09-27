@@ -21,16 +21,15 @@
 <body>
 <h1>Board Insert</h1>
 	<div class="card-body">
-		<form action="insert" method="post">
+		<form action="insert" method="post" enctype="multipart/form-data">
 			<div class="input-group mb-3">
 				<span class="input-group-text">제목</span>
 				<input name="title" class="form-control" placeholder="Title">
 			</div>
-			<!-- <div class="input-group mb-3" id="title_err" style="color:red; display:none" ></div> -->
 			<div class="input-group mb-3">
 				<span class="input-group-text">내용</span>
 				<input name="content" class="form-control" placeholder="Content">
-			</div>			
+			</div>
 			<div class="input-group mb-3">
 				<span class="input-group-text">이름</span>
 				<input name="mid" class="form-control" placeholder="Name">
@@ -43,9 +42,10 @@
 				<span class="input-group-text">카테고리</span>
 				<input name="category_no" class="form-control" placeholder="Category">
 			</div>
-			
-			<!-- <div class="input-group mb-3" id="dueDate_err" style="color:red; display:none" ></div> -->
-			
+			<div class="input-group mb-3">
+				<span class="input-group-text">첨부파일</span>
+				<input type="file" name="file" multiple><br />
+			</div>
 			<input type="submit" class="btn btn-primary" value="등록">
 			<input type="reset" class="btn btn-secondary" value="초기화">
 		</form>

@@ -1,6 +1,9 @@
 package io.good.gooddev_web.board.vo;
 
 import java.util.Date;
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,6 +30,10 @@ public class BoardVO {
 	private String deleteYn;
 	private int like_cnt;
 	private int hate_cnt;
+
+	private List<MultipartFile> file;
 	
+	private String org_filename;
+	private String real_filename;
 	
 }

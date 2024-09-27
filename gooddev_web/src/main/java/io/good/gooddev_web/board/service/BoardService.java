@@ -1,13 +1,23 @@
 package io.good.gooddev_web.board.service;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import io.good.gooddev_web.board.dao.BoardDAO;
+import io.good.gooddev_web.board.dao.BoardFileDAO;
 import io.good.gooddev_web.board.dto.BoardDTO;
+import io.good.gooddev_web.board.vo.BoardFileVO;
 import io.good.gooddev_web.board.vo.BoardVO;
 import io.good.gooddev_web.search.dto.PageRequestDTO;
 import io.good.gooddev_web.search.dto.PageResponseDTO;
@@ -19,8 +29,13 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class BoardService {
+    
+    @Qualifier("uploadPath")
+    private final String uploadPath;
+    
     private final BoardDAO boardDAO;
     private final MapperUtil mapper;
+    private final BoardFileDAO boardFileDAO;
 
     public HashMap<String,List<BoardDTO>> getTotalList(PageRequestDTO pageRequestDTO) {
         HashMap<String,List<BoardDTO>> map = new HashMap<>();
@@ -51,12 +66,42 @@ public class BoardService {
     public void viewCount(int num) {
     	boardDAO.viewCount(num);
     }
-    
+
+    @Transactional
     public int insert(final BoardVO boardVO) {
-    	return boardDAO.insert(boardVO);
+        try{
+            final int result = boardDAO.insert(boardVO);
+            for (MultipartFile file : boardVO.getFile()) {
+                if (file.getSize() != 0) {
+                    //유일한 파일명 생성
+                    String filename = UUID.randomUUID().toString();
+                    //첨부파일 저장
+                    try( BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(uploadPath + filename));
+                        BufferedInputStream bis = new BufferedInputStream(file.getInputStream());
+                    ){
+                        bis.transferTo(bos);
+                    }catch (IOException e) {
+                        throw new RuntimeException("File insert failed");
+                    }
+                    BoardFileVO boardFileVO = new BoardFileVO();
+                    
+                    boardFileVO.setFid(filename);
+                    boardFileVO.setBno((int)boardVO.getBno());
+                    boardFileVO.setFile_name(file.getOriginalFilename());
+                    boardFileVO.setFile_type(file.getContentType());
+                    boardFileVO.setFile_size((int)file.getSize());
+                    final int resultFileInsert = boardFileDAO.insert(boardFileVO);
+                    if(resultFileInsert !=1) throw new RuntimeException("File insert failed");
+                }
+                
+            }
+            return boardVO.getBno();
+        }catch(RuntimeException e){
+            throw new RuntimeException("Transaction failed", e);
+        }
     }
     
-    public void addLike(int bno, String mid) {
+    public void addLike(final int bno, String mid) {
         if (!boardDAO.existsLike(mid, bno)) {
             // 좋아요가 없으면 추가 (DELETEYN 'N' 설정 및 like_board 1)
             boardDAO.insertLike(mid, bno, 1);
