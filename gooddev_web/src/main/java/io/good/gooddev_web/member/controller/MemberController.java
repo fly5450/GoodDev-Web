@@ -1,5 +1,7 @@
 package io.good.gooddev_web.member.controller;
 
+import java.util.Collections;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,7 +37,7 @@ public class MemberController {
 	private final MapperUtil mapperUtil;
 
     // 회원 가입 페이지로 이동
-    @GetMapping("/register") //  HTTP GET 요청을 처리
+    @GetMapping("register") //  HTTP GET 요청을 처리
     //사용자가 브라우저에서 ..../member/register URL을 요청했을 때 이 메서드가 호출된다.
     public String RegisterForm(Model model) //Controller -> View(JSP)로 데이터를 전달
     {
@@ -44,116 +46,128 @@ public class MemberController {
     }
 
      // 회원 가입 처리 //@Validated 로 유효성검증 수행
-    @PostMapping("/register")
+    @PostMapping("register")
     public String registerMember(@Validated @ModelAttribute("memberVO") MemberVO memberVO, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) { 
-            // 유효성 검사 오류가 있는 경우 
-            //addFlashAttribute세션에 저장되어 사용된 뒤에 자동으로 삭제, 주소 창에 표기되지 않으므로 addAttribute() 보다 폐쇄적)
-            redirectAttributes.addFlashAttribute("message", bindingResult.getFieldError().getDefaultMessage()); //에러메시지를 출력하고
-            return "redirect:/member/register"; // 등록 페이지로 리다이렉트 한다.
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.memberVO", bindingResult);
+            redirectAttributes.addFlashAttribute("memberVO", memberVO);
+            return "redirect:/member/register";
         }
 
         MemberDTO memberDTO = mapperUtil.map(memberVO, MemberDTO.class); //MemverVO를 DTO로 변환하고
         memberService.registerMember(memberVO); //회원등록 처리를 요청하고
         return "redirect:/member/list"; // 회원 목록 페이지로 리다이렉트한다.
     }
-    // public String registerMember(@ModelAttribute("memberVO") MemberVO memberVO, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-    // if (!isValid(memberVO)) {
-    //     redirectAttributes.addFlashAttribute("message", "모든 필드를 올바르게 입력하세요.");
-    //     return "redirect:/member/register";
-    // }
 
-    // 아이디 찾기 페이지로 이동 GET
-    @GetMapping("/findId")
+    // 아이디 찾기 : 사용자가 아이디 찾기 페이지를 요청할 때 호출됨
+    @GetMapping("findId")
     public String FindIdForm() {
         return "member/findId"; // findId.jsp로 이동
     }
-     // 아이디 찾기 처리 POST
-   @PostMapping("/findId")
-    public String findIdPost(@RequestParam("email") String email, RedirectAttributes redirectAttributes) {
-      String findId = memberService.findIdByEmail(email); // 이메일로 아이디 찾기
-      if (findId != null) {
-          redirectAttributes.addFlashAttribute("message", "찾은 아이디: " + findId);
-      } else {
-          redirectAttributes.addFlashAttribute("message", "해당 이메일에 등록된 아이디가 없습니다.");
-      }
-      
-      return "redirect:/member/login"; // login.jsp로 이동
+     // 아이디 찾기 POST : 
+     @PostMapping("findId")
+     public String findIdPost(@RequestParam("email") String email, RedirectAttributes redirectAttributes) {
+         if (!isValidEmail(email)) {
+             redirectAttributes.addFlashAttribute("message", "유효하지 않은 이메일 형식입니다.");
+             return "redirect:/member/findId";
+         }
+ 
+         String findId = memberService.findIdByEmail(email);
+         if (findId != null) {
+             redirectAttributes.addFlashAttribute("message", "찾은 아이디: " + maskId(findId));
+         } else {
+             redirectAttributes.addFlashAttribute("message", "해당 이메일에 등록된 아이디가 없습니다.");
+         }
+         return "redirect:/member/login";
+     }
+    
+    // 이메일 유효성 검사 메서드
+    private boolean isValidEmail(String email) {
+        // 간단한 이메일 형식 검사
+        return email != null && email.matches("^[A-Za-z0-9+_.-]+@(.+)$");
+    }
+    
+    // 아이디 마스킹 처리 메서드
+    private String maskId(String id) {
+        if (id.length() <= 3) {
+            return id;
+        }    
+       return id.substring(0, 3) + String.join("", Collections.nCopies(Math.max(0, id.length() - 3), "*"));
+        // return id.substring(0, 3) + "*".repeat(Math.max(0, id.length() - 3));
     }
 
     // 비밀번호 찾기 페이지로 이동 Get
-    @GetMapping("/findPassword")
+    @GetMapping("findPassword")
     public String moveFindPwdForm() {
         return "member/findPwd"; // findPassword.jsp로 이동
     }
 
    // 비밀번호 찾기 처리 POST
-   @PostMapping("/findPassword")
+   @PostMapping("findPassword")
    public String findPwdPost(@ModelAttribute("mid") String mid,
                               @RequestParam("email") String email,
                               @RequestParam("newPassword") String newPassword, // 수정: @ModelAttribute -> @RequestParam
                               RedirectAttributes redirectAttributes) {
-       Boolean success = memberService.findPwd(mid, email, newPassword); // 비밀번호 찾기 성공시
-       if (success) {
-           redirectAttributes.addFlashAttribute("message", "비밀번호가 성공적으로 재설정되었습니다.");
-       } else {
-           redirectAttributes.addFlashAttribute("message", "아이디 또는 이메일이 일치하지 않습니다.");
-       }
-       return "redirect:/member/login"; // 다시 비밀번호 찾기 페이지로 리다이렉트
-   }
-   
-	 // 회원 목록 조회
-    @GetMapping("/list")
+        if (!isValidEmail(email)) {
+            redirectAttributes.addFlashAttribute("message", "유효하지 않은 이메일 형식입니다.");
+            return "redirect:/member/findPassword";
+        }
+
+        Boolean success = memberService.findPwd(mid, email, newPassword);
+        if (success) {
+            redirectAttributes.addFlashAttribute("message", "비밀번호가 성공적으로 재설정되었습니다.");
+        } else {
+            redirectAttributes.addFlashAttribute("message", "아이디 또는 이메일이 일치하지 않습니다.");
+        }
+        return "redirect:/member/login";
+    }
+
+    @GetMapping("list")
     public String listMembers(@Validated PageRequestDTO pageRequestDTO, BindingResult bindingResult, Model model) {
-        // 예시로 전체 회원 조회 기능
         if (bindingResult.hasErrors()) {
           pageRequestDTO = new PageRequestDTO();
         }
-		model.addAttribute("pageResponseDTO", memberService.getList(pageRequestDTO));
-        // model.addAttribute("members", memberService.getAllMembers());
-        return "member/list";  
+        model.addAttribute("pageResponseDTO", memberService.getList(pageRequestDTO));
+        return "member/list";
     }
-		
-    @GetMapping("/edit/{mid}")
+
+    @GetMapping("edit/{mid}")
     public String EditForm(@PathVariable String mid, Model model) {
         MemberDTO member = memberService.getRead(mid);
         model.addAttribute("memberDTO", member);
         return "member/edit";
     }
     // 회원 정보 수정 POST처리
-    @PostMapping("/edit")
-    public String editMember(@Validated @ModelAttribute("memberVO") MemberVO memberVO, BindingResult result) {
-        if (result.hasErrors()) {
-            return "member/edit";
+    @PostMapping("edit")
+    public String editMember(@Validated @ModelAttribute("memberVO") MemberVO memberVO, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.memberVO", bindingResult);
+            redirectAttributes.addFlashAttribute("memberVO", memberVO);
+            return "redirect:/member/edit/" + memberVO.getMid();
         }
-        
-        MemberDTO memberDTO = new MemberDTO();
-        memberDTO.setMid(memberVO.getMid());
-        memberDTO.setPassword(memberVO.getPassword());
-        memberDTO.setMemberName(memberVO.getMemberName());
-        memberDTO.setEmail(memberVO.getEmail());
 
+        MemberDTO memberDTO = mapperUtil.map(memberVO, MemberDTO.class);
         memberService.modifyMemberInfo(mapperUtil.map(memberDTO, MemberVO.class));
-        return "redirect:member/list";
+        return "redirect:/member/list";
     }
 
-    @PostMapping("/delete/{mid}")
+    @PostMapping("delete/{mid}")
     public String deleteMember(@PathVariable String mid) {
         memberService.removeMember(mid);
-        return "redirect:member/list";
+        return "redirect:/member/list";
     }
 
     //로그아웃
-    @RequestMapping("/logout")
+    @RequestMapping("logout")
     public String logout(HttpSession session) {
         MemberDTO member = (MemberDTO) session.getAttribute("loginInfo");
         member.setAuto_Login("");
         memberService.modify_Auto_Login(mapperUtil.map(member, MemberVO.class));
         session.invalidate();
-        return "redirect:/"; 
+        return "redirect:/";
     }
 
-    @GetMapping("/login")
+    @GetMapping("login")
 	public String loginGet(HttpServletRequest request, HttpServletResponse response) {
 		if (request.getCookies() != null) {
 			for (Cookie cookie : request.getCookies()) {
@@ -172,6 +186,7 @@ public class MemberController {
 		}
 		return "member/login";
 	}
+    
     //로그인 POST처리
     @PostMapping("/login")
     public String loginPost(HttpServletRequest request,HttpServletResponse response) {
@@ -202,8 +217,7 @@ public class MemberController {
     //회원 마이페이지
     @RequestMapping("/myPage")
     public String myPage(Model model) {
-    	
-    	return "member/mypage/myPage";
+        return "member/mypage/myPage";
     }
         
     //나의 게시물 가져오기
@@ -222,7 +236,6 @@ public class MemberController {
     
     @RequestMapping("/removeMember")
     public String removeMember() {
-    	
     	return "member/mypage/removeMember";
     }
 }

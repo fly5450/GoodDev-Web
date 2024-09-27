@@ -54,7 +54,7 @@ public class MemberVO {
         this.nickname = member.getNickname(); //
         this.phone = member.getPhone();
         this.email = member.getEmail();
-        this.auto_Login = member.getAuto_Login(); // auto_Login 초기화
+        this.auto_Login = member.getAuto_Login();
         this.last_Login_Date = member.getLast_Login_Date();
         this.last_Logout_Date = member.getLast_Logout_Date();
         this.deleteYn = member.getDeleteYn();

@@ -8,61 +8,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>굿이야 사이트</title>
-        <link rel="stylesheet" href="<c:url value='/resources/css/style.css'/>">
+    <link rel="stylesheet" href="<c:url value='/resources/css/style.css'/>">
 </head>
 <body>
 
    <div class="container">
         <!-- Header -->
-        <header>
-        <div class="header-container">
-            <div class="logo-container">
-                <img src="resources/img/good.png" alt="로고">
-            </div>
-            <div class="search-wrapper">
-                <span class="search-label">통합검색</span>
-                <div class="search-container">
-                    <form action="search" method="post" id = "searchForm" class="search-form">
-                            <input name="keyword" id="keyword" class="search-input" placeholder="검색어를 입력해주세요">
-                            <button type="submit" class="search-button">검색</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-        </header>
+        <%@ include file="/WEB-INF/views/commons/header.jsp" %>
 
         <!-- Navigation -->
-        <nav>
-            <div class="menu-item">
-                <a href="board/list?page=1&size=10&category_no=10" class = "navbar a">공지사항</a>
-            </div>
-            <div class = "menu-item">
-                <a href="#" class = "navbar a">게시판</a>
-                <div class="dropdown">
-                    <div class="dropdown-item">
-                        <a href="board/list?page=1&size=10&category_no=20" class = "navbar a">MSA5차</a>
-                    </div>
-                    <div class="dropdown-item">
-                        <a href="board/list?page=1&size=10&category_no=30" class = "navbar a">MSA6차</a>
-                    </div>
-                    <div class="dropdown-item">
-                        <a href="board/list?page=1&size=10&category_no=40" class = "navbar a">MSA7차</a>
-                    </div>
-                </div>
-            </div>
-            <div class="menu-item">
-                <a href="board/gallery">갤러리</a>
-            </div> <div class="menu-item">
-                <a href="board/curicurum">커리큘럼</a>
-            </div> <div class="menu-item">
-                <a href="https://www.sw.or.kr/site/sw/edu/selectEduListGallery.do" >교육신청</a>
-            </div>
-        </nav>
+        <%@ include file="/WEB-INF/views/commons/nav.jsp" %>
+
+        <!--컨텐츠부분-->
         <div class = "main">
-            <div class="sidebar">
-                    <p>광고 영역 등</p>
-                    <img src="ad_image.jpg" alt="광고 이미지" width="100%">
-            </div>
+            <%@ include file="/WEB-INF/views/commons/advertisement.jsp" %>
+
             <!-- Main Content -->
             <div class="main-content">
                 <!-- Content (Notice, Boards, Gallery) -->
@@ -136,15 +96,13 @@
                 </c:if>
                 
             </div>
-            <div class="sidebar">
-                    <p>광고 영역 등</p>
-                    <img src="ad_image.jpg" alt="광고 이미지" width="100%">
-            </div>
+            <!--광고부분-->
+            <%@ include file="/WEB-INF/views/commons/advertisement.jsp" %>
         </div>
+
         <!-- Footer -->
-        <footer>
-            <p>© 2024 굿이야. All rights reserved.</p>
-        </footer>
+       <%@ include file="/WEB-INF/views/commons/footer.jsp" %>
+
     </div>
     <script>
             const form = document.querySelector("#searchForm");

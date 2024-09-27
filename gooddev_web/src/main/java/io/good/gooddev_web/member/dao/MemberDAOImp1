@@ -12,7 +12,7 @@ import io.good.gooddev_web.member.dto.MemberDTO;
 import io.good.gooddev_web.member.vo.MemberVO;
 import io.good.gooddev_web.search.dto.PageRequestDTO;
 
-@Repository 
+@Repository
 public class MemberDAOImpl implements MemberDAO {
     // Spring에서 MyBatis와 통합하기 위해 제공되는 클래스
     private final SqlSessionTemplate sqlSessionTemplate;

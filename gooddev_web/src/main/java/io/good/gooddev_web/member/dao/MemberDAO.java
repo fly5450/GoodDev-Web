@@ -1,13 +1,11 @@
 package io.good.gooddev_web.member.dao;
 
-
 import java.util.List;
 import java.util.Optional;
 
 import io.good.gooddev_web.member.dto.MemberDTO;
 import io.good.gooddev_web.member.vo.MemberVO;
 import io.good.gooddev_web.search.dto.PageRequestDTO;
-
 public interface MemberDAO { 
 
   public List<MemberVO> getList(PageRequestDTO pageRequestDTO);  
@@ -25,6 +23,4 @@ public interface MemberDAO {
   public MemberDTO getRead_uuid(); 
   public int modify_uuid(MemberVO modify_uuid);
   public Boolean validateUser(String mid, String email);
-
-
 }
