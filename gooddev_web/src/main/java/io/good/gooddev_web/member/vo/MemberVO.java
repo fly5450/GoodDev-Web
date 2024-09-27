@@ -45,6 +45,7 @@ public class MemberVO {
     private char isAdminYn; // 관리자 여부
     private Date signup_Date; // 가입날짜
     private Date signout_Date; // 탈퇴날짜(비활성화)
+    private int class_No;
 
     public MemberVO(MemberDTO member) {
         this.mid = member.getMid();

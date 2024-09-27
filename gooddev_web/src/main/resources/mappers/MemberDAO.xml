@@ -6,10 +6,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <!-- 모든 회원정보 조회 (활성화된 회원) -->
 <select id="getList" resultType="io.good.gooddev_web.member.vo.MemberVO">
-    SELECT *
-    FROM good_member
-    WHERE deleteYn = 'N'
-    ORDER BY mid
+    <![CDATA[
+    SELECT * 
+    FROM (
+        SELECT A.*, ROWNUM rnum 
+        FROM (
+            SELECT * 
+            FROM good_member 
+            WHERE deleteYn = 'N'
+            ORDER BY mid
+        ) A 
+        WHERE ROWNUM <= #{page} * #{size}
+    ) 
+    WHERE rnum > (#{page} - 1) * #{size}
+    ]]>
 </select>
 
 <!-- 회원 상세조회 (활성화된 회원) -->
