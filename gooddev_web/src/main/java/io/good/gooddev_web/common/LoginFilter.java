@@ -16,13 +16,13 @@ import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@WebFilter("/member/*") // /member/ 경로 하위 요청에 대해 필터 적용
-public class LoginCheckFilter implements Filter {
+@WebFilter("/*") // /member/ 경로 하위 요청에 대해 필터 적용
+public class LoginFilter implements Filter {
 
     // 필터 초기화 메서드
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        log.info("LoginCheckFilter 초기화");
+        log.info("LoginFilter 초기화");
     }
 
     // 실제 필터링 작업을 수행하는 메서드
@@ -59,12 +59,7 @@ public class LoginCheckFilter implements Filter {
 
     // 로그인 체크가 필요한 경로인지 확인하는 메서드
     private boolean isLoginCheckRequired(String requestURI) {
-        // CSS, JS, 이미지 파일이나 로그인, 회원가입 페이지는 로그인 체크에서 제외
-        return !requestURI.startsWith("/css") &&
-               !requestURI.startsWith("/js") &&
-               !requestURI.startsWith("/img") &&
-               !requestURI.equals("/member/login") &&
-               !requestURI.equals("/member/register");
+        return requestURI.equals("/gooddev_web/board/insert");
     }
 
     // 필터 종료 메서드
@@ -73,3 +68,4 @@ public class LoginCheckFilter implements Filter {
         log.info("LoginCheckFilter 종료");
     }
 }
+
