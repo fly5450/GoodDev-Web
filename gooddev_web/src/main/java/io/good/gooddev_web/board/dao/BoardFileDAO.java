@@ -11,8 +11,8 @@ import io.good.gooddev_web.board.vo.BoardFileVO;
 public interface BoardFileDAO {
     int insert(BoardFileVO boardFileVO);
 
-	List<BoardFileVO> getList(long id);
+	List<BoardFileVO> getList(int bno);
 
-	Optional<BoardFileVO> getRead(int file_id);
+	Optional<BoardFileVO> getRead(String fid);
 
 }

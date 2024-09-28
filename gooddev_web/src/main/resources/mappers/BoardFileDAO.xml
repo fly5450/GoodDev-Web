@@ -4,5 +4,5 @@
 <mapper namespace="io.good.gooddev_web.board.dao.BoardFileDAO">
     <insert id="insert"> insert into good_files ( fid,bno,file_name ,file_type ,file_size) values ( #{fid} ,#{bno} ,#{file_name} ,#{file_type} ,#{file_size}) </insert>
     <select id="getList" resultType="io.good.gooddev_web.board.vo.BoardFileVO"> select * from good_files where bno = #{bno} </select>
-    <select id="getRead" resultType="io.good.gooddev_web.board.vo.BoardFileVO"> SELECT * FROM good_files where fid = '#{fid}' </select>
+    <select id="getRead" resultType="io.good.gooddev_web.board.vo.BoardFileVO"> SELECT * FROM good_files where fid = #{fid} </select>
 </mapper>

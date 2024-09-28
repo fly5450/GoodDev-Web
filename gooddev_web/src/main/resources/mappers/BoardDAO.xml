@@ -21,29 +21,26 @@
 	</sql>
 	<select id="getTotalCategory" resultType="int">
 		SELECT 
-			CLASS_NO 
-		FROM	GOOD_MEMBERCLASS
+			category_no
+		FROM	GOOD_boardcategory
 	</select>
 
-	<select id="getList"
-		resultType="io.good.gooddev_web.board.vo.BoardVO">
+	<select id="getList" resultType="io.good.gooddev_web.board.vo.BoardVO">
 		SELECT *
 		FROM (
-		SELECT good_board.*, ROW_NUMBER() OVER (ORDER
-		BY bno DESC) AS rnum
-		FROM good_board
-		<include refid="search"/>
+			SELECT board.*,
+				(SELECT c.category_name FROM good_boardcategory c WHERE c.category_no = board.category_no) AS category_name,
+			ROW_NUMBER() OVER (ORDER BY board.bno DESC) AS rnum
+			FROM good_board board
+			<include refid="search"/>
 		)
-
 		<where>
-			<![CDATA[ 
+			<![CDATA[
 			AND rnum > #{skip}
 			AND rnum <= #{skip} + #{size}
 			]]>
-
 		</where>
 		ORDER BY bno DESC
-
 	</select>
 
 	<select id="getTotalCount" resultType="int">

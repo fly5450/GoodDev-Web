@@ -48,6 +48,16 @@
 			<span>싫어요: </span> <span id="hateCount">${board.hate_cnt}</span>
 		</h3>
 	</div>
+	<c:if test="${not empty board.boardFileDTOList}">
+		<c:forEach var="boardFile" items="${board.boardFileDTOList}">
+			<div>
+				<h3>
+					<span>첨부파일: </span>
+					<span><a href="download/${boardFile.fid}">${boardFile.file_name}</a></span>
+				</h3>
+			</div>
+		</c:forEach>
+	</c:if>
 	<a href="list?&${pageRequestDTO.link}">뒤로가기</a>
 
 	<a href="update?bno=${board.bno}&${pageRequestDTO.link}">수정</a>

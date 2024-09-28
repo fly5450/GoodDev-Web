@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@WebFilter("/*") // /member/ 경로 하위 요청에 대해 필터 적용
+@WebFilter("/*") //  경로 하위 요청에 대해 필터 적용
 public class LoginFilter implements Filter {
 
     // 필터 초기화 메서드
