@@ -59,7 +59,13 @@ public class LoginFilter implements Filter {
 
     // 로그인 체크가 필요한 경로인지 확인하는 메서드
     private boolean isLoginCheckRequired(String requestURI) {
-        return requestURI.equals("/gooddev_web/board/insert");
+        return requestURI.equals("/gooddev_web/board/insert") || //게시글 작성 페이지
+               requestURI.startsWith("/gooddev_web/board/like") || //게시글 좋아요 페이지
+               requestURI.equals("/gooddev_web/member/updateMember") || //회원 정보 수정 페이지
+               requestURI.equals("/gooddev_web/member/myBoardList") || //내가 쓴 게시글 목록 페이지
+               requestURI.equals("/gooddev_web/member/removeMember") || //회원 탈퇴 페이지
+               requestURI.startsWith("/gooddev_web/member/myPage") || //myPage 하위 경로 포함
+               requestURI.startsWith("/gooddev_web/admin/"); //admin 하위 경로 포함
     }
 
     // 필터 종료 메서드
@@ -68,4 +74,3 @@ public class LoginFilter implements Filter {
         log.info("LoginCheckFilter 종료");
     }
 }
-

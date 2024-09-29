@@ -30,7 +30,7 @@ public class MemberDTO {
     private int class_No;
 
     public MemberDTO(String mid, String password) {
-         // 두 개의 인자만 받는 생성자를 정의할 필요 없음
+         // 추가 생성자: 아이디와 비밀번호만으로 객체 생성
         this.mid = mid;
         this.password = password;
         // 나머지 필드는 기본값으로 초기화(필요하다면 기존 생성자에 필드를 추가하도록 수정)

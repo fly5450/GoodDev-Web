@@ -54,7 +54,8 @@ public class BoardService {
 
     public PageResponseDTO<BoardDTO> getList(PageRequestDTO pageRequestDTO) {
 		List<BoardDTO> getList = boardDAO.getList(pageRequestDTO).stream().map(board -> mapper.map(board, BoardDTO.class)).collect(Collectors.toList());
-		return new PageResponseDTO(pageRequestDTO, getList, boardDAO.getTotalCount(pageRequestDTO));
+		//return new PageResponseDTO(pageRequestDTO, getList, boardDAO.getTotalCount(pageRequestDTO));
+        return new PageResponseDTO<BoardDTO>(pageRequestDTO, getList, boardDAO.getTotalCount(pageRequestDTO));
 	}
     
 	public int remove(long mid) {
@@ -153,7 +154,8 @@ public class BoardService {
                 boardDTO.setBoardFileDTOList(boardFileDAO.getList(boardDTO.getBno()).stream().map(file->mapper.map(file, BoardFileDTO.class)).collect(Collectors.toList()));
             }
         }
-		return new PageResponseDTO(pageRequestDTO, getList, boardDAO.getTotalCount(pageRequestDTO));
+		//return new PageResponseDTO(pageRequestDTO, getList, boardDAO.getTotalCount(pageRequestDTO));
+        return new PageResponseDTO<BoardDTO>(pageRequestDTO, getList, boardDAO.getTotalCount(pageRequestDTO));
 	}
 
 }
