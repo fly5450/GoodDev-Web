@@ -31,14 +31,14 @@
 			<div class="item-section mt-2 mb-2" style="font-size: 12px">
 				게시판 관리 > 공지사항 등록
 			</div>
-
+	
 			<div class="headingArea">
 				<div class="title">
 					<h1 id="itemTitle">공지사항 등록</h1>
 				</div>
 			</div>
 			<div class="form_table no_line">
-				<form name="writeNoticeForm" id="writeNoticeForm" method="post" action="writeNotice" enctype="multipart/form-data">
+				<form name="writeNoticeForm" id="writeNoticeForm" method="post" action="insertNotice" enctype="multipart/form-data" onsubmit="showModal(); return false;">
 					<div class="tr">
 						<div class="th">
 							<p class="form_label required">분류 </p>
@@ -56,7 +56,7 @@
 						</div>
 						<div class="td">
 							<div class="textarea_group_title sm">
-								<textarea id="btitle" name="btitle" title="게시글 제목 입력" placeholder="게시글 제목을 입력해주세요." maxlength="" ></textarea>
+								<textarea id="btitle" name="btitle" title="게시글 제목 입력" placeholder="게시글 제목을 입력해주세요." maxlength=""></textarea>
 								<p class="form_bytes"><span class="byte">0</span>/100</p>
 							</div>
 						</div>
@@ -70,7 +70,7 @@
 								<textarea id="bcontent" name="bcontent" placeholder="게시글 내용을 입력해주세요." title="게시글 내용 입력" maxlength="1000"></textarea>
 								<p class="form_bytes"><span class="byte">0</span>/1,000</p>
 							</div>
-							 <div class="attach_wrap">
+							<div class="attach_wrap">
 								<div class="attach_top">
 									<input type="hidden" name="uploadType" value="notice">
 									<label class="attach_img" for="battach">사진 첨부</label>
@@ -79,7 +79,6 @@
 								</div>
 								<div class="attached" data-file="battach" id="inputUploadFile"></div>
 							</div> 
-							
 						</div>
 					</div>
 					
@@ -90,6 +89,40 @@
 				</form>	
 			</div>
 		</div>
+	</div> 
+	
+	<!-- Modal -->
+	<div class="modal" id="insertNoticeModal"> 
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">공지사항 작성</h4>  
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+				<div class="modal-body">
+					<p>공지사항 작성 완료</p> 
+				</div>
+				<div class="modal-footer">
+				<button type="button" id="modalCloseButton" data-bs-dismiss="modal">취소</button>
+				<a href="noticeList" class="btn">확인</a>
+			</div>
+			</div>
+		</div>
 	</div>
+	
+	<script>
+	function showModal() {
+	    $('#insertNoticeModal').modal('show');
+	    
+	    var title = $('#btitle').val();
+	    var content = $('#bcontent').val();
+	    console.log("Title: " + title);
+	    console.log("Content: " + content);
+	    
+	    $('#modalCloseButton').on('click', function() {
+	        $('#writeNoticeForm')[0].reset(); // 폼 초기화
+	    });
+	}
+	</script>
 </body>
 </html>

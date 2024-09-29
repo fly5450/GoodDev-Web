@@ -18,6 +18,9 @@
 		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 		crossorigin="anonymous"></script>
 		
+		<!-- external css -->
+		<link rel="stylesheet" href="<c:url value='/resources/css/my_page.css'/>">
+		
 </head>
 <body>
 	<div>
@@ -31,9 +34,9 @@
 		                <li id="menu1" style="height: 50%;">  
 		                    <a class="menu_depth01" href="#">관리자 정보</a> 
 		                    <ul class="menu_depth02">
-		                    	<li id="update"><a href="updateMember">전체 회원목록 관리</a></li>
-		                        <li id="update"><a href="updateMember">공지사항 관리</a></li> 
-		                        <li id="myBoardList"><a href="myBoardList">게시물 관리</a></li> 
+		                    	<li id="update"><a href="memberList">전체 회원목록 관리</a></li>
+		                        <li id="update"><a href="noticeList">전체 공지사항 관리</a></li> 
+		                        <li id="myBoardList"><a href="boardList">전체 게시물 관리</a></li> 
 		                    </ul>
 		                </li>
 		            </ul>
@@ -41,46 +44,14 @@
 			<div class="content" style="width:80%; padding:0px 30px;">
 				<div class="profile">
 					<div class="user_info">
-						<span class="name" id="spanNickname">누구누구 님</span>
-						<p class="date">가입일 : <span>가입날짜 적을부분(db)</span></p>
+						<span class="name" id="spanNickname">관리자{$써야함} 님</span>
 					</div>
 				</div>
 				<div class="wrapper">
 				<!-- contents -->
 				<div class="main p-3">
-					<div class="headingArea">
-						<div class="title">
-							<h1 id="itemTitle">내가 작성한 게시글 조회</h1>
-						</div>
-					</div>
 					<div class="section_block">
 						<div class="container mt-3">
-						  <!-- <h2>내 게시물 목록</h2> -->
-						  <table class="table">
-						    <thead class="table-dark">
-						      <tr>
-						        <th>No</th>
-						        <th>닉네임</th>
-						        <th>작성일시</th>
-						        <th>수정/삭제</th>
-						      </tr>
-						    </thead>
-						    <tbody>
-						    	<c:forEach var="member" items="${pageResponseDTO.list}">
-							      <tr>
-							        <td>${member.class_No}</td>
-							        <td>${member.nickname}</td>
-							        <td>${member.signup_Date}</td>
-							        <td>
-							        	<div class="btn_big_wrap">
-											<button type="button" onclick="location.href='${pageContext.request.contextPath}/admin/memberUpdate'" class="btn btn-outline-dark">수정</button>
-											<button type="button" onclick="location.href='#'" class="btn btn-outline-dark">삭제</button>
-										</div>
-							        </td>
-							      </tr>
-						    	</c:forEach>
-						    </tbody>
-						  </table>
 							  <!-- 페이지네이션 -->
 							  <div class="float-end" >
 							    <ul class="pagination flex-wrap" >
