@@ -51,7 +51,7 @@
 				<!-- 기타 정보 한 줄로 배치 -->
 				<div class="board-read-info">
 					<span id="likeCount" class="board-read-label">좋아요 수: ${board.like_cnt}</span>
-					<button onclick="handleLikeHate('like')" class="board-read-button">좋아요</button>
+					<button onclick="handleLikeHate('like')" class="board-read-button">좋아요 </button>
 					<span id="hateCount" class="board-read-label">싫어요 수: ${board.hate_cnt}</span>
 					<button onclick="handleLikeHate('hate')" class="board-read-button">싫어요</button>
 				</div>
@@ -122,9 +122,17 @@
         }
 
 		function handleLikeHate(action) {
-            const bno = parseInt(document.getElementById('bno').textContent);
+            const isLoggedIn = <%= request.getSession().getAttribute("loginInfo") != null %>;
+
+            if (!isLoggedIn) {
+                alert("로그인이 필요합니다.");
+                const currentUrl = window.location.href;
+                window.location.href = "<%= request.getContextPath() %>/member/login?redirect="+encodeURIComponent(currentUrl);
+                return;
+            }
+
+            const bno = parseInt(document.getElementById('bno').getAttribute('data-bno'));
             const url = "<%= request.getContextPath() %>/board/" + action;
-            
             fetch(url, {
                 method: 'POST',
                 headers: {
@@ -139,8 +147,8 @@
                 return response.json(); 
             })
             .then(data => {
-                document.getElementById('likeCount').innerText = data.likeCount;
-                document.getElementById('hateCount').innerText = data.hateCount;
+                document.getElementById('likeCount').innerText = "좋아요 수: "+data.likeCount;
+                document.getElementById('hateCount').innerText = "싫어요 수: "+data.hateCount;
             });
         }
 
