@@ -19,4 +19,8 @@
 		select * from good_comment where cno = #{cno, jdbcType=NUMERIC}
 	</select>
 	
+	<insert	id="insertCocomment">
+		insert into good_comment (cno, mid, comment_content, bno, parent_cno) values (cno_sequence.NEXTVAL, #{mid, jdbcType=VARCHAR}, #{comment_content, jdbcType=VARCHAR}, #{bno, jdbcType=NUMERIC})
+	</insert>
+	
 </mapper>
