@@ -32,7 +32,7 @@ public class AdminService {
 	}
 	
 	public int remove(String uid) {
-		return memberDAO.removeMember(uid);
+		return memberDAO.remove(uid);
 	}
 	
 	
