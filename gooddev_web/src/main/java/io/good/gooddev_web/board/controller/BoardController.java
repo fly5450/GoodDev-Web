@@ -1,21 +1,33 @@
 package io.good.gooddev_web.board.controller;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import io.good.gooddev_web.board.dto.BoardDTO;
+import io.good.gooddev_web.board.dto.BoardFileDTO;
+import io.good.gooddev_web.board.dto.CommentDTO;
 import io.good.gooddev_web.board.service.BoardService;
+import io.good.gooddev_web.board.service.CommentService;
 import io.good.gooddev_web.board.vo.BoardVO;
 import io.good.gooddev_web.member.dto.MemberDTO;
 import io.good.gooddev_web.search.dto.PageRequestDTO;
@@ -28,9 +40,13 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class BoardController {
-	
+
+	@Qualifier("uploadPath")
+    private final String uploadPath;
+
 	private final MapperUtil mapper;
 	private final BoardService boardService;
+	private final CommentService commentService;
 	
 	@GetMapping("/board/list")
 	public void boardListView(PageRequestDTO pageRequestDTO, Model model) {
@@ -43,9 +59,19 @@ public class BoardController {
 	}
 	
 	@GetMapping("/board/read")
-	public void boardRead(@RequestParam int bno,Model model) {
+	public void boardRead(@RequestParam int bno,@RequestParam String link,Model model) {
 		boardService.viewCount(bno);
+		List<CommentDTO> commentAllByBno = commentService.getCommentByBno(bno);
+		 if (link != null) {
+			link = URLDecoder.decode(link, StandardCharsets.UTF_8);
+		}
 	    model.addAttribute("board", boardService.getRead(bno));
+		model.addAttribute("commentAllByBno", commentAllByBno);
+		model.addAttribute("link", link);
+		for (CommentDTO comment : commentAllByBno) {
+	        List<CommentDTO> cocomment = commentService.getNotNullCommentByBnoAndCno(bno, comment.getCno());
+	        comment.setCocomment(cocomment);
+	    }
 	}
 	
 	@GetMapping("/board/update")
@@ -54,8 +80,9 @@ public class BoardController {
 	}
 	
 	@GetMapping("/board/insert")
-	public void boardInsertView(Model model) {
-		
+	public void boardInsertView(@RequestParam("category_no") String category_no, Model model) {
+		model.addAttribute("totalCategory", boardService.getTotalCategory());
+		model.addAttribute("category_no", category_no);
 	}
 	
 	@PostMapping("/board/insert")
@@ -67,7 +94,7 @@ public class BoardController {
 			return "redirect:/board/list";
 		}
 	}
-	
+
 	@PostMapping("/board/like")
 	@ResponseBody
 	public ResponseEntity<Map<String, Integer>> likeBoard(@RequestParam int bno, HttpSession session) {
@@ -117,5 +144,37 @@ public class BoardController {
 
 	    return ResponseEntity.ok(response);
 	}
-	
+
+	@GetMapping(value="/board/download/{fid}")
+	public void download(@PathVariable("fid") String fid, HttpServletResponse response) throws Exception {
+		BoardFileDTO boardFileDTO = boardService.getBoardFile(fid);
+		if (boardFileDTO == null) {
+			response.setStatus(404);
+		} else {
+			String file_name = boardFileDTO.getFile_name();
+			file_name = URLEncoder.encode(file_name, "utf-8");
+			response.setContentLength(boardFileDTO.getFile_size());
+			response.setContentType(boardFileDTO.getFile_type());
+			response.setHeader("Cache-Control", "no-cache");
+			response.setHeader("Content-disposition", "attachment; fileName=" + file_name);
+			try (
+				BufferedInputStream bin = new BufferedInputStream((new FileInputStream(uploadPath + boardFileDTO.getFid())));
+				BufferedOutputStream bos = new BufferedOutputStream(response.getOutputStream());
+			){
+				bin.transferTo(bos);
+			} catch (Exception e) {
+				e.getStackTrace();
+			}
+		}
+	}
+
+	@GetMapping("/board/gallery")
+	public void gallery(PageRequestDTO pageRequestDTO, Model model) {
+		PageResponseDTO<BoardDTO> pageResponseDTO = boardService.getGalleryList(pageRequestDTO);
+		model.addAttribute("pageResponseDTO", pageResponseDTO);
+	}
 }
+
+
+	
+

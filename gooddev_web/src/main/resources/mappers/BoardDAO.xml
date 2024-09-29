@@ -19,31 +19,27 @@
 			</if>
 		</where>
 	</sql>
-	<select id="getTotalCategory" resultType="int">
-		SELECT 
-			CLASS_NO 
-		FROM	GOOD_MEMBERCLASS
+
+	<select id="getTotalCategory" resultType="io.good.gooddev_web.board.vo.BoardCategoryVO">
+		SELECT
+			*
+		FROM GOOD_boardcategory
 	</select>
 
-	<select id="getList"
-		resultType="io.good.gooddev_web.board.vo.BoardVO">
+	<select id="getList" resultType="io.good.gooddev_web.board.vo.BoardVO">
 		SELECT *
 		FROM (
-		SELECT good_board.*, ROW_NUMBER() OVER (ORDER
-		BY bno DESC) AS rnum
-		FROM good_board
-		<include refid="search"/>
+			SELECT good_board.*, ROW_NUMBER() OVER (ORDER BY bno DESC) AS rnum
+			FROM good_board
+			<include refid="search"/>
 		)
-
 		<where>
-			<![CDATA[ 
-			AND rnum > #{skip}
+			<![CDATA[
+			rnum > #{skip}
 			AND rnum <= #{skip} + #{size}
 			]]>
-
 		</where>
 		ORDER BY bno DESC
-
 	</select>
 
 	<select id="getTotalCount" resultType="int">
@@ -52,7 +48,6 @@
 		<include refid="search"/>
 	</select>
 
-	
 	<select id="getRead" resultType="io.good.gooddev_web.board.vo.BoardVO">
 		SELECT * FROM good_board where bno = #{bno, jdbcType=NUMERIC}
 	</select>

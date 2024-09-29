@@ -7,14 +7,15 @@ import java.util.Optional;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import io.good.gooddev_web.board.dto.BoardDTO;
+
+import io.good.gooddev_web.board.vo.BoardCategoryVO;
 import io.good.gooddev_web.board.vo.BoardVO;
 import io.good.gooddev_web.member.dto.MemberDTO;
 import io.good.gooddev_web.search.dto.PageRequestDTO;
 
 @Repository
 public interface  BoardDAO {
-    List<Integer> getTotalCategory();
+    List<BoardCategoryVO> getTotalCategory();
     List<BoardVO> getList(PageRequestDTO pageRequestDTO);
     List<BoardVO> getList();
     int getTotalCount(PageRequestDTO pageRequestDTO);

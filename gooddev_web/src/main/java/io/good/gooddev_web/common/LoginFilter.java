@@ -1,6 +1,7 @@
 package io.good.gooddev_web.common;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -16,7 +17,7 @@ import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@WebFilter("/*") // /member/ 경로 하위 요청에 대해 필터 적용
+@WebFilter("/*") //  경로 하위 요청에 대해 필터 적용
 public class LoginFilter implements Filter {
 
     // 필터 초기화 메서드
@@ -34,23 +35,31 @@ public class LoginFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         
-        // 요청된 URI를 가져온다.
         String requestURI = httpRequest.getRequestURI();
+    
+        String contextPath = httpRequest.getContextPath();
+        
+        String relativeURI = requestURI.substring(contextPath.length());
         
         // 현재 세션을 가져오고 세션이 없으면 null을 반환한다.
         HttpSession session = httpRequest.getSession(false);
         
         // 로그인 체크가 필요한 경로인지 확인
-        if (isLoginCheckRequired(requestURI)) {
-            log.info("인증 체크 실행 경로: {}", requestURI);
+        if (isLoginCheckRequired(requestURI)&&session.getAttribute("loginInfo")==null) {
+            log.warn("로그인되지 않은 접근 시도: {}", relativeURI);
             
-            // 세션이 없거나 로그인 정보가 없는 경우
-            if (session == null || session.getAttribute("loginInfo") == null) {
-                log.warn("로그인되지 않은 접근 시도: {}", requestURI);
-                // 로그인 페이지로 리다이렉트하고, 원래 요청 URL을 파라미터로 전달.
-                httpResponse.sendRedirect(httpRequest.getContextPath() + "/member/login?redirectURL=" + requestURI);
-                return;
+            String queryString = httpRequest.getQueryString();
+
+            if (queryString != null && !queryString.isEmpty()) {
+                relativeURI += "?" + queryString; // 쿼리 스트링을 relativeURI에 추가
             }
+            String encodedURI = URLEncoder.encode(relativeURI, "UTF-8");
+            
+            String redirectUrl = httpRequest.getContextPath() + "/member/login?redirect=" + encodedURI;
+        
+            // 리다이렉트
+            httpResponse.sendRedirect(redirectUrl);
+            return;
         }
         
         // 로그인 체크를 통과하거나 필요없는 경우, 다음 필터 또는 서블릿으로 요청을 전달
