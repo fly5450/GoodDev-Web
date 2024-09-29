@@ -8,7 +8,7 @@
 </head>
 <body>
 <h1>Board Update</h1>
-<form action="update?${pageRequestDTO.link}" method="post">
+<form action="update" method="post">
 	<div>
 		<h3>
 			<span>게시물 번호: </span>

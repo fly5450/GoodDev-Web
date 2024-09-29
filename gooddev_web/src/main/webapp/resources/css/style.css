@@ -544,3 +544,6 @@ footer {
     transition: max-height 0.3s ease-in;
 }
 
+.comment-content{
+    width: 100;
+}

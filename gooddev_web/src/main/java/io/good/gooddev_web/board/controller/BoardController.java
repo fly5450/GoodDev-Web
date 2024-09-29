@@ -25,7 +25,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import io.good.gooddev_web.board.dto.BoardDTO;
 import io.good.gooddev_web.board.dto.BoardFileDTO;
+import io.good.gooddev_web.board.dto.CommentDTO;
 import io.good.gooddev_web.board.service.BoardService;
+import io.good.gooddev_web.board.service.CommentService;
 import io.good.gooddev_web.board.vo.BoardVO;
 import io.good.gooddev_web.member.dto.MemberDTO;
 import io.good.gooddev_web.search.dto.PageRequestDTO;
@@ -44,6 +46,7 @@ public class BoardController {
 
 	private final MapperUtil mapper;
 	private final BoardService boardService;
+	private final CommentService commentService;
 	
 	@GetMapping("/board/list")
 	public void boardListView(PageRequestDTO pageRequestDTO, Model model) {
@@ -58,11 +61,17 @@ public class BoardController {
 	@GetMapping("/board/read")
 	public void boardRead(@RequestParam int bno,@RequestParam String link,Model model) {
 		boardService.viewCount(bno);
+		List<CommentDTO> commentAllByBno = commentService.getCommentByBno(bno);
 		 if (link != null) {
 			link = URLDecoder.decode(link, StandardCharsets.UTF_8);
 		}
 	    model.addAttribute("board", boardService.getRead(bno));
+		model.addAttribute("commentAllByBno", commentAllByBno);
 		model.addAttribute("link", link);
+		for (CommentDTO comment : commentAllByBno) {
+	        List<CommentDTO> cocomment = commentService.getNotNullCommentByBnoAndCno(bno, comment.getCno());
+	        comment.setCocomment(cocomment);
+	    }
 	}
 	
 	@GetMapping("/board/update")
@@ -85,7 +94,7 @@ public class BoardController {
 			return "redirect:/board/list";
 		}
 	}
-	
+
 	@PostMapping("/board/like")
 	@ResponseBody
 	public ResponseEntity<Map<String, Integer>> likeBoard(@RequestParam int bno, HttpSession session) {

@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<<<<<<< HEAD
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <html>
@@ -59,7 +60,45 @@
 					<a href="list?&${link}">돌아가기</a>
 					<a href="update?bno=${board.bno}&${pageRequestDTO.link}">수정</a>
 				</div>
-			</div>
+                <div class = "comment-content">
+                    <h1>Comment</h1>
+                        <table>
+                            <tbody>
+                                <c:forEach var="comment" items="${commentAllByBno}">
+                                    <tr>
+                                        <td>
+                                            <details>
+                                                <summary>${comment.comment_content}</summary>
+                                                <input type="text" placeholder="대댓글 내용">
+                                                <button onclick="insertCocomment(${comment.cno})">작성</button>
+                                                <c:forEach var="cocomment" items="${comment.cocomment}">
+                                                    <div>
+                                                        <span>${cocomment.comment_content}</span>
+                                                    </div>
+                                                </c:forEach>
+                                            </details>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                        
+                        <h5>댓글 작성</h5>
+                        <form action="comment/insert" method="post">
+                            <input type="hidden" name="bno" value="${board.bno}">
+                            <input type="hidden" name="mid" value="${board.mid}">
+                            <input type="hidden" name="link" value="${param.link}">
+                            <div>
+                                <h3>
+                                    <span>내용: </span>
+                                    <input type="text" name="comment_content">
+                                </h3>
+                            </div>
+                            <input type="submit" value="등록">
+                            <input type="reset" value="초기화">
+                        </form>
+                </div>
+            </div>
 			<%@ include file="/WEB-INF/views/commons/advertisement.jsp" %>
 		</div>
 		<%@ include file="/WEB-INF/views/commons/footer.jsp" %>
@@ -83,36 +122,51 @@
         }
 
 		function handleLikeHate(action) {
-			const isLoggedIn = <%= request.getSession().getAttribute("loginInfo") != null %>;
-			const bno = parseInt(document.getElementById('bno').dataset.bno);
-			const url = "<%= request.getContextPath() %>/board/" + action;
+            const bno = parseInt(document.getElementById('bno').textContent);
+            const url = "<%= request.getContextPath() %>/board/" + action;
+            
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'bno=' + bno
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json(); 
+            })
+            .then(data => {
+                document.getElementById('likeCount').innerText = data.likeCount;
+                document.getElementById('hateCount').innerText = data.hateCount;
+            });
+        }
 
-			if (!isLoggedIn) {
-				alert("로그인이 필요합니다."); // Alert if not logged in
-				const currentUrl = window.location.href; // 현재 URL 가져오기
-				const loginUrl = "<%= request.getContextPath() %>/member/login?redirect=" + encodeURIComponent(currentUrl);
-				window.location.href = loginUrl;
-			}
-
-			fetch(url, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/x-www-form-urlencoded'
-				},
-				body: 'bno=' + bno
-			})
-			.then(response => {
-			if (!response.ok) {
-				throw new Error('Network response was not ok');
-			}
-			return response.json(); // JSON으로 응답을 파싱
-			})
-			.then(data => {
-				console.log(data);
-				document.getElementById('likeCount').innerText = '좋아요 수: ' + data.likeCount;
-				document.getElementById('hateCount').innerText = '싫어요 수: ' + data.hateCount;
-			});
-		}
+        function insertCocomment(cno) {
+            const replyContent = document.querySelector(`input[placeholder="대댓글 내용"]`).value;
+            const bno = parseInt(document.getElementById('bno').textContent);
+            const url = "<%= request.getContextPath() %>/comment/cocomment"; // 대댓글을 위한 URL
+            
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `bno=${bno}&parentCno=${parentCno}&comment_content=${replyContent}`
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json(); 
+            })
+            .then(data => {
+                // 대댓글 추가 후 UI 업데이트 필요
+                console.log(data);
+            });
+        }
 	</script>
 </body>
 </html>
