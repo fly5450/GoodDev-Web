@@ -27,7 +27,7 @@
 							<c:forEach var="boardFile" items="${board.boardFileDTOList}">
 								<img src="download/${boardFile.fid}" alt="이미지"/>
 							</c:forEach>
-							<a href="read?bno=${board.bno}&${pageRequestDTO.link}" class="title">${board.title}</a>
+							<a href="read?bno=${board.bno}&link=${pageRequestDTO.link}" class="title">${board.title}</a>
 						</div>
 					</c:forEach>
 					<a href="insert">글쓰기</a>

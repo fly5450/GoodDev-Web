@@ -16,8 +16,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import io.good.gooddev_web.board.dao.BoardDAO;
 import io.good.gooddev_web.board.dao.BoardFileDAO;
+import io.good.gooddev_web.board.dto.BoardCategoryDTO;
 import io.good.gooddev_web.board.dto.BoardDTO;
 import io.good.gooddev_web.board.dto.BoardFileDTO;
+import io.good.gooddev_web.board.vo.BoardCategoryVO;
 import io.good.gooddev_web.board.vo.BoardFileVO;
 import io.good.gooddev_web.board.vo.BoardVO;
 import io.good.gooddev_web.search.dto.PageRequestDTO;
@@ -40,17 +42,21 @@ public class BoardService {
 
     public HashMap<String,List<BoardDTO>> getTotalList(PageRequestDTO pageRequestDTO) {
         HashMap<String,List<BoardDTO>> map = new HashMap<>();
-        List<Integer> totalCategory= boardDAO.getTotalCategory();
-        for(int category : totalCategory){
-            pageRequestDTO.setCategory_no(String.valueOf(category));
+        List<BoardCategoryVO> totalCategory= boardDAO.getTotalCategory();
+        for(BoardCategoryVO category : totalCategory){
+            pageRequestDTO.setCategory_no(String.valueOf(category.getCategory_no()));
             List <BoardDTO> boardList = boardDAO.getList(pageRequestDTO).stream().map(board -> mapper.map(board, BoardDTO.class)).collect(Collectors.toList());
             if (!boardList.isEmpty()) {
-                String categoryName = boardList.get(0).getCategory_name();
-                map.put(categoryName, boardList);
+                map.put(category.getCategory_name(), boardList);
             }
         }
         return map;
     }
+    
+    public List<BoardCategoryDTO> getTotalCategory(){
+        return boardDAO.getTotalCategory().stream().map(category -> mapper.map(category, BoardCategoryDTO.class)).collect(Collectors.toList());
+    }
+
 
     public PageResponseDTO<BoardDTO> getList(PageRequestDTO pageRequestDTO) {
 		List<BoardDTO> getList = boardDAO.getList(pageRequestDTO).stream().map(board -> mapper.map(board, BoardDTO.class)).collect(Collectors.toList());

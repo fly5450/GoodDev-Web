@@ -31,6 +31,5 @@ public class BoardVO {
 	private int like_cnt;
 	private int hate_cnt;
 	private List<MultipartFile> file;
-	private String category_name;
 	
 }
