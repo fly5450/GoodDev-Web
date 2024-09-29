@@ -1,5 +1,7 @@
 package io.good.gooddev_web.board.dto;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,5 +21,6 @@ public class CommentDTO {
 	private int bno;
 	private int parent_cno;
 	private String deleteYn;
+	private List<CommentDTO> cocomment;
 	
 }

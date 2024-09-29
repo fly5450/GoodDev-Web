@@ -1,5 +1,8 @@
 package io.good.gooddev_web.member.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -53,7 +56,7 @@ public class MemberController {
     public String registerForm(Model model) //Controller -> View(JSP)로 데이터를 전달
     {
         model.addAttribute("memberDTO", new MemberDTO());
-        return "member/register"; 
+        return "member/register";
     }
     
     // 회원 가입 처리
@@ -136,7 +139,6 @@ public class MemberController {
          }
      }
 
-    
     // 비밀번호 찾기 페이지로 이동 GET
     @GetMapping("findpwd")
     public String FindPwdForm() {
@@ -188,11 +190,19 @@ public class MemberController {
 				if (cookie.getName().equals("autoLoginTrue")) {
 					MemberDTO member = memberService.getRead_Auto_Login(cookie.getValue());
 					if (member != null) {
+                        String link = request.getParameter("redirect");
 						HttpSession session = request.getSession();
 						session.setAttribute("mid", member.getMid());
 						session.setAttribute("loginInfo", member);
 						cookie.setMaxAge(60 * 10);
 						response.addCookie(cookie);
+                        try {
+                            String decodedLink = URLDecoder.decode(link, "UTF-8");
+                            log.info(decodedLink);
+                            return "redirect:"+(link != null ? decodedLink : "");
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
 						return "redirect:/";
 					}
 				}
@@ -203,26 +213,46 @@ public class MemberController {
     
     //로그인 POST처리
     @PostMapping("/login")
-    public String loginPost(HttpServletRequest request,HttpServletResponse response) {
-      HttpSession session = request.getSession();
-      String mid = request.getParameter("mid");
-      String password = request.getParameter("password");
-      String auto_login_check = request.getParameter("auto_login_check");
-      if(auto_login_check==null) auto_login_check="false";
-      MemberDTO inMember = new MemberDTO(mid, password);
-      MemberDTO member = memberService.login(mapperUtil.map(inMember,MemberVO.class),auto_login_check);
-      if (member != null) {
-        if (auto_login_check.equals("on")) {
-          Cookie cookie = new Cookie("autoLoginTrue", member.getAuto_Login());
-          cookie.setMaxAge(60 * 10);
-          cookie.setPath("/");
-          response.addCookie(cookie);
+    public String loginPost(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            HttpSession session = request.getSession();
+            String mid = request.getParameter("mid");
+            String password = request.getParameter("password");
+            String auto_login_check = request.getParameter("auto_login_check");
+            String link = request.getParameter("redirect");
+            if (auto_login_check == null) auto_login_check = "false";
+            
+            MemberDTO inMember = new MemberDTO(mid, password);
+            MemberDTO member = memberService.login(mapperUtil.map(inMember, MemberVO.class), auto_login_check);
+            
+            if (member != null) {
+                if (auto_login_check.equals("on")) {
+                    Cookie cookie = new Cookie("autoLoginTrue", member.getAuto_Login());
+                    cookie.setMaxAge(60 * 10);
+                    cookie.setPath("/");
+                    response.addCookie(cookie);
+                }
+                session.setAttribute("loginInfo", member);
+                
+                if (link != null && !link.isEmpty()) {
+                    
+                    String decodedLink = URLDecoder.decode(link, "UTF-8");
+                    log.info(decodedLink);
+                    return "redirect:" + decodedLink;
+                } else {
+                    return "redirect:/";
+                }
+            } else {
+                if (link != null && !link.isEmpty()) {
+                    return "redirect:login?error=error&redirect=" + link;
+                } else {
+                    return "redirect:/";
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // 로그에 오류 기록
+            return "redirect:/";
         }
-        session.setAttribute("loginInfo", member);
-        return "redirect:/";
-      } else {
-        return "redirect:login?error=error";
-      }
     }
 
 //---------------- 마이페이지 ------------------

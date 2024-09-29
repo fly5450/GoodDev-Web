@@ -37,7 +37,7 @@ public class PageRequestDTO {
 			}
 		}
         if(category_no != null) {
-			builder.append("&category=" +category_no);
+			builder.append("&category_no=" +category_no);
 		}
 
 		// if(searchType != null) {
