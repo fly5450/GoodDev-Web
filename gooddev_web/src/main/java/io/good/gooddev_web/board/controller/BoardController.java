@@ -3,7 +3,9 @@ package io.good.gooddev_web.board.controller;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,9 +56,13 @@ public class BoardController {
 	}
 	
 	@GetMapping("/board/read")
-	public void boardRead(@RequestParam int bno,Model model) {
+	public void boardRead(@RequestParam int bno,@RequestParam String link,Model model) {
 		boardService.viewCount(bno);
+		 if (link != null) {
+			link = URLDecoder.decode(link, StandardCharsets.UTF_8);
+		}
 	    model.addAttribute("board", boardService.getRead(bno));
+		model.addAttribute("link", link);
 	}
 	
 	@GetMapping("/board/update")
@@ -65,8 +71,9 @@ public class BoardController {
 	}
 	
 	@GetMapping("/board/insert")
-	public void boardInsertView(Model model) {
-		
+	public void boardInsertView(@RequestParam("category_no") String category_no, Model model) {
+		model.addAttribute("totalCategory", boardService.getTotalCategory());
+		model.addAttribute("category_no", category_no);
 	}
 	
 	@PostMapping("/board/insert")

@@ -53,11 +53,12 @@
     <div class="login-container">
         <h2>굿 로그인</h2>
         <div>
-            <form action="login" method="post">
+           <form id="loginForm" action="login" method="post">
                 <input type="text" class="form-control" placeholder="아이디" name="mid" required>
                 <input type="password" class="form-control" placeholder="비밀번호" name="password" required>
                 <button type="submit" class="login-button">로그인하기</button>
                 <label for="autoLogin">자동 로그인</label><input type="checkbox" id="autoLogin" name="auto_login_check">
+                <input type="hidden" id="redirectField" name="redirect" value="">
             </form>
         </div>
         <div>
@@ -66,5 +67,11 @@
             <a href="register" >회원가입</a>
         </div>
     </div>
+    <script>
+    document.getElementById('loginForm').onsubmit = function() {
+        const redirectParam = "<%= request.getParameter("redirect") %>";
+        document.getElementById('redirectField').value = redirectParam || '';
+    };
+</script>
 </body>
 </html>
