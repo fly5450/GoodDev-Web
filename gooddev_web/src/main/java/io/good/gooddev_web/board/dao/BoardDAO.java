@@ -1,13 +1,16 @@
 package io.good.gooddev_web.board.dao;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+
 import io.good.gooddev_web.board.vo.BoardCategoryVO;
 import io.good.gooddev_web.board.vo.BoardVO;
+import io.good.gooddev_web.member.dto.MemberDTO;
 import io.good.gooddev_web.search.dto.PageRequestDTO;
 
 @Repository

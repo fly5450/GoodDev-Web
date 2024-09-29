@@ -21,7 +21,25 @@
 </head>
 <body>
 	<div>
-		<h1>여기가 공지사항이 들어갈 부분</h1>
+		<table border="1" style="width: 100%; border-collapse: collapse;">
+	        <thead>
+	            <tr>
+	                <th>번호</th>
+	                <th>제목</th>
+	                <th>작성자</th>
+	                <th>작성일</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <c:forEach var="notice" items="${pageResponseDTO.getList()}">
+	                <tr>
+	                    <td>${notice.bno}</td>
+	                    <td><a href="/gooddev_web/admin/noticeDetail/${notice.bno}">${notice.title}</a></td>
+	                    <td>${notice.mid}</td>
+	                </tr>
+	            </c:forEach>
+        	</tbody>
+    	</table>
 	</div>
 </body>
 </html>
