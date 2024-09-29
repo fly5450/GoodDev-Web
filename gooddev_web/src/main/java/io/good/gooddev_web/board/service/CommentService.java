@@ -39,6 +39,9 @@ public class CommentService {
 	}
 	
 	public List<CommentDTO> getNotNullCommentByBnoAndCno(int bno, int cno) {
+		log.info("getNotNullCommentByBnoAndCno called with bno: " + bno + ", cno: " + cno);
+		List<CommentVO> comments = commentDAO.notNullCommentList(bno, cno);
+	    log.info("NotNull Comment List: " + comments);
 		return commentDAO.notNullCommentList(bno, cno).stream().map(comment -> mapper.map(comment, CommentDTO.class)).collect(Collectors.toList());
 	}
 	

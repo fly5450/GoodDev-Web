@@ -25,4 +25,5 @@ public class CommentController {
 		commentService.insert(mapper.map(commentDTO, CommentVO.class));
 		return "redirect:/board/read?bno=" + commentDTO.getBno() + "&" + pageRequestDTO.getLink();
 	}
+	
 }

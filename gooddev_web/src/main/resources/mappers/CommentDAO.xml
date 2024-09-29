@@ -12,7 +12,7 @@
 	</insert>
 
 	<select id="notNullCommentList" resultType="io.good.gooddev_web.board.vo.CommentVO">
-		select * from good_comment where bno = #{bno, jdbcType=NUMERIC} and parent_cno = #{cno, jdbcType=NUMERIC}} and parent_cno is not null order by cno asc
+		select * from good_comment where bno = #{bno} and parent_cno = #{cno, jdbcType=NUMERIC} order by cno asc
 	</select>
 	
 	<select id="getComment" resultType="io.good.gooddev_web.board.vo.CommentVO">

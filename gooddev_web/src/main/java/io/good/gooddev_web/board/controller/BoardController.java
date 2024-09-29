@@ -45,13 +45,16 @@ public class BoardController {
 	}
 	
 	@GetMapping("/board/read")
-	public void boardRead(@RequestParam int bno, int cno ,PageRequestDTO pageRequestDTO, Model model) {
+	public void boardRead(@RequestParam int bno, PageRequestDTO pageRequestDTO, Model model) {
+		log.info("bno : " + bno);
 		boardService.viewCount(bno);
 		List<CommentDTO> commentAllByBno = commentService.getCommentByBno(bno);
-		List<CommentDTO> notNullCommentByBnoAndCno = commentService.getNotNullCommentByBnoAndCno(bno, cno);
-	    model.addAttribute("board", boardService.getRead(bno));
-	    model.addAttribute("commentAllByBno", commentAllByBno);
-	    model.addAttribute("cocomment",notNullCommentByBnoAndCno);
+		model.addAttribute("board", boardService.getRead(bno));
+		model.addAttribute("commentAllByBno", commentAllByBno);
+		for (CommentDTO comment : commentAllByBno) {
+	        List<CommentDTO> cocomment = commentService.getNotNullCommentByBnoAndCno(bno, comment.getCno());
+	        comment.setCocomment(cocomment);
+	    }
 	}
 	
 	@GetMapping("/board/update")
