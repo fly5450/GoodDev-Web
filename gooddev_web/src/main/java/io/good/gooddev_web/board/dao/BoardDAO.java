@@ -31,4 +31,5 @@ public interface  BoardDAO {
     int getHateCount(int bno);
     List<BoardVO> topTenList();
     int update(BoardVO boardVO);
+    int delete(int bno);
 }

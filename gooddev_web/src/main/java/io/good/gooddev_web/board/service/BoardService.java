@@ -169,6 +169,10 @@ public class BoardService {
 	}
 
     public int update(final BoardVO boardVO) {
-    	return boardDAO.insert(boardVO);
+    	return boardDAO.update(boardVO);
+    }
+    
+    public int delete(int bno) {
+    	return boardDAO.delete(bno);
     }
 }
