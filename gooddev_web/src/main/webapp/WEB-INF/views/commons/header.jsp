@@ -17,5 +17,6 @@
                 </form>
             </div>
         </div>
+        <%@ include file="/WEB-INF/views/commons/minilogin.jsp" %>
     </div>
 </header>

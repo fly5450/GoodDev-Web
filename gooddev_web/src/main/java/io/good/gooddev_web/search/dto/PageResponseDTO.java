@@ -23,6 +23,7 @@ public class PageResponseDTO<T> {
 	
 	private List<T> list;
 	
+	
 	public PageResponseDTO(PageRequestDTO pageRequest,List<T> list, int total){
 		this.page = pageRequest.getPage();
 		this.size = pageRequest.getSize();

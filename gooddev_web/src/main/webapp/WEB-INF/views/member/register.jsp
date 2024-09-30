@@ -134,7 +134,6 @@
         <!-- Footer -->
         <%@ include file="/WEB-INF/views/commons/footer.jsp" %>
     </div>
-
     <script src="<c:url value='/resources/js/register.js'/>"></script>
 </body>
 </html>
