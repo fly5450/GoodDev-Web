@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>네이버 로그인</title>
+    <title>굿이야 로그인</title>
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
         rel="stylesheet"
@@ -35,14 +35,14 @@
             width: 100%; /* 버튼 너비를 가득 채움 */
             padding: 15px; /* 버튼 패딩 */
             font-size: 18px; /* 버튼 글자 크기 */
-            background-color: #0eb4fc; /* 네이버 초록색 */
+            background-color: #0eb4fc; /* 파란색으로 변경 */
             color: white; /* 글자 색상 */
             border: none; /* 테두리 제거 */
             border-radius: 5px; /* 모서리 둥글게 */
             cursor: pointer; /* 커서 변경 */
         }
         .login-button:hover {
-            background-color: #18B600; /* 호버 시 색상 변경 */
+            background-color: #0c9ce0; /* 호버 시 색상 변경 */
         }
         .form-control {
             margin-bottom: 15px; /* 입력창 사이 여백 */

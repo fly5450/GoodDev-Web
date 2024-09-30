@@ -78,6 +78,18 @@ public class BoardController {
 		model.addAttribute("board", boardService.getRead(bno));
 	}
 	
+	@PostMapping("/board/update")
+	public String update(BoardDTO boardDTO, PageRequestDTO pageRequestDTO) {
+		boardService.update(mapper.map(boardDTO, BoardVO.class));
+		return "redirect:/board/list?" + pageRequestDTO.getLink();
+	}
+	
+	@GetMapping("/board/delete")
+	public String delete(int bno, PageRequestDTO pageRequestDTO) {
+		boardService.delete(bno);
+		return "redirect:/board/list?" + pageRequestDTO.getLink();
+	}
+	
 	@GetMapping("/board/insert")
 	public void boardInsertView(@RequestParam("category_no") String category_no, Model model) {
 		model.addAttribute("totalCategory", boardService.getTotalCategory());
@@ -85,12 +97,12 @@ public class BoardController {
 	}
 	
 	@PostMapping("/board/insert")
-	public String boardInsert(BoardDTO boardDTO, Model model, MemberDTO memberDTO) {
+	public String boardInsert(BoardDTO boardDTO, Model model, MemberDTO memberDTO, PageRequestDTO pageRequestDTO) {
 		try{
 			int result = boardService.insert(mapper.map(boardDTO, BoardVO.class));
 			return "redirect:/board/read?bno="+result;
 		}catch(Exception e){
-			return "redirect:/board/list";
+			return "redirect:/board/list?" + pageRequestDTO.getLink();
 		}
 	}
 

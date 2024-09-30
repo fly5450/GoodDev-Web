@@ -28,6 +28,7 @@
 	 <!-- 컴포넌트 스캔 설정 -->
 	<context:component-scan base-package="io.good.gooddev_web" />
 	
+	<!-- 파일 업로드 설정 -->
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<!-- 업로드 가능한 파일의 최대 크기 설정 (10MB) -->
 		<beans:property name="maxUploadSize" value="10485760" />
@@ -38,7 +39,7 @@
 		<!--메모리 제한-->
 		<beans:property name="maxInMemorySize" value="1000000"/>
 	</beans:bean>
-
+	<!-- 예외처리 설정 -->
 	<beans:bean class="io.good.gooddev_web.common.GlobalExceptionHandler" />
 
 	<!--업로드저장경로를 접근방지를 위해 xml에서설정-->

@@ -227,6 +227,12 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>2.13.5</version>
 		</dependency>
+		<!-- ResourceNotFoundException 사용을 위한 라이브러리-->
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity-engine-core</artifactId>
+			<version>2.3</version>
+		</dependency>
 	</dependencies>
     <build>
     	<finalName>gooddev_web</finalName>

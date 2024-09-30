@@ -37,6 +37,7 @@
 			<![CDATA[
 			rnum > #{skip}
 			AND rnum <= #{skip} + #{size}
+			AND deleteyn = 'N'
 			]]>
 		</where>
 		ORDER BY bno DESC
@@ -45,6 +46,7 @@
 	<select id="getTotalCount" resultType="int">
 		select count(*) from
 		good_board
+		where deleteyn = 'N'
 		<include refid="search"/>
 	</select>
 
@@ -121,9 +123,18 @@
 		SELECT *
 		FROM good_board
 		WHERE like_cnt > 0
+		and deleteyn = 'N'
 		ORDER BY like_cnt DESC
 		)
 		WHERE ROWNUM &lt; 10
 	</select>
-
+	
+	<update id="update">
+		update good_board set title = #{title}, content = #{content} where bno = #{bno}
+	</update>
+	
+	<update id="delete">
+		update good_board set deleteyn = 'Y' where bno = #{bno}
+	</update>
+	
 </mapper>

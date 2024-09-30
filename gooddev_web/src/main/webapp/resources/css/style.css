@@ -436,11 +436,30 @@ footer {
     margin-top: 5px;
 }
 
+
 .board-read-content {
     min-height: 50vh;
     margin-bottom: 20px;
     padding: 10px 0;
     border-bottom: 1px solid #ddd;
+
+.board-update-content {
+    min-height: 50vh;                  /* 페이지 절반 이상 차지하도록 설정 */
+    margin-bottom: 20px;               /* 아래쪽 여백 설정 */
+    padding: 10px 0;                   /* 상하 패딩 추가 */
+    border-bottom: 1px solid #ddd;     /* 하단 테두리 설정 */
+    box-sizing: border-box;            /* 패딩과 테두리를 포함하여 전체 너비 계산 */
+}
+
+.board-update-content input {
+    width: 100%;                       /* 전체 너비 사용 */
+    padding: 10px;                     /* 입력 필드 내 여백 추가 */
+    font-size: 18px;                   /* 글자 크기 설정 */
+    color: #333;                       /* 텍스트 색상 설정 */
+    border: none;                      /* 테두리 제거 */
+    background-color: transparent;     /* 배경을 투명하게 설정 */
+    outline: none;                     /* 포커스 시 아웃라인 제거 */
+    box-sizing: border-box;            /* 패딩과 테두리를 포함하여 전체 너비 계산 */
 }
 
 .board-read-info {
@@ -470,6 +489,93 @@ footer {
     background-color: #0056b3;
 }
 
+=
+.board-update-container {
+    flex-grow: 6;
+    margin: 0 10px;	
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.board-update-header {
+    border-bottom: 2px solid #333; /* 제목과 작성자, 일시 그룹에 밑줄 추가 */
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    position: relative; /* 작성일시를 오른쪽으로 배치하기 위한 설정 */
+}
+
+input.board-update-title {
+    color: #333;                      /* 텍스트 색상 */
+    margin: 0;                        /* 외부 여백 설정 */
+    font-size: 24px;                  /* 글자 크기 설정 */
+    font-weight: bold;                /* h1과 같은 굵기 설정 */
+    border: none;                     /* 입력 필드의 테두리 제거 */
+    width: 100%;                      /* 전체 너비 사용 */
+    padding: 0;                       /* 입력 필드 내 여백 제거 */
+    outline: none;                    /* 포커스 시 생기는 아웃라인 제거 */
+    background-color: transparent;    /* 배경을 투명하게 설정 */
+    line-height: 1.2;                 /* 줄 높이 설정 */
+}
+
+
+.board-update-meta {
+    display: flex;
+    justify-content: space-between; /* 작성자와 작성일시를 한 줄로 배치 */
+    align-items: center; /* 작성자와 일시를 같은 높이에 맞춤 */
+    font-size: 14px;
+    color: #666;
+    margin-top: 5px; /* 제목과 약간의 간격 추가 */
+}
+
+.board-update-date {
+    font-size: 14px;
+    color: #666;
+}
+
+.board-update-author {
+    align-self: flex-start; /* 작성자가 제목 아래에 자연스럽게 위치하도록 설정 */
+    margin-top: 5px;
+}
+
+.board-update-content {
+    width: 100%;                       /* 전체 너비 사용 */
+    padding: 10px;                     /* 입력 필드 내 여백 추가 */
+    font-size: 18px;                   /* 글자 크기 설정 */
+    color: #333;                       /* 텍스트 색상 설정 */
+    border: none;                      /* 테두리 제거 */
+    background-color: transparent;     /* 배경을 투명하게 설정 */
+    outline: none;                     /* 포커스 시 아웃라인 제거 */
+    box-sizing: border-box;     
+}
+
+.board-update-info {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* 요소 간의 간격 조정 */
+    margin-top: 10px;
+}
+
+.board-update-label {
+    font-weight: bold;
+    display: inline-block;
+}
+
+.board-update-button {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+}
+
+.board-update-button:hover {
+    background-color: #0056b3;
+}
 .attachment-item {
     margin-top: auto;
     margin-bottom: 10px;

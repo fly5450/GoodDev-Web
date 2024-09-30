@@ -4,14 +4,18 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import io.good.gooddev_web.board.dao.BoardDAO;
@@ -60,7 +64,8 @@ public class BoardService {
 
     public PageResponseDTO<BoardDTO> getList(PageRequestDTO pageRequestDTO) {
 		List<BoardDTO> getList = boardDAO.getList(pageRequestDTO).stream().map(board -> mapper.map(board, BoardDTO.class)).collect(Collectors.toList());
-		return new PageResponseDTO(pageRequestDTO, getList, boardDAO.getTotalCount(pageRequestDTO));
+		//return new PageResponseDTO(pageRequestDTO, getList, boardDAO.getTotalCount(pageRequestDTO));
+        return new PageResponseDTO<BoardDTO>(pageRequestDTO, getList, boardDAO.getTotalCount(pageRequestDTO));
 	}
     
 	public int remove(long mid) {
@@ -159,7 +164,15 @@ public class BoardService {
                 boardDTO.setBoardFileDTOList(boardFileDAO.getList(boardDTO.getBno()).stream().map(file->mapper.map(file, BoardFileDTO.class)).collect(Collectors.toList()));
             }
         }
-		return new PageResponseDTO(pageRequestDTO, getList, boardDAO.getTotalCount(pageRequestDTO));
+		//return new PageResponseDTO(pageRequestDTO, getList, boardDAO.getTotalCount(pageRequestDTO));
+        return new PageResponseDTO<BoardDTO>(pageRequestDTO, getList, boardDAO.getTotalCount(pageRequestDTO));
 	}
 
+    public int update(final BoardVO boardVO) {
+    	return boardDAO.update(boardVO);
+    }
+    
+    public int delete(int bno) {
+    	return boardDAO.delete(bno);
+    }
 }
