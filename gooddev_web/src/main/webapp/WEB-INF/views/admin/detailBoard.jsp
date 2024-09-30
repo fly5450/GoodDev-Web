@@ -1,11 +1,9 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>    
-<!DOCTYPE html>
+	pageEncoding="UTF-8"%>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>관리자페이지(공지사항 상세보기) - goodDev</title>
+<title>관리자 페이지(게시글 상세보기) - goodDev</title>
 
 		<!-- Bootstrap 5를 위한 외부 라이브러리 설정 -->
 		<link
@@ -17,15 +15,9 @@
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 		crossorigin="anonymous"></script>
-		
-		<!-- 사용자 정의 자바스크립트 -->
-		<script>
-		
-		</script>
 </head>
 <body>
-
-	<h1>공지사항 상세</h1>
+	<h1>Board Read</h1>
 	<div style="text-align: right; margin: 10px;">
 	    <form action="<c:url value='/logout' />" method="post">
 	        <button type="submit">로그아웃</button>
@@ -34,6 +26,11 @@
 	<div>
 		<h3>
 			<span>게시판 번호 : </span> <span id="bno">${board.bno}</span>
+		</h3>
+	</div>
+	<div>
+		<h3>
+			<span>아이디 : </span> <span>${board.mid}</span>
 		</h3>
 	</div>
 	<div>
@@ -56,8 +53,17 @@
 			<span>조회수: </span> <span>${board.view_cnt}</span>
 		</h3>
 	</div>
+	<div>
+		<h3>
+			<span>좋아요: </span> <span id="likeCount">${board.like_cnt}</span>
+		</h3>
+	</div>
+	<div>
+		<h3>
+			<span>싫어요: </span> <span id="hateCount">${board.hate_cnt}</span>
+		</h3>
+	</div>
 	<a href="${pageContext.request.contextPath}/admin/boardList?${pageRequestDTO.link}">뒤로가기</a>
-	<a href="${pageContext.request.contextPath}/admin/updateNoticeForm?${pageRequestDTO.link}">수정</a>
 	<a href="${pageContext.request.contextPath}/admin/remove?bno=${board.bno}&${pageRequestDTO.link}">삭제</a>
 	<a href="${pageContext.request.contextPath}/admin/boardList?${pageRequestDTO.link}">목록</a>
 
@@ -106,6 +112,5 @@
 	        </div>
 	    </div>
 	</div>
-	
 </body>
 </html>

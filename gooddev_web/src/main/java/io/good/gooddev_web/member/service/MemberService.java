@@ -64,7 +64,7 @@ public class MemberService {
      */
     private void updateMemberFields(MemberVO currentMember, MemberVO modifyMember) {
         if (modifyMember.getPassword() != null) currentMember.setPassword(modifyMember.getPassword());
-        if (modifyMember.getMemberName() != null) currentMember.setMemberName(modifyMember.getMemberName());
+        if (modifyMember.getMember_name() != null) currentMember.setMember_name(modifyMember.getMember_name());
         if (modifyMember.getNickname() != null) currentMember.setNickname(modifyMember.getNickname());
         if (modifyMember.getPhone() != null) currentMember.setPhone(modifyMember.getPhone());
         if (modifyMember.getEmail() != null) currentMember.setEmail(modifyMember.getEmail());

@@ -27,7 +27,7 @@ public class MemberVO {
     private String password; // 비밀번호
     
     @NotEmpty(message = "회원명은 필수입니다.")
-    private String memberName; // 회원명(실명)
+    private String member_name; // 회원명(실명)
     
     @NotEmpty(message = "닉네임은 필수입니다.")
     private String nickname; // 닉네임
@@ -50,7 +50,7 @@ public class MemberVO {
     public MemberVO(MemberDTO member) {
         this.mid = member.getMid();
         this.password = member.getPassword();
-        this.memberName = member.getMemberName();
+        this.member_name = member.getMember_name();
         this.nickname = member.getNickname(); //
         this.phone = member.getPhone();
         this.email = member.getEmail();
