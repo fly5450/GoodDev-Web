@@ -139,14 +139,14 @@ public class BoardController {
 		String mid = member.getMid();
 	    if (mid != null) {
 	        // 싫어요 상태 확인
-	        boolean hasLiked = boardService.hasUserLiked(bno, mid);
+	        boolean hasHated = boardService.hasUserHated(bno, mid);
 
-	        if (hasLiked) {
+	        if (hasHated) {
 	            // 이미 싫어요를 누른 경우 -> 취소 (DELETEYN 'Y' 처리)
-	            boardService.cancelLike(bno, mid);
+	            boardService.cancelHate(bno, mid);
 	        } else {
 	            // 싫어요를 누르지 않은 경우 -> 추가 (DELETEYN 'N' 처리)
-	            boardService.addLike(bno, mid);
+	            boardService.addHate(bno, mid);
 	        }
 
 	        // 최신 싫어요 수 반환

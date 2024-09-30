@@ -126,15 +126,31 @@ public class BoardService {
             boardDAO.updateLikeCount(bno, 1);
         }
     }
+    
+    public void addHate(final int bno, String mid) {
+    	if (!boardDAO.existsHate(mid, bno)) {
+    		boardDAO.insertHate(mid, bno, 0);
+    		boardDAO.updateHateCount(bno, 1);
+    	}
+    }
 
     public void cancelLike(int bno, String mid) {
-        // 좋아요가 있으면 취소 (DELETEYN 'Y' 설정 및 like_board 0)
+        // 좋아요가 있으면 취소 (DELETEYN 'Y' 설정 및 like_board null)
         boardDAO.updateDeleteYN(mid, bno, 'Y');
         boardDAO.updateLikeCount(bno, -1);
+    }
+    
+    public void cancelHate(int bno, String mid) {
+    	boardDAO.updateDeleteYN(mid, bno, 'Y');
+    	boardDAO.updateHateCount(bno, -1);
     }
 
     public boolean hasUserLiked(int bno, String mid) {
         return boardDAO.existsLike(mid, bno);
+    }
+    
+    public boolean hasUserHated(int bno, String mid) {
+    	return boardDAO.existsHate(mid, bno);
     }
     
     public int getLikeCount(int bno) {

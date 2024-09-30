@@ -32,7 +32,7 @@
 	</bean>
 	
 	<bean id="uploadPath" class="java.lang.String">
-		<constructor-arg value="C:\uploads\gooddev_web\"/>
+		<constructor-arg value="C:/uploads/gooddev_web/"/>
 	</bean>
 
   <mybatis:scan base-package="io.good.gooddev_web.board.dao"/>
