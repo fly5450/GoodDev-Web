@@ -297,7 +297,7 @@
         <ul>
             <li>파일 업로드 설정 및 저장 로직 구현</li>
             <li>파일 다운로드 기능 구현</li>
-            <li>로그인/로그아웃 기능 구현 (Spring Security)</li>
+            <li>로그인/로그아웃 기능 구현 (Spring Security 사용 X)</li>
         </ul>
     </li>
     <li><strong>프론트엔드</strong>:
@@ -359,12 +359,7 @@
     </li>
     <li><strong>통합 테스트</strong>:
         <ul>
-            <li>Spring Boot의 MockMvc 활용</li>
-        </ul>
-    </li>
-    <li><strong>버그 트래킹</strong>:
-        <ul>
-            <li>GitHub Issues 활용하여 버그 관리</li>
+            <li>2주차 - 9월 2일 통합테스트 </li>
         </ul>
     </li>
 </ul>
