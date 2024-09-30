@@ -64,7 +64,7 @@
                 <div class = "comment-section">
                     <h1>Comment</h1>
                     <c:forEach var="comment" items="${comments}">
-                    <div class="comment">
+                    <div class="comment" id="comment" data-cno="${comment.cno}">
                         <div class="comment-header">
                             <span class="comment-author">${comment.mid}</span>
                         </div>
@@ -72,14 +72,17 @@
                         ${comment.comment_content}
                         </div>
                         <div class="comment-actions">
-                            <button class="reply-button">답글보기</button>
+                            <button class="reply-button" onclick="cocomment('${comment.bno}','${comment.cno}')">답글보기</button>
+                            <div id="cocomments_${comment.cno}" style="display: none;">
+                            
+                            </div>
                         </div>
                     </div>
                     </c:forEach>
                                           
                     <h5>댓글 작성</h5>
                      <div class="comment-form">
-                        <form action="comment/insert" method="post">
+                        <form action="${pageContext.request.contextPath}/comment/insert" method="post">
                             <input type="hidden" name="bno" value="${board.bno}">
                             <input type="hidden" name="mid" value="${board.mid}">
                             <input type="hidden" name="link" value="${param.link}">
@@ -116,6 +119,7 @@
                 }
             }
         }
+
 		function handleLikeHate(action) {
             const isLoggedIn = <%= request.getSession().getAttribute("loginInfo") != null %>;
 
@@ -147,11 +151,45 @@
             });
         }
 
-        function insertCocomment(cno) {
+        function cocomment(bno,cno) {
+            const url = "<%= request.getContextPath() %>/comment/cocomment";
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'bno=' + bno + '&cno=' + cno
+
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const cocomments = data.cocomments;
+                const cocommentsDiv = document.getElementById("cocomments_" + cno);
+                cocommentsDiv.innerHTML = '';
+                cocomments.forEach(cocomment => {
+                     const commentItem = 
+                        '<div class="comment-item">' +
+                        '<p>작성자: ' + cocomment.mid + '</p>' +
+                        '<p>내용: ' + cocomment.comment_content + '</p>' +
+                    '</div>';
+
+                    cocommentsDiv.innerHTML += commentItem;
+                });
+
+                // 데이터를 출력한 후에 div의 display 스타일을 변경
+                cocommentsDiv.style.display = 'block';
+            });
+        }
+
+        function insertCocomment(bno,cno) {
             const replyContent = document.querySelector(`input[placeholder="대댓글 내용"]`).value;
             const bno = parseInt(document.getElementById('bno').textContent);
-            const url = "<%= request.getContextPath() %>/comment/cocomment"; // 대댓글을 위한 URL
-            
+            const url = "<%= request.getContextPath() %>/comment/insert"; // 대댓글을 위한 URL
             fetch(url, {
                 method: 'POST',
                 headers: {
@@ -166,8 +204,6 @@
                 return response.json(); 
             })
             .then(data => {
-                // 대댓글 추가 후 UI 업데이트 필요
-                console.log(data);
             });
         }
 	</script>

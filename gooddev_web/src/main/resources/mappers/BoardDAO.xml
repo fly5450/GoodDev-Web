@@ -17,6 +17,7 @@
 			<if test="category_no != null and category_no.length >0">
 				<trim prefix="and"> category_no = #{category_no} </trim>
 			</if>
+			<trim prefix="and">deleteyn = 'N'</trim>
 		</where>
 	</sql>
 
@@ -46,7 +47,6 @@
 	<select id="getTotalCount" resultType="int">
 		select count(*) from
 		good_board
-		where deleteyn = 'N'
 		<include refid="search"/>
 	</select>
 

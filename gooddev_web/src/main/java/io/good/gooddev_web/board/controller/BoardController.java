@@ -61,7 +61,7 @@ public class BoardController {
 	@GetMapping("/board/read")
 	public void boardRead(@RequestParam int bno,@RequestParam String link,Model model) {
 		boardService.viewCount(bno);
-		CommentVO commentVO = new CommentVO(bno);
+		CommentVO commentVO = new CommentVO(String.valueOf(bno));
 
 		List<CommentDTO> commentAllByBno = commentService.getList(commentVO);
 		 if (link != null) {

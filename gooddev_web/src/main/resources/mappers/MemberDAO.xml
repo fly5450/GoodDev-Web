@@ -23,7 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </select>
 
 <!-- 회원 상세조회 (활성화된 회원) -->
-<select id="getReadMember_Optional" resultType="io.good.gooddev_web.member.vo.MemberVO">
+<select id="getRead" resultType="io.good.gooddev_web.member.vo.MemberVO">
     SELECT *
     FROM good_member
     WHERE mid = #{mid} AND deleteYn = 'N'
