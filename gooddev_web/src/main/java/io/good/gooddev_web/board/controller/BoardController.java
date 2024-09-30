@@ -82,7 +82,13 @@ public class BoardController {
 	@PostMapping("/board/update")
 	public String update(BoardDTO boardDTO, PageRequestDTO pageRequestDTO) {
 		boardService.update(mapper.map(boardDTO, BoardVO.class));
-		return "redirect:/board/read?bno=" + boardDTO.getBno() + "&" +pageRequestDTO.getLink();
+		return "redirect:/board/list?" + pageRequestDTO.getLink();
+	}
+	
+	@GetMapping("/board/delete")
+	public String delete(int bno, PageRequestDTO pageRequestDTO) {
+		boardService.delete(bno);
+		return "redirect:/board/list?" + pageRequestDTO.getLink();
 	}
 	
 	@GetMapping("/board/insert")
