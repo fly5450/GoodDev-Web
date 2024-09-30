@@ -57,11 +57,9 @@ public class MemberService {
         return 0;
     }
 
-    /**
-     * 회원 정보 필드를 업데이트합니다.
-     * @param currentMember 현재 회원 정보
-     * @param modifyMember 수정할 회원 정보
-     */
+   
+     // 회원 정보 필드를 업데이트합니다.
+     // @param currentMember 현재 회원 정보 / @param modifyMember 수정할 회원 정보
     private void updateMemberFields(MemberVO currentMember, MemberVO modifyMember) {
         if (modifyMember.getPassword() != null) currentMember.setPassword(modifyMember.getPassword());
         if (modifyMember.getMemberName() != null) currentMember.setMemberName(modifyMember.getMemberName());
@@ -70,23 +68,18 @@ public class MemberService {
         if (modifyMember.getEmail() != null) currentMember.setEmail(modifyMember.getEmail());
     }
 
-    /**
-     * 새 회원을 등록합니다.
-     * @param member 등록할 회원 정보
-     * @return 처리 결과 (성공: 1, 실패: 0)
-     */
+    //새 회원을 등록합니다.
+    //@param member 등록할 회원 정보 / @return 처리 결과 (성공: 1, 실패: 0)
     public int register(final MemberVO member) {
         int result = memberDAO.register(member);
         log.info("회원가입 처리: ID = {}, 결과 = {}", member.getMid(), result);
         return result;
     }
 
-    /**
-     * 이메일로 회원 ID를 찾습니다.
-     * @param email 이메일 주소
-     * @return 찾은 회원 ID, 없으면 null
-     */
-    public String findIdByEmail(String email) {
+    
+     // 이메일로 회원 ID를 찾습니다.
+     // @param email 이메일 주소 / @return 찾은 회원 ID, 없으면 null
+     public String findIdByEmail(String email) {
         String foundId = memberDAO.findIdByEmail(email);
         log.info("아이디 찾기: 이메일 = {}, 결과 = {}", email, foundId != null ? "성공" : "실패");
         return foundId;

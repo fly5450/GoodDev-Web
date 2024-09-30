@@ -36,9 +36,7 @@ public class LoginFilter implements Filter {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         
         String requestURI = httpRequest.getRequestURI();
-    
         String contextPath = httpRequest.getContextPath();
-        
         String relativeURI = requestURI.substring(contextPath.length());
         
         // 현재 세션을 가져오고 세션이 없으면 null을 반환한다.
@@ -56,12 +54,10 @@ public class LoginFilter implements Filter {
             String encodedURI = URLEncoder.encode(relativeURI, "UTF-8");
             
             String redirectUrl = httpRequest.getContextPath() + "/member/login?redirect=" + encodedURI;
-        
             // 리다이렉트
             httpResponse.sendRedirect(redirectUrl);
             return;
         }
-        
         // 로그인 체크를 통과하거나 필요없는 경우, 다음 필터 또는 서블릿으로 요청을 전달
         chain.doFilter(request, response);
     }
@@ -73,8 +69,8 @@ public class LoginFilter implements Filter {
                requestURI.equals("/gooddev_web/member/updateMember") || //회원 정보 수정 페이지
                requestURI.equals("/gooddev_web/member/myBoardList") || //내가 쓴 게시글 목록 페이지
                requestURI.equals("/gooddev_web/member/removeMember") || //회원 탈퇴 페이지
-               requestURI.startsWith("/gooddev_web/member/myPage") || //myPage 하위 경로 포함
-               requestURI.startsWith("/gooddev_web/admin/"); //admin 하위 경로 포함
+               requestURI.startsWith("/gooddev_web/member/myPage") || //마이페이지 하위 경로 포함
+               requestURI.startsWith("/gooddev_web/admin/"); //관리자페이지 하위 경로 포함
     }
 
     // 필터 종료 메서드
