@@ -59,6 +59,7 @@
 				<div style="margin-top: 20px;">
 					<a href="list?&${link}">돌아가기</a>
 					<a href="update?bno=${board.bno}&${pageRequestDTO.link}">수정</a>
+					<a href="delete?bno=${board.bno}&${pageRequestDTO.link}">삭제</a>
 				</div>
                 <div class = "comment-content">
                     <h1>Comment</h1>
