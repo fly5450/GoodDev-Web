@@ -16,7 +16,7 @@ public class CommentDTO {
 	private int cno;
 	private String mid;
 	private String comment_content;
-	private int bno;
-	private int parent_cno;
+	private String bno;
+	private String parent_cno;
 	private String deleteYn;
 }

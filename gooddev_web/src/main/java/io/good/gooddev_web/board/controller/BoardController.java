@@ -62,7 +62,6 @@ public class BoardController {
 	public void boardRead(@RequestParam int bno,@RequestParam String link,Model model) {
 		boardService.viewCount(bno);
 		CommentVO commentVO = new CommentVO(String.valueOf(bno));
-
 		List<CommentDTO> commentAllByBno = commentService.getList(commentVO);
 		 if (link != null) {
 			link = URLDecoder.decode(link, StandardCharsets.UTF_8);

@@ -10,15 +10,19 @@
 			<if test="bno != null and bno.length >0">
 				bno = #{bno}
 			</if>
-			<if test="cno != null and cno.length >0">
-				<trim prefix="and"> parent_cno = #{cno} </trim>
+			<if test="parent_cno != null and parent_cno.length >0">
+				<trim prefix="and"> parent_cno = #{parent_cno} </trim>
 			</if>
 		</where>
 	</select>
 
 	
-	<insert	id="insert">
-		insert into good_comment (cno, mid, comment_content, bno) values (cno_sequence.NEXTVAL, #{mid, jdbcType=VARCHAR}, #{comment_content, jdbcType=VARCHAR}, #{bno, jdbcType=NUMERIC})
+	<insert id="insert" parameterType="io.good.gooddev_web.board.vo.CommentVO">
+		<selectKey keyProperty="cno" resultType="int" order="BEFORE">
+			SELECT cno_sequence.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO good_comment (cno, mid, comment_content, bno, parent_cno)
+		VALUES (#{cno}, #{mid, jdbcType=VARCHAR}, #{comment_content, jdbcType=VARCHAR}, #{bno, jdbcType=NUMERIC}, #{parent_cno, jdbcType=NUMERIC})
 	</insert>
 
 </mapper>
