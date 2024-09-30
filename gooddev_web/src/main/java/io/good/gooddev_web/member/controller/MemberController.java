@@ -182,9 +182,8 @@ public class MemberController {
 						cookie.setMaxAge(60 * 10);
 						response.addCookie(cookie);
                         try {
-                            String decodedLink = URLDecoder.decode(link, "UTF-8");
-                            log.info(decodedLink);
-                            return "redirect:"+(link != null ? decodedLink : "");
+                            String decodedLink = URLDecoder.decode(link, "UTF-8");;
+                            return "redirect:"+(link != null ? decodedLink : "/");
                         } catch (UnsupportedEncodingException e) {
                             e.printStackTrace();
                         }
@@ -205,11 +204,10 @@ public class MemberController {
             String password = request.getParameter("password");
             String auto_login_check = request.getParameter("auto_login_check");
             String link = request.getParameter("redirect");
+            log.info("로그는 "+link);
             if (auto_login_check == null) auto_login_check = "false";
-            
             MemberDTO inMember = new MemberDTO(mid, password);
             MemberDTO member = memberService.login(mapperUtil.map(inMember, MemberVO.class), auto_login_check);
-            
             if (member != null) {
                 if (auto_login_check.equals("on")) {
                     Cookie cookie = new Cookie("autoLoginTrue", member.getAuto_Login());
@@ -218,21 +216,10 @@ public class MemberController {
                     response.addCookie(cookie);
                 }
                 session.setAttribute("loginInfo", member);
-                
-                if (link != null && !link.isEmpty()) {
-                    
-                    String decodedLink = URLDecoder.decode(link, "UTF-8");
-                    log.info(decodedLink);
-                    return "redirect:" + decodedLink;
-                } else {
-                    return "redirect:/";
-                }
+                return "redirect:"+(link != null&&!link.equals("null") ? URLDecoder.decode(link, "UTF-8") : "/");
+
             } else {
-                if (link != null && !link.isEmpty()) {
-                    return "redirect:login?error=error&redirect=" + link;
-                } else {
-                    return "redirect:/";
-                }
+                return "redirect:login?error=error&redirect=" + (link != null && !link.equals("null")? URLDecoder.decode(link, "UTF-8") : "/");
             }
         } catch (Exception e) {
             e.printStackTrace(); // 로그에 오류 기록

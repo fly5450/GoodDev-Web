@@ -272,6 +272,7 @@ footer {
 .dropdown-item {
     padding: 10px 20px;        /* 드롭다운 아이템 여백 */
     color:white;
+    white-space: nowrap;
 }
 
 .menu-item:hover .dropdown {
