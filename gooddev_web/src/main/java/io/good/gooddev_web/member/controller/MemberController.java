@@ -112,30 +112,30 @@ public class MemberController {
    
       //---------------- 아이디/비밀번호 찾기 ------------------
     // 아이디 찾기 : 사용자가 아이디 찾기 페이지를 요청할 때 호출됨
-    @GetMapping("findId")
+    @GetMapping("findid")
     public String FindIdForm(Model model) {
         model.addAttribute("memberDTO", new MemberDTO());
-        return "member/findId"; // findId.jsp로 이동
+        return "member/findid"; // findid.jsp로 이동
     }
-     // 아이디 찾기 POST : 
-     @PostMapping("findId")
+     //아이디 찾기 POST : 사용자가 아이디 찾기 페이지에서 아이디 찾기 버튼을 클릭했을 때 호출됨
+     @PostMapping("findid")
      public String findIdPost(@RequestParam("email") String email, RedirectAttributes redirectAttributes) {
-         if (!EmailValidator.isValidEmail(email)) {
-             redirectAttributes.addFlashAttribute("message", "유효하지 않은 이메일 형식입니다.");
-             return "redirect:/member/findId";
+         if (!EmailValidator.isValidEmail(email)) // 이메일 유효성 검사
+         {
+             redirectAttributes.addFlashAttribute("message", "유효하지 않은 이메일 형식입니다."); // 유효하지 않은 이메일 형식일 때 메시지 추가
+             return "redirect:/member/findid"; // 아이디 찾기 페이지로 리다이렉트
          }
  
          String findId = memberService.findIdByEmail(email);
          if (findId != null) {
-             redirectAttributes.addFlashAttribute("message", "찾은 아이디: " + IdMasker.maskId(findId));
-             redirectAttributes.addFlashAttribute("mid", findId);
-             redirectAttributes.addFlashAttribute("email", email);
-             return "redirect:/member/login";
-
+             redirectAttributes.addFlashAttribute("message", "찾은 아이디: " + IdMasker.maskId(findId)); // 찾은 아이디를 마스킹하여 메시지에 추가
+             redirectAttributes.addFlashAttribute("mid", findId); // 찾은 아이디를 모델에 추가
+             redirectAttributes.addFlashAttribute("email", email); // 이메일을 모델에 추가  
+             return "redirect:/member/login"; // 로그인 페이지로 리다이렉트
          } else {
-             redirectAttributes.addFlashAttribute("message", "해당 이메일에 등록된 아이디가 없습니다.");
-             redirectAttributes.addFlashAttribute("email", email);
-             return "redirect:/member/findId";
+             redirectAttributes.addFlashAttribute("message", "해당 이메일에 등록된 아이디가 없습니다."); // 이메일에 등록된 아이디가 없을 때 메시지 추가
+             redirectAttributes.addFlashAttribute("email", email); // 이메일을 모델에 추가
+             return "redirect:/member/findId"; // 아이디 찾기 페이지로 리다이렉트
          }
      }
 
@@ -159,6 +159,7 @@ public class MemberController {
         }
 
         Boolean success = memberService.findPwd(mid, email, newPassword);
+         // 비밀번호 재설정 성공 여부 확인
         if (success) {
             redirectAttributes.addFlashAttribute("message", "비밀번호가 성공적으로 재설정되었습니다.");
             redirectAttributes.addFlashAttribute("mid", mid);

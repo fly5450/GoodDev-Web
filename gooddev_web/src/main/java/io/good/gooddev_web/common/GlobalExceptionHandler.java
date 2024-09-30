@@ -20,17 +20,17 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
-
+    
     @ExceptionHandler({
-        Exception.class,   // 일반 예외 / 에러코드 500
-        RuntimeException.class,  // 런타임 예외 / 에러코드 400
-        MethodArgumentNotValidException.class,  // 메서드 인자 유효성 검사 예외 /  에러코드 400
-        HttpMessageNotReadableException.class,  // 메시지 읽기 / 에러코드 400
-        AccessDeniedException.class,  // 접근 권한 / 에러코드 403
-        ResourceNotFoundException.class,  // 리소스 없음 / 에러코드 500
-        DataIntegrityViolationException.class,  // 데이터 제약 조건 위반 / 에러코드 409
-        NoHandlerFoundException.class,  // 요청하신 페이지를 찾을 수 없습니다./에러코드 404 
-        IllegalArgumentException.class  // 잘못된 요청입니다. 입력값을 확인해주세요./ 에러코드 400
+        Exception.class,   // 일반 예외 / 500 - Internal Server Error
+        RuntimeException.class,  // 런타임 예외 / 400 - Bad Request
+        MethodArgumentNotValidException.class,  // 메서드 인자 유효성 검사 예외 /  400 - Bad Request
+        HttpMessageNotReadableException.class,  // 메시지 읽기 / 400 - Bad Request
+        AccessDeniedException.class,  // 접근 권한 / 403 - Forbidden
+        ResourceNotFoundException.class,  // 리소스 없음 / 500 - Internal Server Error
+        DataIntegrityViolationException.class,  // 데이터 제약 조건 위반 / 409 - Conflict
+        NoHandlerFoundException.class,  // 요청하신 페이지를 찾을 수 없습니다./ 404 - Not Found
+        IllegalArgumentException.class  // 잘못된 요청입니다. 입력값을 확인해주세요./ 400 - Bad Request
     })
     public ResponseEntity<ErrorResponse> handleAllExceptions(Exception ex) {
         ExceptionInfo exceptionInfo = getExceptionInfo(ex);
