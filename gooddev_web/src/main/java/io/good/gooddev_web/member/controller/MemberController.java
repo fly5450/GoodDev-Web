@@ -1,6 +1,5 @@
 package io.good.gooddev_web.member.controller;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
 import javax.servlet.http.Cookie;
@@ -175,40 +174,48 @@ public class MemberController {
 
  //---------------- 로그인/로그아웃 ------------------
     //로그아웃
-    @PostMapping("logout")
-    public String logout(HttpSession session) {
+    @RequestMapping("logout")
+    public String logout(HttpServletRequest request,HttpSession session) {
+        try{
+        String link = request.getParameter("redirect");
         MemberDTO member = (MemberDTO) session.getAttribute("loginInfo");
         member.setAuto_Login("");
         memberService.modify_Auto_Login(mapperUtil.map(member, MemberVO.class));
         session.invalidate();
-        return "redirect:/";
+        return "redirect:"+(link != null&&!link.equals("null") ? URLDecoder.decode(link, "UTF-8") : "/");
+        }catch(Exception e){
+            e.getStackTrace();
+            return "redirect:/";
+        }
     }
 
     @GetMapping("login")
-	public String loginGet(HttpServletRequest request, HttpServletResponse response) {
-		if (request.getCookies() != null) {
-			for (Cookie cookie : request.getCookies()) {
-				if (cookie.getName().equals("autoLoginTrue")) {
-					MemberDTO member = memberService.getRead_Auto_Login(cookie.getValue());
-					if (member != null) {
-                        String link = request.getParameter("redirect");
-						HttpSession session = request.getSession();
-						session.setAttribute("mid", member.getMid());
-						session.setAttribute("loginInfo", member);
-						cookie.setMaxAge(60 * 10);
-						response.addCookie(cookie);
-                        try {
-                            String decodedLink = URLDecoder.decode(link, "UTF-8");;
-                            return "redirect:"+(link != null ? decodedLink : "/");
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
+	public String loginGet(HttpServletRequest request, HttpServletResponse response,Model model) {
+        try{
+            String link = request.getParameter("redirect");
+            if (request.getCookies() != null) {
+                for (Cookie cookie : request.getCookies()) {
+                    if (cookie.getName().equals("autoLoginTrue")) {
+                        MemberDTO member = memberService.getRead_Auto_Login(cookie.getValue());
+                        if (member != null) {
+                            HttpSession session = request.getSession();
+                            session.setAttribute("mid", member.getMid());
+                            session.setAttribute("loginInfo", member);
+                            cookie.setMaxAge(60 * 10);
+                            response.addCookie(cookie);
+                            return "redirect:"+(link != null&& !link.equals("null")? URLDecoder.decode(link, "UTF-8") : "/");
                         }
-						return "redirect:/";
-					}
-				}
-			}
-		}
-		return "member/login";
+                    }
+                }
+            }
+            String redirectLink = link != null && !link.equals("null") ? URLDecoder.decode(link, "UTF-8") : "/";
+            model.addAttribute("redirect", redirectLink);
+            return "member/login";
+        }
+        catch(Exception e){
+            e.getStackTrace();
+            return "redirect:/";
+        }
 	}
     
     //로그인 POST처리
@@ -220,7 +227,6 @@ public class MemberController {
             String password = request.getParameter("password");
             String auto_login_check = request.getParameter("auto_login_check");
             String link = request.getParameter("redirect");
-            log.info("로그는 "+link);
             if (auto_login_check == null) auto_login_check = "false";
             MemberDTO inMember = new MemberDTO(mid, password);
             MemberDTO member = memberService.login(mapperUtil.map(inMember, MemberVO.class), auto_login_check);

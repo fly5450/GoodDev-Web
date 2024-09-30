@@ -54,36 +54,31 @@
 					<span id="hateCount" class="board-read-label">싫어요 수: ${board.hate_cnt}</span>
 					<button onclick="handleLikeHate('hate')" class="board-read-button">싫어요</button>
 				</div>
+
 				<!--버튼기능들-->
 				<div style="margin-top: 20px;">
 					<a href="list?&${link}">돌아가기</a>
 					<a href="update?bno=${board.bno}&${pageRequestDTO.link}">수정</a>
 					<a href="delete?bno=${board.bno}&${pageRequestDTO.link}">삭제</a>
 				</div>
-                <div class = "comment-content">
+                <div class = "comment-section">
                     <h1>Comment</h1>
-                        <table>
-                            <tbody>
-                                <c:forEach var="comment" items="${commentAllByBno}">
-                                    <tr>
-                                        <td>
-                                            <details>
-                                                <summary>${comment.comment_content}</summary>
-                                                <input type="text" placeholder="대댓글 내용">
-                                                <button onclick="insertCocomment(${comment.cno})">작성</button>
-                                                <c:forEach var="cocomment" items="${comment.cocomment}">
-                                                    <div>
-                                                        <span>${cocomment.comment_content}</span>
-                                                    </div>
-                                                </c:forEach>
-                                            </details>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                            </tbody>
-                        </table>
-                        
-                        <h5>댓글 작성</h5>
+                    <c:forEach var="comment" items="${comments}">
+                    <div class="comment">
+                        <div class="comment-header">
+                            <span class="comment-author">${comment.mid}</span>
+                        </div>
+                        <div class="comment-content">
+                        ${comment.comment_content}
+                        </div>
+                        <div class="comment-actions">
+                            <button class="reply-button">답글보기</button>
+                        </div>
+                    </div>
+                    </c:forEach>
+                                          
+                    <h5>댓글 작성</h5>
+                     <div class="comment-form">
                         <form action="comment/insert" method="post">
                             <input type="hidden" name="bno" value="${board.bno}">
                             <input type="hidden" name="mid" value="${board.mid}">
@@ -94,9 +89,10 @@
                                     <input type="text" name="comment_content">
                                 </h3>
                             </div>
-                            <input type="submit" value="등록">
-                            <input type="reset" value="초기화">
+                            <button class="submit-button" type="submit">등록</button>
+                            <button class="reset-button" type="reset">초기화</button>
                         </form>
+                    </div>
                 </div>
             </div>
 			<%@ include file="/WEB-INF/views/commons/advertisement.jsp" %>
