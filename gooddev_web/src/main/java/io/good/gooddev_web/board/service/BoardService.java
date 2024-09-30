@@ -168,4 +168,7 @@ public class BoardService {
         return new PageResponseDTO<BoardDTO>(pageRequestDTO, getList, boardDAO.getTotalCount(pageRequestDTO));
 	}
 
+    public int update(final BoardVO boardVO) {
+    	return boardDAO.insert(boardVO);
+    }
 }

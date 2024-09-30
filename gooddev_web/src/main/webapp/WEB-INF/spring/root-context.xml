@@ -8,7 +8,7 @@
 	<context:component-scan base-package="io.good.gooddev_web"/>
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 		<property name="driverClassName" value="oracle.jdbc.OracleDriver"/>
-		<property name="jdbcUrl" value="jdbc:oracle:thin:@//localhost:1521/xe"/>
+		<property name="jdbcUrl" value="jdbc:oracle:thin:@//192.168.0.31:1521/xe"/>
 		<property name="username" value="good"/>
 		<property name="password" value="1004"/>
 		<property name="dataSourceProperties">
@@ -26,6 +26,11 @@
 		<property name="dataSource" ref="dataSource"/>
 		<property name ="mapperLocations" value="classpath:/mappers/*.xml"/>
 	</bean>
+	
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+    <constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+	
 	<bean id="uploadPath" class="java.lang.String">
 		<constructor-arg value="C:\uploads\gooddev_web\"/>
 	</bean>
