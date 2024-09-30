@@ -4,6 +4,7 @@
 <mapper namespace="io.good.gooddev_web.board.dao.BoardDAO">
 	<sql id="search">
 		<where>
+			deleteyn = 'N'
 			<if test="keyword != null and keyword.length() > 0">
 				(
 					title LIKE '%' || #{keyword} || '%'
@@ -46,7 +47,6 @@
 	<select id="getTotalCount" resultType="int">
 		select count(*) from
 		good_board
-		where deleteyn = 'N'
 		<include refid="search"/>
 	</select>
 
@@ -77,6 +77,17 @@
 		WHERE mid = #{mid, jdbcType=VARCHAR}
 		AND bno = #{bno, jdbcType=NUMERIC}
 		AND deleteyn = 'N'
+		and like_board = 1
+	</select>
+
+	<!-- 싫어요 여부 확인 -->
+	<select id="existsHate" resultType="boolean">
+		SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END
+		FROM good_likeboard
+		WHERE mid = #{mid, jdbcType=VARCHAR}
+		AND bno = #{bno, jdbcType=NUMERIC}
+		AND deleteyn = 'N'
+		and like_board = 0
 	</select>
 
 	<!-- 좋아요 추가 -->
@@ -86,8 +97,13 @@
 		VALUES (lbno_sequence.NEXTVAL, #{mid, jdbcType=VARCHAR}, #{bno,
 		jdbcType=NUMERIC}, #{likeValue}, SYSDATE, 'N')
 	</insert>
+	
+	<!-- 싫어요 추가 -->
+	<insert id="insertHate">
+		insert into good_likeboard (lbno, mid, bno, like_board, like_board_date, deleteyn) values (lbno_sequence.NEXTVAL, #{mid, jdbcType=VARCHAR}, #{bno, jdbcType=NUMERIC}, #{hateValue}, SYSDATE, 'N')
+	</insert>
 
-	<!-- DELETEYN 업데이트 (좋아요 취소) -->
+	<!-- DELETEYN 업데이트 (좋아요, 싫어요 취소) -->
 	<update id="updateDeleteYN">
 		UPDATE good_likeboard
 		SET deleteyn = #{deleteYN}, LIKE_BOARD_DATE = SYSDATE
@@ -100,6 +116,11 @@
 		UPDATE good_board
 		SET like_cnt = like_cnt + #{likeValue}
 		WHERE bno = #{bno, jdbcType=NUMERIC}
+	</update>
+	
+	<!-- 싫어요 수 업데이트 -->
+	<update id="updateHateCount">
+		update good_board set hate_cnt = hate_cnt + #{hateValue} where bno = #{bno, jdbcType=NUMERIC}
 	</update>
 
 	<!-- 좋아요 개수 조회 -->
