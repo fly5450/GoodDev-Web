@@ -73,7 +73,74 @@
         </footer>
     </div>
 
-    <script>
+    
+</body>
+</html>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page session="false"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<html>
+<head>
+<title>Home</title>
+<link rel="stylesheet" href="<c:url value='/resources/css/style.css'/>">
+</head>
+<body>
+	<div class="container">
+        <!-- Header -->
+        <%@ include file="/WEB-INF/views/commons/header.jsp" %>
+
+        <!-- Navigation -->
+        <%@ include file="/WEB-INF/views/commons/nav.jsp" %>
+
+        <!--컨텐츠부분-->
+        <div class = "main">
+            <%@ include file="/WEB-INF/views/commons/advertisement.jsp" %>
+
+            <!-- Main Content -->
+            <div class="main-content">
+				<h2>회원가입</h2>
+                <form id="registerForm" action="<c:url value='/member/register'/>" method="post">
+                    <div>
+                        <label for="mid">아이디:</label>
+                        <input type="text" id="mid" name="mid" required>
+                        <span id="idCheck"></span>
+                    </div>
+                    <div>
+                        <label for="password">비밀번호:</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <div>
+                        <label for="confirmPassword">비밀번호 확인:</label>
+                        <input type="password" id="confirmPassword" required>
+                        <span id="passwordMatch"></span>
+                    </div>
+                    <div>
+                        <label for="memberName">이름:</label>
+                        <input type="text" id="memberName" name="memberName" required>
+                    </div>
+                    <div>
+                        <label for="nickname">닉네임:</label>
+                        <input type="text" id="nickname" name="nickname" required>
+                    </div>
+                    <div>
+                        <label for="email">이메일:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div>
+                        <label for="phone">전화번호:</label>
+                        <input type="tel" id="phone" name="phone" required pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="000-0000-0000">
+                    </div>
+                    <button type="submit">가입하기</button>
+                </form>
+			</div>
+			<%@ include file="/WEB-INF/views/commons/advertisement.jsp" %>
+		</div>
+		<%@ include file="/WEB-INF/views/commons/footer.jsp" %>
+	</div>
+    
+	<script>
     $(document).ready(function() {
         // 아이디 중복 체크
         $('#mid').blur(function() {
@@ -109,5 +176,6 @@
         });
     });
     </script>
+    
 </body>
 </html>

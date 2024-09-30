@@ -19,5 +19,13 @@ public class CommentVO {
 	private int bno;
 	private int parent_cno;
 	private String deleteYn;
+
+	public CommentVO(int bno){
+		this(bno,0);
+	}
 	
+	public CommentVO(int bno,int cno){
+		this.bno = bno;
+		this.cno = cno;
+	}
 }

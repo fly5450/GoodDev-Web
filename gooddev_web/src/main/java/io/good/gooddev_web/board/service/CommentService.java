@@ -16,37 +16,14 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class CommentService {
-	
-//	public List<CommentDTO> getCommentByBno(int bno) {
-//		List<CommentVO> commentList = commentDAO.findAllByBno(bno);
-//		List<CommentVO> cocommentList = new ArrayList<CommentVO>();
-//		for (CommentVO commentVO : commentList) {
-//			cocommentList.addAll(commentDAO.notNullCommentList(commentVO.getCno()));
-//		}
-//		commentList.addAll(cocommentList);
-//		return commentList.stream().map(comment -> mapper.map(comment, CommentDTO.class)).collect(Collectors.toList());
-//	}
-
 	private final CommentDAO commentDAO;
 	private final MapperUtil mapper;
 
-	public List<CommentDTO> getCommentByBno(int bno) {
-		return commentDAO.findAllByBno(bno).stream().map(comment -> mapper.map(comment, CommentDTO.class)).collect(Collectors.toList()); 
+	public List<CommentDTO> getList(CommentVO commentVO) {
+		return commentDAO.getList(commentVO).stream().map(comment -> mapper.map(comment, CommentDTO.class)).collect(Collectors.toList()); 
 	}
-	
+
 	public int insert(final CommentVO commentVO) {
 		return commentDAO.insert(commentVO);
-	}
-	
-	public List<CommentDTO> getNotNullCommentByBnoAndCno(int bno, int cno) {
-		log.info("getNotNullCommentByBnoAndCno called with bno: " + bno + ", cno: " + cno);
-		List<CommentVO> comments = commentDAO.notNullCommentList(bno, cno);
-	    log.info("NotNull Comment List: " + comments);
-		return commentDAO.notNullCommentList(bno, cno).stream().map(comment -> mapper.map(comment, CommentDTO.class)).collect(Collectors.toList());
-	}
-	
-	public CommentDTO getComment(int cno) {
-		CommentVO comment = commentDAO.getComment(cno).orElse(null);
-		return comment != null ? mapper.map(comment, CommentDTO.class) : null;
 	}
 }

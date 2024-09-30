@@ -29,6 +29,7 @@ import io.good.gooddev_web.board.dto.CommentDTO;
 import io.good.gooddev_web.board.service.BoardService;
 import io.good.gooddev_web.board.service.CommentService;
 import io.good.gooddev_web.board.vo.BoardVO;
+import io.good.gooddev_web.board.vo.CommentVO;
 import io.good.gooddev_web.member.dto.MemberDTO;
 import io.good.gooddev_web.search.dto.PageRequestDTO;
 import io.good.gooddev_web.search.dto.PageResponseDTO;
@@ -50,7 +51,6 @@ public class BoardController {
 	
 	@GetMapping("/board/list")
 	public void boardListView(PageRequestDTO pageRequestDTO, Model model) {
-		
 		PageResponseDTO<BoardDTO> pageResponseDTO = boardService.getList(pageRequestDTO);
 		List<BoardDTO> topTenList = boardService.topTenList();
 		model.addAttribute("pageResponseDTO", pageResponseDTO);
@@ -61,17 +61,16 @@ public class BoardController {
 	@GetMapping("/board/read")
 	public void boardRead(@RequestParam int bno,@RequestParam String link,Model model) {
 		boardService.viewCount(bno);
-		List<CommentDTO> commentAllByBno = commentService.getCommentByBno(bno);
+		CommentVO commentVO = new CommentVO(bno);
+
+		List<CommentDTO> commentAllByBno = commentService.getList(commentVO);
 		 if (link != null) {
 			link = URLDecoder.decode(link, StandardCharsets.UTF_8);
 		}
+		
 	    model.addAttribute("board", boardService.getRead(bno));
-		model.addAttribute("commentAllByBno", commentAllByBno);
+		model.addAttribute("comments", commentAllByBno);
 		model.addAttribute("link", link);
-		for (CommentDTO comment : commentAllByBno) {
-	        List<CommentDTO> cocomment = commentService.getNotNullCommentByBnoAndCno(bno, comment.getCno());
-	        comment.setCocomment(cocomment);
-	    }
 	}
 	
 	@GetMapping("/board/update")

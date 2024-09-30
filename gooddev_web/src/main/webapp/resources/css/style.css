@@ -7,45 +7,46 @@
 body, html {
     height: 100%;
     width: 100%;
+    font-size: 16px;
 }
 
 .container {
     display: flex;
     flex-direction: column;
-    height: 100vh;
-    width: 100vw;
-    box-sizing: border-box;
+    min-height: 100vh;
+    width: 100%;
 }
+
 .logo-container {
-    margin-left : 10%;
-    width : 15%;
+    margin-left: 10%;
+    width: 15%;
     height: 100%;
     display: flex;
     justify-content: center;
 }
-.logo-container a{
+
+.logo-container a {
     display: flex;
     width: 100%;
     height: 100%;
 }
+
 .logo-container img {
     width: 100%;
     height: 100%;
-    
+    object-fit: contain;
 }
+
 header, nav, section, footer {
     width: 100%;
     text-align: center;
-    box-sizing: border-box;
 }
 
 header {
-    height:10%;
+    height: 10vh;
     background-color: #ffffff;
     padding: 5px;
-    box-sizing: border-box;
 }
-
 
 nav {
     display: flex;  
@@ -53,8 +54,7 @@ nav {
     align-items: center;
     background-color: #0044cc;
     color: white;
-    box-sizing: border-box; 
-    height: 6%;
+    height: 6vh;
 }
 
 .header-container {
@@ -63,14 +63,13 @@ nav {
     align-items: center;
     width: 100%;
     height: 100%;
-    box-sizing: border-box;
 }
+
 .main {
     width: 100%;
     display: flex;
     flex-grow: 1;
     justify-content: space-between;
-    box-sizing: border-box;
 }
 
 .main-content {
@@ -78,30 +77,28 @@ nav {
     margin: 0 10px;
     background-color: #e9e9e9;
     padding: 20px;
-    box-sizing: border-box;
     display: flex;
     justify-content: space-between;
 }
+
 .content {
     flex-grow: 3;
     margin: 0 10px;
     background-color: #ffffff;
     padding: 20px;
-    box-sizing: border-box;
 }
+
 .sidebar {
     flex-grow: 0.5;
     margin: 0px;
     background-color: #f9f9f9;
     padding: 20px;
-    box-sizing: border-box;
 }
 
 footer {
     background-color: #f2f2f2;
     padding: 10px;
     margin-top: 10px;
-    box-sizing: border-box;
 }
 
 .notice-board, .gallery {
@@ -109,58 +106,59 @@ footer {
     padding: 15px;
     border: 1px solid #ccc;
     background-color: #fff;
-    box-sizing: border-box;
 }
 
 .search-wrapper {
-  display: flex;
-  align-items: stretch;
-  width: 40%;
-  height: 5%;
-  border-radius: 4px;
-  border: 2px solid #4ba4db;
-  overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  position: absolute;
+    display: flex;
+    align-items: stretch;
+    width: 40%;
+    height: 5vh;
+    border-radius: 4px;
+    border: 2px solid #4ba4db;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: absolute;
     left: 50%;
     transform: translateX(-50%);
 }
 
 .search-label {
-  display: flex;
-  align-items: center;
-  padding: 0 15px;
-  background-color: #4ba4db;
-  color: white;
-  font-weight: bold;
-  font-size: 14px;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    background-color: #4ba4db;
+    color: white;
+    font-weight: bold;
+    font-size: 0.875rem;
 }
 
 .search-container {
-  display: flex;  
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
-  background-color: white;
-  padding: 0 15px;
+    display: flex;  
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    background-color: white;
+    padding: 0 15px;
 }
 
 .search-input {
-  display: flex;
-  flex-grow: 0.9;
-  border: none;
-  outline: none;
-  font-size: 16px;
-  padding: 5px;
+    display: flex;
+    flex-grow: 0.9;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    padding: 5px;
 }
+
 .search-form {
-  height:100%;
-  display: flex;  
- justify-content: center;
- align-items: center;
-  flex-grow: 1;
-  background-color: white;
+    height: 100%;
+    display: flex;  
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    background-color: white;
 }
+
 .search-button {
     flex-grow: 0.2;
     background-color: #4ba4db;
@@ -168,22 +166,17 @@ footer {
     border-radius: 10%;
     color: white;
     border: none;
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s;
-  }
-  
-  .search-button:hover {
-    background-color: #4ba4db;
-  }
-  
-  /* Optional: Add some hover effects */
-  .search-wrapper:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  }
+}
 
-  .content-right-container {
+.search-button:hover {
+    background-color: #3a93c9;
+}
+
+.content-right-container {
     flex-grow: 1;
     align-items: center;
     background-color: #ffffff;
@@ -191,9 +184,10 @@ footer {
     margin-top: 50px;
     font-family: Arial, sans-serif;
 }
-  .login-container {
+
+.login-container {
     flex-grow: 1;
-    height:20%;
+    height: 20vh;
     align-items: center;
     background-color: #ffffff;
     text-align: center;
@@ -202,29 +196,27 @@ footer {
     justify-content: center;
     align-items: center;
 }
-  .login-btn a{
-    background-color: #4ba4db; /* 네이버 그린 컬러 */
+
+.login-btn a {
+    background-color: #4ba4db;
     color: white;
     padding: 15px 40px;
     border: none;
     border-radius: 5px;
-    font-size: 18px;
+    font-size: 1.125rem;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
-/* 버튼 hover 효과 */
-.login-btn a:hover{
-    background-color: #4ba4db;
+.login-btn a:hover {
+    background-color: #3a93c9;
 }
 
-/* 하단 링크 스타일 */
 .login-links {
     margin-top: 20px;
     color: #555;
-    font-size: 14px;
+    font-size: 0.875rem;
 }
-
 
 .login-links a {
     text-decoration: none;
@@ -232,96 +224,83 @@ footer {
     margin: 0 15px;
 }
 
-
 .login-links a:hover {
     text-decoration: underline;
     color: #000;
 }
+
 .menu-item {
-    flex-grow:1;
+    flex-grow: 1;
     position: relative;
     padding: 6px 20px;
     color: white;
     cursor: pointer;
-    height : 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
 .dropdown {
-    display: none;              /* 기본적으로 숨김 */
+    display: none;
     position: absolute;
     width: 100vw;
-    left: -20.5vw;          /* 메뉴 아래에 위치 */
-    top : 100%;
-    background-color: #4ba4db;  /* 드롭다운 배경색 */
-    border: 1px solid #ccc;     /* 드롭다운 외곽선 */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 드롭다운 그림자 */
-    z-index: 1000;              /* 다른 요소 위에 표시 */
+    left: -20.5vw;
+    top: 100%;
+    background-color: #4ba4db;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
     padding: 10px;
-    height:95%; 
+    height: 95%;
     justify-content: center;
     align-items: center;
-    
 }
+
 .menu-item:hover {
-    background-color: #4ba4db;   /* 메뉴 아이템의 배경색 변경 */
+    background-color: #4ba4db;
     background-clip: content-box;
-    border-radius : 6px;
+    border-radius: 6px;
 }
+
 .dropdown-item {
-    padding: 10px 20px;        /* 드롭다운 아이템 여백 */
-    color:white;
+    padding: 10px 20px;
+    color: white;
     white-space: nowrap;
 }
 
 .menu-item:hover .dropdown {
     display: flex;
-    flex-direction:row;
-    justify-content:space-around;
-    
-    
+    flex-direction: row;
+    justify-content: space-around;
 }
+
 .menu-item a {
     margin: 0 15px;
     color: white;
     text-decoration: none;
-    box-sizing: border-box;
     font-size: 120%;
 }
+
 .menu-item a:hover {
     margin: 0 15px;
-    padding : 3%;
+    padding: 3%;
     color: white;
     text-decoration: none;
-    box-sizing: border-box;
     font-size: 120%;
 }
-.menu-item a:active
-{ margin: 0 15px;
-    color: white;
-    text-decoration: none;
-    box-sizing: border-box;
-    font-size: 120%;
-}
-.menu-item a:visited
-{margin: 0 15px;
-    color: white;
-    text-decoration: none;
-    box-sizing: border-box;
-    font-size: 120%;
-}
+
 .gallery {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3열로 구성하여 9개 배치 */
-    gap: 1rem; /* 각 갤러리 아이템 사이의 간격 */
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
     padding: 1rem;
-    justify-items: center; /* 아이템을 중앙 정렬 */
+    justify-items: center;
 }
 
 .gallery-item {
-    width: 100%; /* 모든 아이템의 너비를 동일하게 */
-    height: 200px; /* 동일한 높이 지정 */
+    width: 100%;
+    height: 200px;
     display: flex;
     flex-direction: column;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
@@ -329,41 +308,30 @@ footer {
 
 .gallery-item img {
     width: 100%;
-    height: 84%; /* 이미지 영역의 비율 조정 */
+    height: 84%;
     object-fit: cover;
 }
 
 .gallery-item .title {
     padding: 0.5rem;
     text-align: center;
-    background-color: #f0f0f0; /* 배경 색 조정 */
-}
-@media (max-width: 768px) {
-    .gallery-item {
-        width: calc(50% - 1rem);
-    }
-}
-.gallery-item .title {
-    padding: 0.5rem;
-    text-align: center;
     background-color: #f0f0f0;
-    font-size: 1rem; /* 글자 크기 조정 */
-    color: #333; /* 텍스트 색상 조정 */
-    text-decoration: none; /* 밑줄 제거 */
-    transition: color 0.3s, transform 0.3s; /* 호버 애니메이션 추가 */
+    font-size: 1rem;
+    color: #333;
+    text-decoration: none;
+    transition: color 0.3s, transform 0.3s;
 }
 
 .gallery-item .title:hover {
-    color: #007bff; /* 호버 시 색상 변경 */
-    transform: scale(1.05); /* 살짝 확대되는 효과 */
-    text-decoration: underline; /* 호버 시 밑줄 추가 */
+    color: #007bff;
+    transform: scale(1.05);
+    text-decoration: underline;
 }
 
 .search-results-container {
     width: 100%;
 }
 
-/* 개별 검색 보드 스타일 */
 .search-board {
     width: 100%;
     background-color: #f9f9f9;
@@ -371,10 +339,8 @@ footer {
     border-radius: 5px;
     padding: 15px;
     margin-bottom: 20px;
-    box-sizing: border-box;
 }
 
-/* 검색 보드 제목 스타일 */
 .search-board h2 {
     font-size: 1.5em;
     color: #333;
@@ -385,20 +351,17 @@ footer {
     text-align: left;
 }
 
-/* 검색 결과 리스트 스타일 */
 .search-board-list {
     list-style-type: none;
     padding: 0;
     width: 100%;
 }
 
-/* 검색 결과 아이템 스타일 */
 .search-board-item {
     margin-bottom: 5px;
     text-align: left;
 }
 
-/* 검색 결과 링크 스타일 */
 .search-board-item a {
     color: #2c3e50;
     text-decoration: none;
@@ -411,15 +374,13 @@ footer {
     color: #3498db;
 }
 
-/* '더보기' 링크 컨테이너 스타일 */
 .search-board-item.more-link {
-    width : 19%;
+    width: 19%;
     text-align: right;
     margin-top: 10px;
-    margin-left :auto;
+    margin-left: auto;
 }
 
-/* '더보기' 링크 스타일 */
 .search-plus-link {
     display: inline-block;
     padding: 5px 10px;
@@ -444,39 +405,39 @@ footer {
 }
 
 .board-read-header {
-    border-bottom: 2px solid #333; /* 제목과 작성자, 일시 그룹에 밑줄 추가 */
+    border-bottom: 2px solid #333;
     padding-bottom: 10px;
     margin-bottom: 20px;
-    position: relative; /* 작성일시를 오른쪽으로 배치하기 위한 설정 */
+    position: relative;
 }
 
 .board-read-title {
     color: #333;
     margin: 0;
-    font-size: 24px;
+    font-size: 1.5rem;
 }
 
 .board-read-meta {
     display: flex;
-    justify-content: space-between; /* 작성자와 작성일시를 한 줄로 배치 */
-    align-items: center; /* 작성자와 일시를 같은 높이에 맞춤 */
-    font-size: 14px;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.875rem;
     color: #666;
-    margin-top: 5px; /* 제목과 약간의 간격 추가 */
+    margin-top: 5px;
 }
 
 .board-read-date {
-    font-size: 14px;
+    font-size: 0.875rem;
     color: #666;
 }
 
 .board-read-author {
-    align-self: flex-start; /* 작성자가 제목 아래에 자연스럽게 위치하도록 설정 */
+    align-self: flex-start;
     margin-top: 5px;
 }
 
 .board-read-content {
-    min-height: 50vh; /* 페이지 절반 이상 차지하도록 설정 */
+    min-height: 50vh;
     margin-bottom: 20px;
     padding: 10px 0;
     border-bottom: 1px solid #ddd;
@@ -485,7 +446,7 @@ footer {
 .board-read-info {
     display: flex;
     align-items: center;
-    gap: 15px; /* 요소 간의 간격 조정 */
+    gap: 15px;
     margin-top: 10px;
 }
 
@@ -508,14 +469,17 @@ footer {
 .board-read-button:hover {
     background-color: #0056b3;
 }
+
 .attachment-item {
     margin-top: auto;
     margin-bottom: 10px;
 }
+
 .attachment-dropdown {
     position: relative;
     display: inline-block;
 }
+
 .attachment-dropdown-content {
     display: none;
     position: absolute;
@@ -528,23 +492,218 @@ footer {
     transition: max-height 0.3s ease-out;
     min-width: 80%;
 }
+
 .attachment-dropdown-content a {
     color: black;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
-    white-space: nowrap; /* 줄바꿈 방지 */
+    white-space: nowrap;
 }
+
 .attachment--dropdown-content a:hover {
     background-color: #f1f1f1;
-    white-space: nowrap; /* 줄바꿈 방지 */
+    white-space: nowrap;
 }
+
 .show {
     display: block;
     max-height: 200px;
     transition: max-height 0.3s ease-in;
 }
 
-.comment-content{
-    width: 100;
+.comment-content {
+    width: 100%;
+}
+
+.comment-text {
+    white-space: nowrap;
+}
+
+.mini-login-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem;
+}
+
+@media (max-width: 768px) {
+    body, html {
+        font-size: 14px;
+    }
+
+    .container {
+        padding: 0 10px;
+    }
+
+    .main {
+        flex-direction: column;
+    }
+
+    .main-content, .sidebar {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .search-wrapper {
+        width: 80%;
+    }
+
+    .gallery {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+
+    .mini-login-container {
+        flex-direction: column;
+        align-items: flex-end;
+        margin-left: auto;
+    }
+}
+
+.list-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.list-table th, .list-table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #e5e5e5;
+}
+.list-table th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+    color: #333;
+}
+.list-table tr:hover {
+    background-color: #f9f9f9;
+}
+.list-title {
+    text-align: left;
+}
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+.pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.pagination li {
+    margin: 0 2px;
+}
+.pagination a {
+    display: block;
+    padding: 6px 12px;
+    text-decoration: none;
+    color: #333;
+    border-radius: 4px;
+}
+.pagination .active a {
+    background-color: #3498db;
+    color: white;
+}
+.pagination a:hover:not(.active) {
+    background-color: #3498db;
+}
+.pagination-nav {
+    margin: 0 10px;
+    color: #333;
+    text-decoration: none;
+}
+.board-list-insert {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 8px 16px;
+    background-color: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+}
+.board-list-insert:hover {
+    background-color: #007bff;
+}
+.list-table-container{
+    width: 100%;
+}
+.comment-section {
+    background-color: #f9f9f9;
+    border: 1px solid #e1e1e1;
+    border-radius: 5px;
+    padding: 20px;
+}
+.comment {
+    background-color: #fff;
+    border: 1px solid #e1e1e1;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.comment-author {
+    font-weight: bold;
+    color: #4a4a4a;
+}
+.comment-content {
+    margin-bottom: 10px;
+}
+.comment-actions {
+    text-align: right;
+}
+.reply-button {
+    background-color: #f0f0f0;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+.reply-button:hover {
+    background-color: #e0e0e0;
+}
+.comment-form {
+    margin-top: 20px;
+}
+.comment-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+}
+.button-group {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+}
+.submit-button, .reset-button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+.submit-button {
+    background-color: #3498db;
+    color: white;
+}
+.submit-button:hover {
+    background-color: #3498db;
+}
+.reset-button {
+    background-color: #a4a4a4;
+    color: white;
+}
+.reset-button:hover {
+    background-color: #a4a4a4;
 }

@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -58,7 +58,7 @@
                 <input type="password" class="form-control" placeholder="비밀번호" name="password" required>
                 <button type="submit" class="login-button">로그인하기</button>
                 <label for="autoLogin">자동 로그인</label><input type="checkbox" id="autoLogin" name="auto_login_check">
-                <input type="hidden" id="   " name="redirect" value="">
+                <input type="hidden" name="redirect" value="<%= request.getParameter("redirect") %>">
             </form>
         </div>
         <div>
@@ -67,11 +67,5 @@
             <a href="register" >회원가입</a>
         </div>
     </div>
-    <script>
-    document.getElementById('loginForm').onsubmit = function() {
-        const redirectParam = "<%= request.getParameter("redirect") %>";
-        document.getElementById('redirectField').value = redirectParam || '';
-    };
-</script>
 </body>
 </html>
