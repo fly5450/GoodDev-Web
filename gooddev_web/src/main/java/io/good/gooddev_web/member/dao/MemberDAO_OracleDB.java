@@ -1,5 +1,6 @@
 package io.good.gooddev_web.member.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -108,7 +109,9 @@ public class MemberDAO_OracleDB implements MemberDAO {
 
     @Override
     public Boolean validateUser(String mid, String email) {
-        Map<String, String> params = Map.of("mid", mid, "email", email);
+        Map<String, String> params = new HashMap<>();
+        params.put("mid", mid);
+        params.put("email", email);
         Integer count = sqlSessionTemplate.selectOne("io.good.gooddev_web.member.dao.MemberDAO.validateUser", params);
         return count != null && count > 0;
     }

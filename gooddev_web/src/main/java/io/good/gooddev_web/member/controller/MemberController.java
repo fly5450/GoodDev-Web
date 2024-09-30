@@ -120,30 +120,43 @@ public class MemberController {
      //아이디 찾기 POST : 사용자가 아이디 찾기 페이지에서 아이디 찾기 버튼을 클릭했을 때 호출됨
      @PostMapping("findid")
      public String findIdPost(@RequestParam("email") String email, RedirectAttributes redirectAttributes) {
-         if (!EmailValidator.isValidEmail(email)) // 이메일 유효성 검사
-         {
-             redirectAttributes.addFlashAttribute("message", "유효하지 않은 이메일 형식입니다."); // 유효하지 않은 이메일 형식일 때 메시지 추가
-             return "redirect:/member/findid"; // 아이디 찾기 페이지로 리다이렉트
+         if (!EmailValidator.isValidEmail(email)) {
+             redirectAttributes.addFlashAttribute("message", "유효하지 않은 이메일 형식입니다.");
+             return "redirect:/member/findid";
          }
- 
+
          String findId = memberService.findIdByEmail(email);
          if (findId != null) {
-             redirectAttributes.addFlashAttribute("message", "찾은 아이디: " + IdMasker.maskId(findId)); // 찾은 아이디를 마스킹하여 메시지에 추가
-             redirectAttributes.addFlashAttribute("mid", findId); // 찾은 아이디를 모델에 추가
-             redirectAttributes.addFlashAttribute("email", email); // 이메일을 모델에 추가  
-             return "redirect:/member/login"; // 로그인 페이지로 리다이렉트
+             redirectAttributes.addFlashAttribute("message", "찾은 아이디: " + IdMasker.maskId(findId));
+             redirectAttributes.addFlashAttribute("mid", findId);
+             redirectAttributes.addFlashAttribute("email", email);
+             return "redirect:/member/login";
          } else {
-             redirectAttributes.addFlashAttribute("message", "해당 이메일에 등록된 아이디가 없습니다."); // 이메일에 등록된 아이디가 없을 때 메시지 추가
-             redirectAttributes.addFlashAttribute("email", email); // 이메일을 모델에 추가
-             return "redirect:/member/findId"; // 아이디 찾기 페이지로 리다이렉트
+             redirectAttributes.addFlashAttribute("message", "해당 이메일로 등록된 아이디가 없습니다.");
+             redirectAttributes.addFlashAttribute("email", email);
+             return "redirect:/member/findid";
          }
      }
-
-    // 비밀번호 찾기 페이지로 이동 GET
-    @GetMapping("findpwd")
-    public String FindPwdForm() {
-        return "member/findpwd"; // findpwdjsp로 이동
-    }
+     // 아이디 중복 체크
+     @PostMapping("/checkIdDuplicate")
+     public String checkIdDuplicate(@RequestParam("mid") String mid, RedirectAttributes redirectAttributes) {
+         boolean isDuplicate = memberService.isIdDuplicate(mid);
+         
+         if (isDuplicate) {
+             redirectAttributes.addFlashAttribute("message", "이미 사용 중인 아이디입니다.");
+         } else {
+             redirectAttributes.addFlashAttribute("message", "사용 가능한 아이디입니다.");
+             redirectAttributes.addFlashAttribute("checkedId", mid);
+         }
+         
+         return "redirect:/member/register";
+     }
+ 
+        // 비밀번호 찾기 페이지로 이동 GET
+        @GetMapping("findpwd")
+        public String FindPwdForm() {
+            return "member/findpwd"; // findpwdjsp로 이동
+        }
 
    // 비밀번호 찾기 처리 POST
    @PostMapping("findpwd")

@@ -56,10 +56,7 @@ public class MemberService {
         log.warn("회원정보 수정 실패: 존재하지 않는 회원 ID = {}", modifyMember.getMid());
         return 0;
     }
-
-   
-     // 회원 정보 필드를 업데이트합니다.
-     // @param currentMember 현재 회원 정보 / @param modifyMember 수정할 회원 정보
+     // 회원정보 수정 -> 회원 정보 필드를 업데이트
     private void updateMemberFields(MemberVO currentMember, MemberVO modifyMember) {
         if (modifyMember.getPassword() != null) currentMember.setPassword(modifyMember.getPassword());
         if (modifyMember.getMemberName() != null) currentMember.setMemberName(modifyMember.getMemberName());
@@ -69,7 +66,6 @@ public class MemberService {
     }
 
     //새 회원을 등록합니다.
-    //@param member 등록할 회원 정보 / @return 처리 결과 (성공: 1, 실패: 0)
     public int register(final MemberVO member) {
         int result = memberDAO.register(member);
         log.info("회원가입 처리: ID = {}, 결과 = {}", member.getMid(), result);
@@ -78,15 +74,25 @@ public class MemberService {
 
     
      // 이메일로 회원 ID를 찾습니다.
-     // @param email 이메일 주소 / @return 찾은 회원 ID, 없으면 null
      public String findIdByEmail(String email) {
         String foundId = memberDAO.findIdByEmail(email);
         log.info("아이디 찾기: 이메일 = {}, 결과 = {}", email, foundId != null ? "성공" : "실패");
         return foundId;
     }
-
+    //사용자 유효성을 검증 - 아이디와 이메일로 검증(존재하는지)
+    public boolean isUserValid(String mid, String email) {
+      if (email == null) {
+          // 아이디만으로 검증
+          return memberDAO.validateUser(mid, null);
+      } else {
+          // 아이디와 이메일로 검증
+          return memberDAO.validateUser(mid, email);
+      }
+    }
+    public boolean isIdDuplicate(String mid) {
+      return memberDAO.getRead(mid).isPresent();
+  }
     //비밀번호를 재설정합니다.
-    // @param mid 회원 ID / @param email 이메일 주소 / @param newPassword 새 비밀번호 / @return 처리 결과 (성공: true, 실패: false)
     public boolean findPwd(String mid, String email, String newPassword) {
         if (memberDAO.validateUser(mid, email)) {
             MemberVO member = memberDAO.getRead(mid).orElse(null);
@@ -101,13 +107,7 @@ public class MemberService {
         return false;
     }
 
-    //사용자 유효성을 검증합니다. @param mid 회원 ID / @param email 이메일 주소 / @return 유효성 검증 결과
-    public boolean isUserValid(String mid, String email) {
-        boolean isValid = memberDAO.validateUser(mid, email);
-        log.debug("사용자 검증: ID = {}, 이메일 = {}, 결과 = {}", mid, email, isValid);
-        return isValid;
-    }
- 
+    
     public MemberDTO getRead_Auto_Login(String auto_Login) {
       MemberVO member = memberDAO.getRead_Auto_Login(auto_Login);
       if(member == null) return null;

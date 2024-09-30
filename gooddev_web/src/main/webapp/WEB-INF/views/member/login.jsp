@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -62,8 +62,8 @@
             </form>
         </div>
         <div>
-            <a href="findId" >아이디찾기</a>
-            <a href="findPassword" >비밀번호찾기</a>
+            <a href="findid" >아이디찾기</a>
+            <a href="findpwd" >비밀번호찾기</a>
             <a href="register" >회원가입</a>
         </div>
     </div>

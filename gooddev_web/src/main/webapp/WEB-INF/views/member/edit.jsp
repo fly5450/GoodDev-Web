@@ -10,17 +10,17 @@
 </head>
 <body>
     <div class="container">
-       <!-- Header -->
-       <%@ include file="/WEB-INF/views/commons/header.jsp" %>
+     <!-- Header -->
+     <%@ include file="/WEB-INF/views/commons/header.jsp" %>
 
-       <!-- Navigation -->
-       <%@ include file="/WEB-INF/views/commons/nav.jsp" %>
-
-       <!--컨텐츠부분-->
-       <div class = "main">
-           <%@ include file="/WEB-INF/views/commons/advertisement.jsp" %>
-
-        
+     <!-- Navigation -->
+     <%@ include file="/WEB-INF/views/commons/nav.jsp" %>
+     
+     <!--컨텐츠부분-->
+     <div class = "main">
+         <%@ include file="/WEB-INF/views/commons/advertisement.jsp" %>
+         
+         <!-- Main Content -->
         <main>
             <h2>회원 정보 수정</h2>
             <form action="<c:url value='/member/edit'/>" method="post">
