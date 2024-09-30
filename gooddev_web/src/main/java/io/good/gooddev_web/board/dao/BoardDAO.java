@@ -30,4 +30,5 @@ public interface  BoardDAO {
     int getLikeCount(int bno);
     int getHateCount(int bno);
     List<BoardVO> topTenList();
+    int update(BoardVO boardVO);
 }
