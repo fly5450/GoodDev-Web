@@ -18,6 +18,7 @@
 			<if test="category_no != null and category_no.length >0">
 				<trim prefix="and"> category_no = #{category_no} </trim>
 			</if>
+			<trim prefix="and">deleteyn = 'N'</trim>
 		</where>
 	</sql>
 
