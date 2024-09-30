@@ -38,7 +38,7 @@ public class MemberDTO {
         this.nickname = "";
         this.phone = "";
         this.email = "";
-        this.auto_Login = "";
+        this.auto_Login = "false";
         this.last_Login_Date = new Date();
         this.last_Logout_Date = new Date();
         this.deleteYn = 'N'; // 기본값

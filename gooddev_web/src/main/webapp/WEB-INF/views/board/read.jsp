@@ -119,7 +119,6 @@
                 }
             }
         }
-
 		function handleLikeHate(action) {
             const isLoggedIn = <%= request.getSession().getAttribute("loginInfo") != null %>;
 
