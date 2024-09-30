@@ -13,7 +13,7 @@ import lombok.ToString;
 @NoArgsConstructor
 public class CommentVO {
 
-	private String cno;
+	private int cno;
 	private String mid;
 	private String comment_content;
 	private String bno;
@@ -24,8 +24,8 @@ public class CommentVO {
 		this(bno,null);
 	}
 	
-	public CommentVO(String bno,String cno){
+	public CommentVO(String bno,String parent_cno){
 		this.bno = bno;
-		this.cno = cno;
+		this.parent_cno = parent_cno;
 	}
 }

@@ -61,40 +61,37 @@
 					<a href="update?bno=${board.bno}&${pageRequestDTO.link}">수정</a>
 					<a href="delete?bno=${board.bno}&${pageRequestDTO.link}">삭제</a>
 				</div>
-                <div class = "comment-section">
-                    <h1>Comment</h1>
+
+                <div class = "comment-section" id = "comment-section">
                     <c:forEach var="comment" items="${comments}">
                     <div class="comment" id="comment" data-cno="${comment.cno}">
                         <div class="comment-header">
                             <span class="comment-author">${comment.mid}</span>
                         </div>
                         <div class="comment-content">
-                        ${comment.comment_content}
+                            ${comment.comment_content}
                         </div>
-                        <div class="comment-actions">
-                            <button class="reply-button" onclick="cocomment('${comment.bno}','${comment.cno}')">답글보기</button>
-                            <div id="cocomments_${comment.cno}" style="display: none;">
-                            
-                            </div>
+                         <div class="comment-actions">
+                            <button class="reply-button" onclick="toggleReplySection('${comment.bno}','${comment.cno}')">답글보기</button>
+                        </div>
+                        <div class="reply-section" id="reply-section-${comment.cno}">
+                            <div class="replies" id="replies-${comment.cno}"></div>
+                            <input type="text" class="reply-input" id="reply-input-${comment.cno}" placeholder="답글을 입력하세요...">
+                            <button class="reply-submit" onclick="submitReply('${comment.bno}','${comment.cno}','${loginInfo.mid}')">등록</button>
                         </div>
                     </div>
                     </c:forEach>
-                                          
+                </div>
+                <div>
                     <h5>댓글 작성</h5>
                      <div class="comment-form">
-                        <form action="${pageContext.request.contextPath}/comment/insert" method="post">
-                            <input type="hidden" name="bno" value="${board.bno}">
-                            <input type="hidden" name="mid" value="${board.mid}">
-                            <input type="hidden" name="link" value="${param.link}">
-                            <div>
-                                <h3>
-                                    <span>내용: </span>
-                                    <input type="text" name="comment_content">
-                                </h3>
-                            </div>
-                            <button class="submit-button" type="submit">등록</button>
-                            <button class="reset-button" type="reset">초기화</button>
-                        </form>
+                        <div>
+                            <h3>
+                                <span>내용: </span>
+                                <input type="text" id="comment_content">
+                                <button class="submit-button" onclick="insertComment(${board.bno}, '${loginInfo.mid}')">등록</button>
+                            </h3>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -151,14 +148,24 @@
             });
         }
 
-        function cocomment(bno,cno) {
-            const url = "<%= request.getContextPath() %>/comment/cocomment";
+         function toggleReplySection(bno,cno) {
+            const replySection = document.getElementById("reply-section-"+cno);
+            if (replySection.style.display === 'none' || replySection.style.display === '') {
+                replySection.style.display = 'block';
+                loadReplies(bno,cno);
+            } else {
+                replySection.style.display = 'none';
+            }
+        }
+
+        function loadReplies(bno,cno) {
+           const url = "<%= request.getContextPath() %>/comment/cocomment";
             fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                body: 'bno=' + bno + '&cno=' + cno
+                body: 'bno=' + bno + '&parent_cno=' + cno
 
             })
             .then(response => {
@@ -168,43 +175,132 @@
                 return response.json();
             })
             .then(data => {
+                console.log(data);
                 const cocomments = data.cocomments;
-                const cocommentsDiv = document.getElementById("cocomments_" + cno);
-                cocommentsDiv.innerHTML = '';
-                cocomments.forEach(cocomment => {
-                     const commentItem = 
-                        '<div class="comment-item">' +
-                        '<p>작성자: ' + cocomment.mid + '</p>' +
-                        '<p>내용: ' + cocomment.comment_content + '</p>' +
-                    '</div>';
-
-                    cocommentsDiv.innerHTML += commentItem;
+                const commentContainer = document.getElementById("replies-"+cno);
+                commentContainer.innerHTML = '';
+                cocomments.forEach(comment => {
+                    const commentElement = createReplyElement(comment);
+                    commentContainer.appendChild(commentElement);
                 });
 
-                // 데이터를 출력한 후에 div의 display 스타일을 변경
-                cocommentsDiv.style.display = 'block';
             });
         }
 
-        function insertCocomment(bno,cno) {
-            const replyContent = document.querySelector(`input[placeholder="대댓글 내용"]`).value;
-            const bno = parseInt(document.getElementById('bno').textContent);
-            const url = "<%= request.getContextPath() %>/comment/insert"; // 대댓글을 위한 URL
+        function createReplyElement(comment) {
+            const replyDiv = document.createElement('div');
+            replyDiv.className = 'reply';
+            replyDiv.innerHTML = 
+                '<div class="comment-header">' +
+                    '<span class="comment-author">' + comment.mid + '</span>' +
+                '</div>' +
+                '<div class="comment-content">' +
+                    comment.comment_content +
+                '</div>';
+            return replyDiv;
+        }
+
+        function submitReply(bno,cno,mid) {
+            const isLoggedIn = <%= request.getSession().getAttribute("loginInfo") != null %>;
+
+            if (!isLoggedIn) {
+                alert("로그인이 필요합니다.");
+                const currentUrl = window.location.href;
+                window.location.href = "<%= request.getContextPath() %>/member/login?redirect="+encodeURIComponent(currentUrl);
+                return;
+            }
+            const url = "<%= request.getContextPath() %>/comment/insert";
+            const commentInput = document.getElementById("reply-input-"+cno);
+            const content = commentInput.value.trim();
+            const commentContainer = document.getElementById("replies-"+cno);
+            if (content) {
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: 'bno=' + bno + '&parent_cno=' + cno + '&mid='+mid+'&comment_content='+content
+
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const comment = data.comment;
+                    const commentElement = createReplyElement(comment);
+                    commentContainer.appendChild(commentElement);
+                    commentInput.value = '';
+                });
+            }
+        }
+
+        function insertComment(bno, mid) {
+            const isLoggedIn = <%= request.getSession().getAttribute("loginInfo") != null %>;
+
+            if (!isLoggedIn) {
+                alert("로그인이 필요합니다.");
+                const currentUrl = window.location.href;
+                window.location.href = "<%= request.getContextPath() %>/member/login?redirect="+encodeURIComponent(currentUrl);
+                return;
+            }
+
+            const url = "<%= request.getContextPath() %>/comment/insert";
+            const commentInput = document.getElementById("comment_content");
+            const commentValue = commentInput.value;
+            
             fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                body: `bno=${bno}&parentCno=${parentCno}&comment_content=${replyContent}`
+                body: 'bno=' + bno + '&mid=' + encodeURIComponent(mid) + '&comment_content=' + encodeURIComponent(commentValue)
             })
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-                return response.json(); 
+                return response.json();
             })
             .then(data => {
+                const comment = data.comment;
+                const commentsDiv = document.getElementById("comment-section");
+                const commentItem = 
+                    '<div class="comment" id="comment" data-cno="' + comment.cno + '">' +
+                        '<div class="comment-header">' +
+                            '<span class="comment-author">' + comment.mid + '</span>' +
+                        '</div>' +
+                        '<div class="comment-content">' +
+                            comment.comment_content +
+                        '</div>' +
+                        '<div class="comment-actions">' +
+                            '<button class="reply-button" onclick="cocomment(' + comment.bno + ', ' + comment.cno + ')">답글보기</button>' +
+                            '<div id="cocomments_' + comment.cno + '" style="display: none;"></div>' +
+                            '<div>' +
+                                '<h3>' +
+                                    '<span>내용: </span>' +
+                                    '<input type="text" id="cocomment_content_' + comment.cno + '">' +
+                                    '<button class="submit-button" onclick="insertCocomment(' + comment.bno + ', ' + comment.cno + ', \'' + mid + '\')">등록</button>' +
+                                '</h3>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>';
+                commentsDiv.innerHTML += commentItem;
             });
+        }
+
+        function insertCocomment(bno,cno,mid) {
+            const isLoggedIn = <%= request.getSession().getAttribute("loginInfo") != null %>;
+
+            if (!isLoggedIn) {
+                alert("로그인이 필요합니다.");
+                const currentUrl = window.location.href;
+                window.location.href = "<%= request.getContextPath() %>/member/login?redirect="+encodeURIComponent(currentUrl);
+                return;
+            }
+
         }
 	</script>
 </body>
