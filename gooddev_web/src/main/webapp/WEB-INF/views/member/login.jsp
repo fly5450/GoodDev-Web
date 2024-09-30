@@ -58,7 +58,7 @@
                 <input type="password" class="form-control" placeholder="비밀번호" name="password" required>
                 <button type="submit" class="login-button">로그인하기</button>
                 <label for="autoLogin">자동 로그인</label><input type="checkbox" id="autoLogin" name="auto_login_check">
-                <input type="hidden" id="redirectField" name="redirect" value="">
+                <input type="hidden" id="   " name="redirect" value="">
             </form>
         </div>
         <div>
