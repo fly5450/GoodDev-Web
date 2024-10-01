@@ -5,27 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <title>400 오류 - 잘못된 요청</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .error-container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        h1 {
-            color: #f0ad4e;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="error-container">
@@ -35,7 +16,7 @@
         <c:if test="${not empty exception}">
             <p>오류 메시지: ${exception.message}</p>
         </c:if>
-        <a href="<c:url value='/' />">홈으로 돌아가기</a>
+        <a href="<c:url value='/' />" class="home-button">홈으로 돌아가기</a>
     </div>
 </body>
 </html>

@@ -40,7 +40,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <update id="modify">
     UPDATE good_member
     SET password = #{password},
-        memberName = #{memberName},
+        member_Name = #{member_Name},
         nickname = #{nickname},
         phone = #{phone},
         email = #{email}
@@ -50,9 +50,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- 회원가입 -->
 <insert id="register" useGeneratedKeys="true" keyProperty="mid">
     INSERT INTO 
-        good_member (mid, password, memberName, nickname, phone, email, deleteYn)
+        good_member (mid, password, member_Name, nickname, email, phone)
     VALUES
-            (#{mid}, #{password}, #{memberName}, #{nickname}, #{phone}, #{email}, 'N')
+            (#{mid}, #{password}, #{member_Name}, #{nickname}, #{email}, #{phone})
 </insert>
 
 <!-- 전체 회원 수 조회 -->
@@ -76,27 +76,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     WHERE email = #{email} AND deleteYn = 'N'
 </select>
 
-<!-- 비밀번호 찾기-->
-<select id="findPwdById" resultType="String">
-    SELECT password
-    FROM good_member
-    WHERE mid = #{mid} AND deleteYn = 'N'
-</select>
-
-<!-- 비밀번호 재설정 -->
-<update id="resetPassword">
+<!-- 비밀번호 찾기 및 재설정 -->
+<update id="resetPasswordByIdAndEmail" parameterType="map">
     UPDATE good_member
     SET password = #{newPassword}
-    WHERE mid = #{mid} AND deleteYn = 'N'
-</update>
-
-<!-- 유저 검증 -->
-<select id="validateUser" parameterType="map" resultType="int">
-    SELECT COUNT(*)
-    FROM good_member 
     WHERE mid = #{mid} AND email = #{email} AND deleteYn = 'N'
-</select>
-
+</update>
 
 <select id="getRead_Auto_Login" resultType="io.good.gooddev_web.member.vo.MemberVO"> 
     SELECT * 
@@ -104,4 +89,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     WHERE auto_Login = #{auto_Login} AND deleteYn = 'N'
 </select>
 
+<!-- 아이디 중복 체크 -->
+<select id="checkIdDuplicate" resultType="int">
+    SELECT COUNT(*)
+    FROM good_member
+    WHERE mid = #{mid} AND deleteYn = 'N'
+</select>
+
+<!-- 유저 검증 (아이디와 이메일로) -->
+<select id="validateUser" parameterType="map" resultType="boolean">
+    SELECT COUNT(*) > 0
+    FROM good_member 
+    WHERE mid = #{mid}
+    AND (#{email} IS NULL OR email = #{email})
+    AND deleteYn = 'N'
+</select>
+
+<!-- 이메일 유효성 검사 -->
+<select id="EmailValid" parameterType="string" resultType="boolean">
+    SELECT COUNT(*) > 0
+    FROM good_member
+    WHERE email = #{email}
+    AND deleteYn = 'N'
+</select>
 </mapper>

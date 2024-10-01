@@ -22,7 +22,7 @@
         <!--컨텐츠부분-->
         <div class = "main">
             <%@ include file="/WEB-INF/views/commons/advertisement.jsp" %>
-
+            
             <!-- Main Content -->
             <div class="main-content">
                 <!-- Content (Notice, Boards, Gallery) -->
@@ -37,34 +37,42 @@
                         </ul>
                     </div>
 
-                    <!-- 게시판 Section -->
-                    <div class="boards">
-                        <h2>게시판</h2>
-                        <div class="board" id="board1">
-                            <h3>게시판 1</h3>
-                            <p>내용</p>
-                        </div>
-                        <div class="board" id="board2">
-                            <h3>게시판 2</h3>
-                            <p>내용</p>
-                        </div>
-                        <div class="board" id="board3">
-                            <h3>게시판 3</h3>
-                            <p>내용</p>
-                        </div>
-                    </div>
-                    <!-- Gallery Section -->
-                    <div class="gallery">
-                        <h2>갤러리</h2>
-                        <div>
-                            <img src="gallery_img1.jpg" alt="사진 1" width="30%">
-                            <img src="gallery_img2.jpg" alt="사진 2" width="30%">
-                            <img src="gallery_img3.jpg" alt="사진 3" width="30%">
+                    <hr class="section-divider">
+
+                      <!-- 게시판 Section -->
+                    <div class="board-container">
+                        <div class="boards">
+                            <h2>게시판</h2>
+                            <div class="board" id="board1">
+                                <h3>게시판 1</h3>
+                                <p>내용</p>
+                            </div>
+                            <div class="board" id="board2">
+                                <h3>게시판 2</h3>
+                                <p>내용</p>
+                            </div>
+                            <div class="board" id="board3">
+                                <h3>게시판 3</h3>
+                                <p>내용</p>
+                            </div>
                         </div>
                     </div>
 
+                    <hr class="section-divider">
                     
+                       <!-- Gallery Section -->
+                    <div class="gallery-container">
+                        <div class="gallery">
+                        <h2>갤러리</h2>
+                        <div class="gallery-images">
+                            <img src="<c:url value='/resources/images/img01.jpg'/>" alt="img01" width="30%">
+                            <img src="<c:url value='/resources/images/img02.jpg'/>" alt="img02" width="30%">
+                            <img src="<c:url value='/resources/images/img03.jpg'/>" alt="img03" width="30%">
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
                 <!-- 로그인 Section -->
                 <c:set var="mid" value = "${loginInfo.mid}" />
                 <c:if test = "${empty mid}">
