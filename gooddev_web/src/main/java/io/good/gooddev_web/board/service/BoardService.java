@@ -189,9 +189,47 @@ public class BoardService {
     	return deleteBoard > 0;
     }
 
+    public Map<String, List<BoardDTO>> getMainList() {
+        Map<String, List<BoardDTO>> map= new HashMap<>();
+        List<BoardCategoryVO> totalCategory= boardDAO.getTotalCategory();
+        for(BoardCategoryVO category : totalCategory){
+            if(category.getCategory_no() != 10 && category.getCategory_no() != 50){
+                PageRequestDTO pageRequestDTO = new PageRequestDTO();
+                pageRequestDTO.setCategory_no(String.valueOf(category.getCategory_no()));
+                pageRequestDTO.setSize(4);
+                List <BoardDTO> boardList = boardDAO.getList(pageRequestDTO).stream().map(board -> mapper.map(board, BoardDTO.class)).collect(Collectors.toList());
+                if (!boardList.isEmpty()) {
+                    map.put(category.getCategory_name(), boardList);
+                }
+            }
+        }
+        return map;
+    }
+
+    public List<BoardDTO> getNoticeList() {
+        PageRequestDTO pageRequestDTO = new PageRequestDTO();
+        pageRequestDTO.setCategory_no("10");
+        pageRequestDTO.setSize(4);
+        return boardDAO.getList(pageRequestDTO).stream().map(board -> mapper.map(board, BoardDTO.class)).collect(Collectors.toList());
+    }
+
+    public List<BoardDTO> getGalleryList() {
+        PageRequestDTO pageRequestDTO = new PageRequestDTO();
+        pageRequestDTO.setCategory_no("50");
+        pageRequestDTO.setSize(4);
+        List<BoardDTO> getList = boardDAO.getList(pageRequestDTO).stream().map(board -> mapper.map(board, BoardDTO.class)).collect(Collectors.toList());
+        if(getList!=null){
+            for(BoardDTO boardDTO : getList){
+                boardDTO.setBoardFileDTOList(boardFileDAO.getList(boardDTO.getBno()).stream().map(file->mapper.map(file, BoardFileDTO.class)).collect(Collectors.toList()));
+            }
+        }
+        return getList;
+    }
+
 	public List<BoardDTO> getBoardsByMid(String mid) {
 		return boardDAO.getBoardsByMid(mid).stream()
                 .map(board -> mapper.map(board, BoardDTO.class))
                 .collect(Collectors.toList());
 	}
+
 }

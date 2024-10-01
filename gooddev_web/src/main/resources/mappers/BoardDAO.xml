@@ -26,6 +26,7 @@
 		SELECT
 			*
 		FROM GOOD_boardcategory
+		order by category_no
 	</select>
 
 	<select id="getList" resultType="io.good.gooddev_web.board.vo.BoardVO">

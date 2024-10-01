@@ -25,7 +25,6 @@ public class SearchController {
 
     @PostMapping("/search")
     public String serachPost(String keyword,Model model,RedirectAttributes redirectAttributes,PageRequestDTO pageRequestDTO, HttpSession session){
-        log.info(keyword);
         if (keyword == null) {
             redirectAttributes.addFlashAttribute("message", "검색어를 입력해 주세요");
             redirectAttributes.addAttribute("keyword", keyword);

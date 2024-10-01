@@ -28,70 +28,62 @@
                 <!-- Content (Notice, Boards, Gallery) -->
                 <div class="content">
                     <!-- Notice Board -->
-                    <div class="notice-board">
-                        <h2>공지사항</h2>
-                        <ul>
-                            <li>공지사항 1</li>
-                            <li>공지사항 2</li>
-                            <li>공지사항 3</li>
-                        </ul>
-                    </div>
-
-                    <hr class="section-divider">
-
-                      <!-- 게시판 Section -->
-                    <div class="board-container">
-                        <div class="boards">
-                            <h2>게시판</h2>
-                            <div class="board" id="board1">
-                                <h3>게시판 1</h3>
-                                <p>내용</p>
-                            </div>
-                            <div class="board" id="board2">
-                                <h3>게시판 2</h3>
-                                <p>내용</p>
-                            </div>
-                            <div class="board" id="board3">
-                                <h3>게시판 3</h3>
-                                <p>내용</p>
-                            </div>
+                        <div class="main-notice-board">
+                            <h2>공지사항</h2>
+                            <c:forEach var="notice" items="${noticeList}">
+                                   <a href="board/read?bno=${notice.bno}">${notice.title}</a><br />
+                            </c:forEach>
                         </div>
+                    <!-- 게시판 Section -->
+                    <div class="main-boards">
+                        <c:forEach var="entry" items="${mainMap}">
+                            <div class="boards">
+                                <!-- key를 출력 -->
+                                <h2>${entry.key}</h2>
+                                <div class="board" id="board1">
+                                    <c:forEach var="board" items="${entry.value}">
+                                        <a href="board/read?bno=${board.bno}">${board.title}</a><br />
+                                    </c:forEach>
+                                </div>
+                            </div>
+                        </c:forEach>
                     </div>
-
-                    <hr class="section-divider">
-                    
-                       <!-- Gallery Section -->
+                    <!-- Gallery Section -->
                     <div class="gallery-container">
-                        <div class="gallery">
                         <h2>갤러리</h2>
-                        <div class="gallery-images">
-                            <img src="<c:url value='/resources/images/img01.jpg'/>" alt="img01" width="30%">
-                            <img src="<c:url value='/resources/images/img02.jpg'/>" alt="img02" width="30%">
-                            <img src="<c:url value='/resources/images/img03.jpg'/>" alt="img03" width="30%">
-                            </div>
-                        </div>
-                    </div>
+                        <main class="main-gallery">
+                                <c:forEach var="board" items="${galleryList}">
+                                    <div class="gallery-item">
+                                        <c:forEach var="boardFile" items="${board.boardFileDTOList}">
+                                            <img src="board/download/${boardFile.fid}" alt="이미지"/>
+                                        </c:forEach>
+                                        <a href="board/read?bno=${board.bno}&link=${pageRequestDTO.link}" class="title">${board.title}</a>
+                                    </div>
+                                </c:forEach>
+                        </main>
+                   
+				    </div>
                 </div>
 
-                <!-- 로그인 Section -->
-                <c:set var="mid" value = "${loginInfo.mid}" />
-                <c:if test = "${empty mid}">
-                    <div class="login-container">
-                        <div>
-                            <div class="login-btn">
-                                <a href="member/login">로그인하기</a>
-                            </div>
-                            <div class="login-links">
-                                <a href="member/findid" >아이디찾기</a>
-                                <a href="member/findpwd" >비밀번호찾기</a>
-                                <a href="member/register" >회원가입</a>
+                <div>
+                    <!-- 로그인 Section -->
+                    <c:set var="mid" value = "${loginInfo.mid}" />
+                    <c:if test = "${empty mid}">
+                        <div class="login-container">
+                            <div>
+                                <div class="login-btn">
+                                    <a href="member/login">로그인하기</a>
+                                </div>
+                                <div class="login-links">
+                                    <a href="member/findid" >아이디찾기</a>
+                                    <a href="member/findpwd" >비밀번호찾기</a>
+                                    <a href="member/register" >회원가입</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </c:if>
-                <c:if test = "${not empty mid}">
-                    <div class="login-container" >
-                        <div>
+                    </c:if>
+                    <c:if test = "${not empty mid}">
+                        <div class="login-container" >
                             <div>
                                 <label class="login-message">${loginInfo.nickname}님 환영합니다</label>
                             </div>
@@ -107,9 +99,9 @@
                                 <a href="member/logout" >로그아웃</a>
                             </div>
                         </div>
-                    </div>
-                </c:if>
-                
+                    </c:if>
+                    <%@ include file="/WEB-INF/views/commons/top10List.jsp" %>
+                </div>
             </div>
             <!--광고부분-->
             <%@ include file="/WEB-INF/views/commons/advertisement.jsp" %>
@@ -137,7 +129,19 @@
 
             let message = "${message}";
             if (message !== null && message !== "") alert(message);
-            
+
+
+            document.addEventListener('DOMContentLoaded', function() {
+                let links = document.querySelectorAll('.main-list');
+                links.forEach(function(link) {
+                    link.addEventListener('click', function() {
+                        let boardBno = link.getAttribute('data-board-bno');
+                        let pageLink = window.location.href;
+                        let encodedLink = encodeURIComponent(pageLink);
+                        link.href = "read?bno=" + boardBno + "&link="+encodedLink;
+                    });
+                });
+            });
         </script>
 </body>
 </html>
