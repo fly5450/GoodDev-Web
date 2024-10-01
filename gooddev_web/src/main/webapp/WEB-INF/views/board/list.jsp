@@ -45,8 +45,10 @@
 							</c:forEach>
 						</tbody>
 					</table>
+					<input type="hidden" name="category_no" value="${pageRequestDTO.category_no}">
 					<div>
-						<a href="#" class="board-list-insert" data-category_no="${pageRequestDTO.category_no}">글쓰기</a>
+						<%-- <a href="#" class="board-list-insert" data-category_no="${pageRequestDTO.category_no}">글쓰기</a> --%>
+						<a href="insert?category_no=${pageRequestDTO.category_no}">글쓰기</a>
 						<jsp:include page="/WEB-INF/views/commons/page_nav.jsp"></jsp:include>
 						<div class="search-wrapper">
 							<span class="search-label">제목+내용</span>
@@ -152,13 +154,13 @@
                     link.href = "read?bno=" + boardBno + "&link="+encodedLink;
                 });
             });
-            links = document.querySelectorAll('.board-list-insert');
+            /* links = document.querySelectorAll('.board-list-insert');
             links.forEach(function(link) {
                 link.addEventListener('click', function() {
                     let category_no = link.getAttribute('data-category_no');
                     link.href = "insert?" +"category_no="+ category_no;
                 });
-            });
+            }); */
         });
 	</script>
 

@@ -68,50 +68,66 @@ public class BoardController {
 	}
 
 	@GetMapping("/board/read")
-	public void boardRead(@RequestParam int bno,@RequestParam String link,Model model) {
+	public void boardRead(@RequestParam int bno, @RequestParam String link, Model model, HttpSession session) {
 		boardService.viewCount(bno);
+		MemberDTO memberDTO = (MemberDTO) session.getAttribute("loginInfo");
+		String mid = memberDTO != null ? memberDTO.getMid() : null; 
 		CommentVO commentVO = new CommentVO(String.valueOf(bno));
 		List<CommentDTO> commentAllByBno = commentService.getList(commentVO);
-		 if (link != null) {
+		if (link != null) {
 			link = URLDecoder.decode(link, StandardCharsets.UTF_8);
 		}
-		
+		System.out.println("************" + link);
 	    model.addAttribute("board", boardService.getRead(bno));
 		model.addAttribute("comments", commentAllByBno);
 		model.addAttribute("link", link);
+		model.addAttribute("sessionMid", mid);
 	}
 	
 	@GetMapping("/board/update")
-	public void boardUpdate(int bno, Model model) {
+	public void boardUpdate(@RequestParam int bno, @RequestParam String link, Model model) {
+		model.getAttribute(link);
+		if (link != null) {
+			link = URLDecoder.decode(link, StandardCharsets.UTF_8);
+		} 
+		System.out.println("link : " + link);
 		model.addAttribute("board", boardService.getRead(bno));
+		model.addAttribute("link", link);
+		
 	}
 	
 	@PostMapping("/board/update")
-	public String update(BoardDTO boardDTO, PageRequestDTO pageRequestDTO) {
+	public String update(BoardDTO boardDTO, @RequestParam String link, Model model) {
 		boardService.update(mapper.map(boardDTO, BoardVO.class));
-		return "redirect:/board/list?" + pageRequestDTO.getLink();
+		model.getAttribute(link);
+		return "redirect:/board/list?" + link;
 	}
 	
-	@GetMapping("/board/delete")
-	public String delete(int bno, PageRequestDTO pageRequestDTO) {
-		boardService.delete(bno);
-		return "redirect:/board/list?" + pageRequestDTO.getLink();
+	@PostMapping("/board/delete")
+	public ResponseEntity<Map<String, Object>> delete(int bno, String board_password, PageRequestDTO pageRequestDTO) {
+		Map<String, Object> response = new HashMap<>();
+		boolean isDeleted = boardService.delete(bno, board_password);
+		if (isDeleted) {
+			response.put("success", true);
+		} else {
+			response.put("success", false);
+		}
+		return ResponseEntity.ok(response);
 	}
+	
 	
 	@GetMapping("/board/insert")
-	public void boardInsertView(@RequestParam("category_no") String category_no, Model model) {
+	public void boardInsertView(@RequestParam("category_no") String category_no, PageRequestDTO pageRequestDTO, Model model) {
 		model.addAttribute("totalCategory", boardService.getTotalCategory());
 		model.addAttribute("category_no", category_no);
+		model.addAttribute("pageRequestDTO", pageRequestDTO);
+		
 	}
 	
 	@PostMapping("/board/insert")
-	public String boardInsert(BoardDTO boardDTO, Model model, MemberDTO memberDTO, PageRequestDTO pageRequestDTO) {
-		try{
-			int result = boardService.insert(mapper.map(boardDTO, BoardVO.class));
-			return "redirect:/board/read?bno="+result;
-		}catch(Exception e){
-			return "redirect:/board/list?" + pageRequestDTO.getLink();
-		}
+	public String boardInsert(BoardDTO boardDTO, MemberDTO memberDTO, Model model, @RequestParam String link, PageRequestDTO pageRequestDTO) {
+		boardService.insert(mapper.map(boardDTO, BoardVO.class));
+		return "redirect:/board/list?" + pageRequestDTO.getLink();
 	}
 
 	@PostMapping("/board/like")
