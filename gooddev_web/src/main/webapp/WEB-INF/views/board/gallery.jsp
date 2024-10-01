@@ -20,17 +20,19 @@
 
             <!-- Main Content -->
             <div class="main-content">
-				<main class="gallery">
-					<c:forEach var="board" items="${pageResponseDTO.list}">
-						<div class="gallery-item">
-							<c:forEach var="boardFile" items="${board.boardFileDTOList}">
-								<img src="download/${boardFile.fid}" alt="이미지"/>
+				<div class="gallery-container">
+					<main class="gallery">
+							<c:forEach var="board" items="${pageResponseDTO.list}">
+								<div class="gallery-item">
+									<c:forEach var="boardFile" items="${board.boardFileDTOList}">
+										<img src="download/${boardFile.fid}" alt="이미지"/>
+									</c:forEach>
+									<a href="read?bno=${board.bno}&link=${pageRequestDTO.link}" class="title">${board.title}</a>
+								</div>
 							</c:forEach>
-							<a href="read?bno=${board.bno}&link=${pageRequestDTO.link}" class="title">${board.title}</a>
-						</div>
-					</c:forEach>
+					</main>
 					<a href="insert">글쓰기</a>
-            	</main>
+				</div>
 			</div>
 			<%@ include file="/WEB-INF/views/commons/advertisement.jsp" %>
 		</div>
