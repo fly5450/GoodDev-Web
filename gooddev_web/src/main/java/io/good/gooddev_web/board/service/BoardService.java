@@ -185,8 +185,9 @@ public class BoardService {
     	return boardDAO.update(boardVO);
     }
     
-    public int delete(int bno) {
-    	return boardDAO.delete(bno);
+    public boolean delete(int bno, String board_password) {
+    	int deleteBoard = boardDAO.delete(bno, board_password);
+    	return deleteBoard > 0;
     }
 
     public Map<String, List<BoardDTO>> getMainList() {
@@ -225,4 +226,11 @@ public class BoardService {
         }
         return getList;
     }
+
+	public List<BoardDTO> getBoardsByMid(String mid) {
+		return boardDAO.getBoardsByMid(mid).stream()
+                .map(board -> mapper.map(board, BoardDTO.class))
+                .collect(Collectors.toList());
+	}
+
 }

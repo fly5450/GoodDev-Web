@@ -85,13 +85,18 @@
                     <c:if test = "${not empty mid}">
                         <div class="login-container" >
                             <div>
-                                <div>
-                                    <label class="login-message">${loginInfo.nickname}님 환영합니다</label>
-                                </div>
-                                <div class="login-links">
-                                    <a href="member/myPage" >마이페이지</a>
-                                    <a href="member/logout" >로그아웃</a>
-                                </div>
+                                <label class="login-message">${loginInfo.nickname}님 환영합니다</label>
+                            </div>
+                            <div class="login-links">
+                                <c:choose>
+							        <c:when test="${not empty sessionScope.isAdminYn && sessionScope.isAdminYn == 'Y'}">
+							            <a href="admin" >관리자페이지</a>
+							        </c:when>
+							        <c:otherwise>
+							            <a href="member/myPage" >마이페이지</a>
+							        </c:otherwise>
+							    </c:choose>
+                                <a href="member/logout" >로그아웃</a>
                             </div>
                         </div>
                     </c:if>

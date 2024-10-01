@@ -19,7 +19,6 @@
 		
 		<!-- 사용자 정의 자바스크립트 -->
 		<script>
-		
 		</script>
 </head>
 <body>
@@ -28,6 +27,21 @@
 	    <form action="<c:url value='/logout' />" method="post">
 	        <button type="submit">로그아웃</button>
 	    </form>
+	</div>
+	<div class="card-body">
+		<form action="${pageContext.request.contextPath}/admin/updateNotice" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="bno" value="${board.bno}"/>
+			<div class="input-group mb-3">
+				<span class="input-group-text">제목</span>
+				<input name="title" class="form-control" placeholder="Title" value="${board.title}">
+			</div>
+			<div class="input-group mb-3">
+				<span class="input-group-text">내용</span>
+				<input name="content" class="form-control" placeholder="Content" value="${board.content}">
+			</div>
+			<input type="submit" class="btn btn-primary" value="수정">
+			<input type="reset" class="btn btn-secondary" value="초기화">
+		</form>
 	</div>
 </body>
 </html>
