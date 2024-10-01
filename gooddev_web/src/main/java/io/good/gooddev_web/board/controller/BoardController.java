@@ -57,7 +57,16 @@ public class BoardController {
 		model.addAttribute("pageRequestDTO", pageRequestDTO);
 		model.addAttribute("topTenList", topTenList);
 	}
-	
+
+	@PostMapping("/board/list")
+	@ResponseBody
+	public ResponseEntity<Map<String, PageResponseDTO<BoardDTO>>> boardListPost(PageRequestDTO pageRequestDTO) {
+	    Map<String,PageResponseDTO<BoardDTO>> response = new HashMap<>();
+		PageResponseDTO<BoardDTO> pageResponseDTO = boardService.getList(pageRequestDTO);
+		response.put("pageResponseDTO",  pageResponseDTO);
+	    return ResponseEntity.ok(response);
+	}
+
 	@GetMapping("/board/read")
 	public void boardRead(@RequestParam int bno,@RequestParam String link,Model model) {
 		boardService.viewCount(bno);

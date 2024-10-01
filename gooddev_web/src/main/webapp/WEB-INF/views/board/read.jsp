@@ -107,9 +107,9 @@
 
         window.onclick = function(event) {
             if (!event.target.matches('.attachment-button')) {
-                var dropdowns = document.getElementsByClassName("attachment-dropdown-content");
-                for (var i = 0; i < dropdowns.length; i++) {
-                    var openDropdown = dropdowns[i];
+                let dropdowns = document.getElementsByClassName("attachment-dropdown-content");
+                for (let i = 0; i < dropdowns.length; i++) {
+                    let openDropdown = dropdowns[i];
                     if (openDropdown.classList.contains('show')) {
                         openDropdown.classList.remove('show');
                     }

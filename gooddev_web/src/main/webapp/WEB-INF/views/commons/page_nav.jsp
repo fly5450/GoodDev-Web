@@ -4,32 +4,44 @@
 <div class="pagination-container">
 	<ul class="pagination">
 		<c:if test="${not empty pageResponseDTO && not empty pageRequestDTO}">
-			<c:if test="${pageResponseDTO.prev}">
-				<li><a href="#" data-param="${pageRequestDTO.getParam(pageResponseDTO.start-1)}">이전</a></li>
-			</c:if>
+			<li>
+				<button id="prev" class="page-button" data-page="${pageResponseDTO.start - 1}" style="display: none;">이전</button>
+			</li>
 			<c:forEach var="num" begin="${pageResponseDTO.start}" end="${pageResponseDTO.end}">
-				<li class="${pageResponseDTO.page == num ? 'active' : ''}">
-					<a href="?page=${num}&size=${pageResponseDTO.size}" data-param="${pageRequestDTO.getParam(num)}">${num}</a>
-				</li>
+				<li id="page-list" class="page-item">
+				<button class="page-button ${pageResponseDTO.page == num ? 'active' : ''}" data-page="${num}">
+					${num}
+				</button>
+			</li>
 			</c:forEach>
-			<c:if test="${pageResponseDTO.next}">
-				<li><a href="#" data-param="${pageRequestDTO.getParam(pageResponseDTO.end+1)}">다음</a></li>
-			</c:if>
+			<button id="next" class="page-button" data-page="${pageResponseDTO.end+1}">다음</button>
 		</c:if>
 	</ul>
 </div>
 
 
 <script>
-document.querySelectorAll(".page-link").forEach(item => {
-	item.addEventListener('click', e => {
-		e.preventDefault();
-		e.stopPropagation();
-		
-		const param = e.target.getAttribute("data-param");
-		console.log("Redirecting to: list?" + param);
-		self.location = "list?" + param;
-	});
-});
+	const prevButton = document.getElementById('prev');
+    if (!${pageResponseDTO.prev}) {
+        prevButton.style.display = 'none';
+    }
 
+	const nextButton = document.getElementById('next');
+    if (!${pageResponseDTO.next}) {
+        nextButton.style.display = 'none';
+    }
+
+
+	async function doFetch(url, bodyData) {
+		const response = await fetch(url, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded'
+			},
+			body: bodyData
+		});
+
+		const json = await response.json();
+		return json;
+	}
 </script>
