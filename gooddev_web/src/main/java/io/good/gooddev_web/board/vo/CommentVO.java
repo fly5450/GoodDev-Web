@@ -16,16 +16,16 @@ public class CommentVO {
 	private int cno;
 	private String mid;
 	private String comment_content;
-	private int bno;
-	private int parent_cno;
+	private String bno;
+	private String parent_cno;
 	private String deleteYn;
 
-	public CommentVO(int bno){
-		this(bno,0);
+	public CommentVO(String bno){
+		this(bno,null);
 	}
 	
-	public CommentVO(int bno,int cno){
+	public CommentVO(String bno,String parent_cno){
 		this.bno = bno;
-		this.cno = cno;
+		this.parent_cno = parent_cno;
 	}
 }

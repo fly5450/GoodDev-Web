@@ -20,10 +20,12 @@ public class CommentService {
 	private final MapperUtil mapper;
 
 	public List<CommentDTO> getList(CommentVO commentVO) {
+		log.info(commentVO.getParent_cno());
 		return commentDAO.getList(commentVO).stream().map(comment -> mapper.map(comment, CommentDTO.class)).collect(Collectors.toList()); 
 	}
 
-	public int insert(final CommentVO commentVO) {
-		return commentDAO.insert(commentVO);
+	public CommentDTO insert(final CommentVO commentVO) {
+		commentDAO.insert(commentVO);
+		return mapper.map(commentVO,CommentDTO.class);
 	}
 }
