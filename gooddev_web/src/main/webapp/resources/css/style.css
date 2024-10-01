@@ -310,3 +310,240 @@ footer {
     box-sizing: border-box;
     font-size: 120%;
 }
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3열로 구성하여 9개 배치 */
+    gap: 1rem; /* 각 갤러리 아이템 사이의 간격 */
+    padding: 1rem;
+    justify-items: center; /* 아이템을 중앙 정렬 */
+}
+
+.gallery-item {
+    width: 100%; /* 모든 아이템의 너비를 동일하게 */
+    height: 200px; /* 동일한 높이 지정 */
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 84%; /* 이미지 영역의 비율 조정 */
+    object-fit: cover;
+}
+
+.gallery-item .title {
+    padding: 0.5rem;
+    text-align: center;
+    background-color: #f0f0f0; /* 배경 색 조정 */
+}
+@media (max-width: 768px) {
+    .gallery-item {
+        width: calc(50% - 1rem);
+    }
+}
+.gallery-item .title {
+    padding: 0.5rem;
+    text-align: center;
+    background-color: #f0f0f0;
+    font-size: 1rem; /* 글자 크기 조정 */
+    color: #333; /* 텍스트 색상 조정 */
+    text-decoration: none; /* 밑줄 제거 */
+    transition: color 0.3s, transform 0.3s; /* 호버 애니메이션 추가 */
+}
+
+.gallery-item .title:hover {
+    color: #007bff; /* 호버 시 색상 변경 */
+    transform: scale(1.05); /* 살짝 확대되는 효과 */
+    text-decoration: underline; /* 호버 시 밑줄 추가 */
+}
+
+.search-results-container {
+    width: 100%;
+}
+
+/* 개별 검색 보드 스타일 */
+.search-board {
+    width: 100%;
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
+
+/* 검색 보드 제목 스타일 */
+.search-board h2 {
+    font-size: 1.5em;
+    color: #333;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    text-align: left;
+}
+
+/* 검색 결과 리스트 스타일 */
+.search-board-list {
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+}
+
+/* 검색 결과 아이템 스타일 */
+.search-board-item {
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+/* 검색 결과 링크 스타일 */
+.search-board-item a {
+    color: #2c3e50;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    display: inline-block;
+    width: 100%;
+}
+
+.search-board-item a:hover {
+    color: #3498db;
+}
+
+/* '더보기' 링크 컨테이너 스타일 */
+.search-board-item.more-link {
+    width : 19%;
+    text-align: right;
+    margin-top: 10px;
+    margin-left :auto;
+}
+
+/* '더보기' 링크 스타일 */
+.search-plus-link {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #f0f0f0;
+    color: #333;
+    text-decoration: none;
+    border-radius: 3px;
+    text-align: center;
+}
+
+.search-plus-link:hover {
+    background-color: #e0e0e0;
+}
+
+.board-read-container {
+    flex-grow: 6;
+    margin: 0 10px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.board-read-header {
+    border-bottom: 2px solid #333; /* 제목과 작성자, 일시 그룹에 밑줄 추가 */
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    position: relative; /* 작성일시를 오른쪽으로 배치하기 위한 설정 */
+}
+
+.board-read-title {
+    color: #333;
+    margin: 0;
+    font-size: 24px;
+}
+
+.board-read-meta {
+    display: flex;
+    justify-content: space-between; /* 작성자와 작성일시를 한 줄로 배치 */
+    align-items: center; /* 작성자와 일시를 같은 높이에 맞춤 */
+    font-size: 14px;
+    color: #666;
+    margin-top: 5px; /* 제목과 약간의 간격 추가 */
+}
+
+.board-read-date {
+    font-size: 14px;
+    color: #666;
+}
+
+.board-read-author {
+    align-self: flex-start; /* 작성자가 제목 아래에 자연스럽게 위치하도록 설정 */
+    margin-top: 5px;
+}
+
+.board-read-content {
+    min-height: 50vh; /* 페이지 절반 이상 차지하도록 설정 */
+    margin-bottom: 20px;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.board-read-info {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* 요소 간의 간격 조정 */
+    margin-top: 10px;
+}
+
+.board-read-label {
+    font-weight: bold;
+    display: inline-block;
+}
+
+.board-read-button {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+}
+
+.board-read-button:hover {
+    background-color: #0056b3;
+}
+.attachment-item {
+    margin-top: auto;
+    margin-bottom: 10px;
+}
+.attachment-dropdown {
+    position: relative;
+    display: inline-block;
+}
+.attachment-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 5px;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.3s ease-out;
+    min-width: 80%;
+}
+.attachment-dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    white-space: nowrap; /* 줄바꿈 방지 */
+}
+.attachment--dropdown-content a:hover {
+    background-color: #f1f1f1;
+    white-space: nowrap; /* 줄바꿈 방지 */
+}
+.show {
+    display: block;
+    max-height: 200px;
+    transition: max-height 0.3s ease-in;
+}
+
+.comment-content{
+    width: 100;
+}

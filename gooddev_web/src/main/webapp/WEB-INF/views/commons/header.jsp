@@ -11,7 +11,7 @@
         <div class="search-wrapper">
             <span class="search-label">통합검색</span>
             <div class="search-container">
-                <form action="search" method="post" id = "searchForm" class="search-form">
+                <form action="${pageContext.request.contextPath}/search" method="post" id = "searchForm" class="search-form">
                         <input name="keyword" id="keyword" class="search-input" placeholder="검색어를 입력해주세요">
                         <button type="submit" class="search-button">검색</button>
                 </form>
