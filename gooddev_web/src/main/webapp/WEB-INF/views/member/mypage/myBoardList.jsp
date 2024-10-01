@@ -30,39 +30,19 @@
 <body>
 	<div class="container wrap" style="width:100%; height: 100%; padding-top:100px; padding-bottom: 300px;">
 		<div class="d-flex">
-			<c:choose>
-			    <c:when test="${isAdmin}">
-			        <!-- 관리자용 메뉴 바 -->
-			        <div id="my_box" style="width:24%; height: 80%; padding: 0px 30px;">
-			            <h2 style="padding-bottom: 60px; width:15rem;"><a href="mypage" style="text-decoration-line: none; color:black;"><b>관리자페이지</b></a></h2> 
-			            <ul class="my_menu">
-			                <li id="menu1" style="height: 50%;">  
-			                    <a class="menu_depth01" href="#">관리자 정보</a> 
-			                    <ul class="menu_depth02">
-			                    	<li id="update"><a href="updateMember">전체 회원목록 관리</a></li>
-			                        <li id="update"><a href="updateMember">공지사항 관리</a></li> 
-			                        <li id="myBoardList"><a href="myBoardList">게시물 관리</a></li> 
-			                    </ul>
-			                </li>
-			            </ul>
-			        </div>
-			    </c:when>
-			    <c:otherwise>
-			        <!-- 일반 사용자용 메뉴 바 -->
-			        <div id="my_box" style="width:24%; height: 80%; padding: 0px 30px;">
-			            <h2 style="padding-bottom: 60px; width:15rem;"><a href="mypage" style="text-decoration-line: none; color:black;"><b>마이페이지</b></a></h2>
-			            <ul class="my_menu">
-			                <li id="menu1" style="height: 50%;">  
-			                    <a class="menu_depth01" href="#">나의 정보</a>
-			                    <ul class="menu_depth02">
-			                        <li id="update"><a href="updateMember">회원 정보 수정</a></li>
-			                        <li id="myBoardList"><a href="myBoardList">나의 작성 게시물</a></li>
-			                    </ul>
-			                </li>
-			            </ul>
-			        </div>
-			    </c:otherwise>
-			</c:choose>
+	        <!-- 일반 사용자용 메뉴 바 -->
+	        <div id="my_box" style="width:24%; height: 80%; padding: 0px 30px;">
+	            <h2 style="padding-bottom: 60px; width:15rem;"><a href="mypage" style="text-decoration-line: none; color:black;"><b>마이페이지</b></a></h2>
+	            <ul class="my_menu">
+	                <li id="menu1" style="height: 50%;">  
+	                    <a class="menu_depth01" href="#">나의 정보</a>
+	                    <ul class="menu_depth02">
+	                        <li id="update"><a href="updateMember">회원 정보 수정</a></li>
+	                        <li id="myBoardList"><a href="myBoardList">나의 작성 게시물</a></li>
+	                    </ul>
+	                </li>
+	            </ul>
+	        </div>
 			<div class="content" style="width:80%; padding:0px 30px;">
 				<div class="profile">
 					<div class="user_info">

@@ -35,7 +35,7 @@
 	</div>
 	<div class="container wrap" style="width:100%; height: 100%; padding-top:100px; padding-bottom: 300px;">
 		<div class="d-flex">
-	        <!-- 일반 사용자용 메뉴 바 -->
+	        <!-- 관리자용 메뉴 바 -->
 	        <div id="my_box" style="width:24%; height: 80%; padding: 0px 30px;">
 	            <h2 style="padding-bottom: 60px; width:15rem;"><a href="/admin" style="text-decoration-line: none; color:black;"><b>관리자페이지</b></a></h2>
 	            <ul class="my_menu">
@@ -49,7 +49,7 @@
 	                </li>
 	            </ul>
 	        </div>
-			<div class="content">
+			<div class="content" style="width:80%; padding:0px 30px;">
 				<div class="profile">
 					<div class="user_info">
 						<span class="name" id="spanNickname">관리자{$써야함} 님</span>
@@ -60,7 +60,7 @@
 				<div class="main p-3">
 					<div class="headingArea">
 						<div class="title">
-							<h1 id="itemTitle">전체 회원 조회</h1>
+							<h1 id="itemTitle">게시글 조회</h1>
 						</div>
 					</div>
 					<div class="section_block">
@@ -69,30 +69,25 @@
 						  <table class="table">
 						    <thead class="table-dark">
 						      <tr>
-						        <th>회원 아이디</th>
-						        <th>이름</th>
-						        <th>닉네임</th>
-						        <th>이메일</th>
-						        <th>가입일시</th>
-						        <th>상세보기/삭제</th>
+						        <th scope="col">번호</th>
+								<th scope="col">제목</th>
+								<th scope="col">작성자</th>
+								<th scope="col">일자</th>
+								<th scope="col">조회수</th>
+								<th scope="col">좋아요</th>
 						      </tr>
 						    </thead>
 						    <tbody>
-						    	<c:forEach var="member" items="${pageResponseDTO.list}">
-							      <tr>
-							        <td>${member.mid}</td>
-							        <td>${member.member_name}</td>
-							        <td>${member.nickname}</td>
-							        <td>${member.email}</td>
-							        <td>${member.signup_Date}</td>
-							        <td>
-							        	<div class="btn_big_wrap">
-											<button type="button" onclick="location.href='<c:url value='/admin/detailMember'/>?mid=${member.mid}'" class="btn btn-outline-dark">상세보기</button>
-											<button type="button" onclick="location.href='#'" class="btn btn-outline-dark">삭제</button>
-										</div>
-							        </td>
-							      </tr>
-				    			</c:forEach>
+						    	<c:forEach var="board" items="${pageResponseDTO.list}">
+									<tr>
+										<td>${board.bno}</td>
+										<td><a href="${pageContext.request.contextPath}/admin/detailBoard?bno=${board.bno}&${pageRequestDTO.link}">${board.title}</a></td>
+										<td>${board.mid}</td>
+										<td>${board.formatDate}</td>
+										<td>${board.view_cnt}</td>
+										<td>${board.like_cnt}</td>
+									</tr>
+								</c:forEach>
 						    </tbody>
 						  </table>
 							  <!-- 페이지네이션 -->
@@ -134,6 +129,5 @@
 		    });
 		});
 	</script>
-
 </body>
 </html>
