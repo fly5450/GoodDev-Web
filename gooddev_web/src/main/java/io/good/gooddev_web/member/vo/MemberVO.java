@@ -29,7 +29,7 @@ public class MemberVO {
 
     @NotEmpty(message = "회원명은 필수입니다.")
     @Size(min = 2, max = 20, message = "회원명은 2자 이상 20자 이하로 입력해주세요.")
-    private String member_Name;     // 회원 이름
+    private String member_name;     // 회원 이름
 
     @NotEmpty(message = "닉네임은 필수입니다.")
     private String nickname;       // 회원 닉네임
@@ -54,7 +54,7 @@ public class MemberVO {
     public MemberVO(MemberDTO member) {
         this.mid = member.getMid();
         this.password = member.getPassword();
-        this.member_Name = member.getMember_Name();
+        this.member_name = member.getMember_name();
         this.nickname = member.getNickname();
         this.phone = member.getPhone();
         this.email = member.getEmail();

@@ -40,7 +40,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <update id="modify">
     UPDATE good_member
     SET password = #{password},
-        member_Name = #{member_Name},
+        member_name = #{member_name},
         nickname = #{nickname},
         phone = #{phone},
         email = #{email}
@@ -50,9 +50,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- 회원가입 -->
 <insert id="register">
     INSERT INTO 
-        good_member (mid, password, member_Name, nickname, email, phone)
+        good_member (mid, password, member_name, nickname, email, phone)
     VALUES
-            (#{mid}, #{password}, #{member_Name}, #{nickname}, #{email}, #{phone})
+            (#{mid}, #{password}, #{member_name}, #{nickname}, #{email}, #{phone})
 </insert>
 
 <!-- 전체 회원 수 조회 -->

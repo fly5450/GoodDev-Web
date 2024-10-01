@@ -71,25 +71,30 @@ public class MemberController {
     log.info("회원가입 요청 처리 중");
 
     // 유효성 검사 오류 발생 시
-    if (bindingResult.hasErrors()) {
-            log.error("유효성 검사 오류: {}", bindingResult.getAllErrors()); // 오류 로그 출력
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.memberDTO", bindingResult);
-            redirectAttributes.addFlashAttribute("memberDTO", memberDTO);
-            return "redirect:/member/register";
-        }
+    // if (bindingResult.hasErrors()) {
+    //         log.error("유효성 검사 오류: {}", bindingResult.getAllErrors()); // 오류 로그 출력
+    //         redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.memberDTO", bindingResult);
+    //         redirectAttributes.addFlashAttribute("memberDTO", memberDTO);
+    //         return "redirect:/member/register";
+    //     }
 
-        // 아이디와 이메일 유효성 검사
-        if (!memberService.validateIdAndEmail(memberDTO.getMid(), memberDTO.getEmail())) {
-            redirectAttributes.addFlashAttribute("message", "유효하지 않은 아이디 또는 이메일입니다.");
-            redirectAttributes.addFlashAttribute("memberDTO", memberDTO);
-            return "redirect:/member/register";
-        }
+    //     // 아이디와 이메일 유효성 검사
+    //     if (!memberService.validateIdAndEmail(memberDTO.getMid(), memberDTO.getEmail())) {
+    //         redirectAttributes.addFlashAttribute("message", "유효하지 않은 아이디 또는 이메일입니다.");
+    //         redirectAttributes.addFlashAttribute("memberDTO", memberDTO);
+    //         return "redirect:/member/register";
+    //     }
 
-        // 회원 등록
+    //     // 회원 등록
+    //     memberService.register(mapperUtil.map(memberDTO, MemberVO.class));
+    //     log.info("새 회원 등록: {}", memberDTO.getMid());
+    //     redirectAttributes.addFlashAttribute("message", "회원 가입이 성공적으로 완료되었습니다.");
+    //     return "redirect:/member/login";
+        log.info(memberDTO.getEmail()+memberDTO.getMember_name());
         memberService.register(mapperUtil.map(memberDTO, MemberVO.class));
         log.info("새 회원 등록: {}", memberDTO.getMid());
         redirectAttributes.addFlashAttribute("message", "회원 가입이 성공적으로 완료되었습니다.");
-        return "redirect:/member/login";
+        return "redirect:/";
     }
 
     // 회원 정보 수정 GET
