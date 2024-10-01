@@ -29,6 +29,7 @@ import io.good.gooddev_web.board.dto.CommentDTO;
 import io.good.gooddev_web.board.service.BoardService;
 import io.good.gooddev_web.board.service.CommentService;
 import io.good.gooddev_web.board.vo.BoardVO;
+import io.good.gooddev_web.board.vo.CommentVO;
 import io.good.gooddev_web.member.dto.MemberDTO;
 import io.good.gooddev_web.search.dto.PageRequestDTO;
 import io.good.gooddev_web.search.dto.PageResponseDTO;
@@ -50,7 +51,6 @@ public class BoardController {
 	
 	@GetMapping("/board/list")
 	public void boardListView(PageRequestDTO pageRequestDTO, Model model) {
-		
 		PageResponseDTO<BoardDTO> pageResponseDTO = boardService.getList(pageRequestDTO);
 		List<BoardDTO> topTenList = boardService.topTenList();
 		model.addAttribute("pageResponseDTO", pageResponseDTO);
@@ -61,22 +61,32 @@ public class BoardController {
 	@GetMapping("/board/read")
 	public void boardRead(@RequestParam int bno,@RequestParam String link,Model model) {
 		boardService.viewCount(bno);
-		List<CommentDTO> commentAllByBno = commentService.getCommentByBno(bno);
+		CommentVO commentVO = new CommentVO(String.valueOf(bno));
+		List<CommentDTO> commentAllByBno = commentService.getList(commentVO);
 		 if (link != null) {
 			link = URLDecoder.decode(link, StandardCharsets.UTF_8);
 		}
+		
 	    model.addAttribute("board", boardService.getRead(bno));
-		model.addAttribute("commentAllByBno", commentAllByBno);
+		model.addAttribute("comments", commentAllByBno);
 		model.addAttribute("link", link);
-		for (CommentDTO comment : commentAllByBno) {
-	        List<CommentDTO> cocomment = commentService.getNotNullCommentByBnoAndCno(bno, comment.getCno());
-	        comment.setCocomment(cocomment);
-	    }
 	}
 	
 	@GetMapping("/board/update")
 	public void boardUpdate(int bno, Model model) {
 		model.addAttribute("board", boardService.getRead(bno));
+	}
+	
+	@PostMapping("/board/update")
+	public String update(BoardDTO boardDTO, PageRequestDTO pageRequestDTO) {
+		boardService.update(mapper.map(boardDTO, BoardVO.class));
+		return "redirect:/board/list?" + pageRequestDTO.getLink();
+	}
+	
+	@GetMapping("/board/delete")
+	public String delete(int bno, PageRequestDTO pageRequestDTO) {
+		boardService.delete(bno);
+		return "redirect:/board/list?" + pageRequestDTO.getLink();
 	}
 	
 	@GetMapping("/board/insert")
@@ -86,12 +96,12 @@ public class BoardController {
 	}
 	
 	@PostMapping("/board/insert")
-	public String boardInsert(BoardDTO boardDTO, Model model, MemberDTO memberDTO) {
+	public String boardInsert(BoardDTO boardDTO, Model model, MemberDTO memberDTO, PageRequestDTO pageRequestDTO) {
 		try{
 			int result = boardService.insert(mapper.map(boardDTO, BoardVO.class));
 			return "redirect:/board/read?bno="+result;
 		}catch(Exception e){
-			return "redirect:/board/list";
+			return "redirect:/board/list?" + pageRequestDTO.getLink();
 		}
 	}
 
@@ -128,14 +138,14 @@ public class BoardController {
 		String mid = member.getMid();
 	    if (mid != null) {
 	        // 싫어요 상태 확인
-	        boolean hasLiked = boardService.hasUserLiked(bno, mid);
+	        boolean hasHated = boardService.hasUserHated(bno, mid);
 
-	        if (hasLiked) {
+	        if (hasHated) {
 	            // 이미 싫어요를 누른 경우 -> 취소 (DELETEYN 'Y' 처리)
-	            boardService.cancelLike(bno, mid);
+	            boardService.cancelHate(bno, mid);
 	        } else {
 	            // 싫어요를 누르지 않은 경우 -> 추가 (DELETEYN 'N' 처리)
-	            boardService.addLike(bno, mid);
+	            boardService.addHate(bno, mid);
 	        }
 
 	        // 최신 싫어요 수 반환

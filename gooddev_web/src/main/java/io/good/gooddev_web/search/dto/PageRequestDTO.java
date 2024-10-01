@@ -2,7 +2,6 @@ package io.good.gooddev_web.search.dto;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -46,6 +45,7 @@ public class PageRequestDTO {
 		//  log.info(str);
 		// 	}
 		// }
+
 		return builder.toString();
 	}
 	public String getParam(int page)  {

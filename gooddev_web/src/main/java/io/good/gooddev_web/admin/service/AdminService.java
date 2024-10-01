@@ -35,7 +35,7 @@ public class AdminService {
 	}
 	
 	public int remove(String uid) {
-		return memberDAO.removeMember(uid);
+		return memberDAO.remove(uid);
 	}
 	
 //	//전체 게시물 조회 (category_no이 20,30,40,50 인 것만 가져옴)

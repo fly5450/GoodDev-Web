@@ -64,7 +64,8 @@ public class BoardService {
 
     public PageResponseDTO<BoardDTO> getList(PageRequestDTO pageRequestDTO) {
 		List<BoardDTO> getList = boardDAO.getList(pageRequestDTO).stream().map(board -> mapper.map(board, BoardDTO.class)).collect(Collectors.toList());
-		return new PageResponseDTO(pageRequestDTO, getList, boardDAO.getTotalCount(pageRequestDTO));
+		//return new PageResponseDTO(pageRequestDTO, getList, boardDAO.getTotalCount(pageRequestDTO));
+        return new PageResponseDTO<BoardDTO>(pageRequestDTO, getList, boardDAO.getTotalCount(pageRequestDTO));
 	}
     
 	public int remove(long mid) {
@@ -125,15 +126,31 @@ public class BoardService {
             boardDAO.updateLikeCount(bno, 1);
         }
     }
+    
+    public void addHate(final int bno, String mid) {
+    	if (!boardDAO.existsHate(mid, bno)) {
+    		boardDAO.insertHate(mid, bno, 0);
+    		boardDAO.updateHateCount(bno, 1);
+    	}
+    }
 
     public void cancelLike(int bno, String mid) {
-        // 좋아요가 있으면 취소 (DELETEYN 'Y' 설정 및 like_board 0)
+        // 좋아요가 있으면 취소 (DELETEYN 'Y' 설정 및 like_board null)
         boardDAO.updateDeleteYN(mid, bno, 'Y');
         boardDAO.updateLikeCount(bno, -1);
+    }
+    
+    public void cancelHate(int bno, String mid) {
+    	boardDAO.updateDeleteYN(mid, bno, 'Y');
+    	boardDAO.updateHateCount(bno, -1);
     }
 
     public boolean hasUserLiked(int bno, String mid) {
         return boardDAO.existsLike(mid, bno);
+    }
+    
+    public boolean hasUserHated(int bno, String mid) {
+    	return boardDAO.existsHate(mid, bno);
     }
     
     public int getLikeCount(int bno) {
@@ -163,7 +180,15 @@ public class BoardService {
                 boardDTO.setBoardFileDTOList(boardFileDAO.getList(boardDTO.getBno()).stream().map(file->mapper.map(file, BoardFileDTO.class)).collect(Collectors.toList()));
             }
         }
-		return new PageResponseDTO(pageRequestDTO, getList, boardDAO.getTotalCount(pageRequestDTO));
+		//return new PageResponseDTO(pageRequestDTO, getList, boardDAO.getTotalCount(pageRequestDTO));
+        return new PageResponseDTO<BoardDTO>(pageRequestDTO, getList, boardDAO.getTotalCount(pageRequestDTO));
 	}
 
+    public int update(final BoardVO boardVO) {
+    	return boardDAO.update(boardVO);
+    }
+    
+    public int delete(int bno) {
+    	return boardDAO.delete(bno);
+    }
 }

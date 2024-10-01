@@ -20,8 +20,8 @@
 
             <!-- Main Content -->
             <div class="main-content">
-				<div class="card-body">
-					<table class="table" style="">
+				<div class = "list-table-container">
+					<table class="list-table">
 						<thead>
 							<tr>
 								<th scope="col">번호</th>
@@ -35,8 +35,8 @@
 						<tbody>
 							<c:forEach var="board" items="${pageResponseDTO.list}">
 								<tr>
-									<td>${board.bno}</td>
-									<td><a href="#" class="read-link" data-board-bno="${board.bno}" data-page = "${pageResponse.page}" data-link="${pageRequestDTO.link}">${board.title}</a></td>
+									<td >${board.bno}</td>
+									<td><a href="#" class="list-title" data-board-bno="${board.bno}" data-page = "${pageResponse.page}" data-link="${pageRequestDTO.link}">${board.title}</a></td>
 									<td>${board.mid}</td>
 									<td>${board.formatDate}</td>
 									<td>${board.view_cnt}</td>
@@ -45,8 +45,10 @@
 							</c:forEach>
 						</tbody>
 					</table>
-					<a href="#" class="board-list-insert" data-category_no="${pageRequestDTO.category_no}">글쓰기</a>
-					<jsp:include page="/WEB-INF/views/commons/page_nav.jsp"></jsp:include>
+					<div>
+						<a href="#" class="board-list-insert" data-category_no="${pageRequestDTO.category_no}">글쓰기</a>
+						<jsp:include page="/WEB-INF/views/commons/page_nav.jsp"></jsp:include>
+					</div>
 				</div>
 				<%@ include file="/WEB-INF/views/commons/top10List.jsp" %>
 			</div>
@@ -57,7 +59,7 @@
 	<script>
 		
 		document.addEventListener('DOMContentLoaded', function() {
-			let links = document.querySelectorAll('.read-link');
+			let links = document.querySelectorAll('.list-title');
             links.forEach(function(link) {
                 link.addEventListener('click', function() {
                     let boardBno = link.getAttribute('data-board-bno');

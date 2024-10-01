@@ -74,8 +74,8 @@
                                 <a href="member/login">로그인하기</a>
                             </div>
                             <div class="login-links">
-                                <a href="member/findId" >아이디찾기</a>
-                                <a href="member/findPassword" >비밀번호찾기</a>
+                                <a href="member/findid" >아이디찾기</a>
+                                <a href="member/findpwd" >비밀번호찾기</a>
                                 <a href="member/register" >회원가입</a>
                             </div>
                         </div>

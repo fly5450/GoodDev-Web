@@ -3,5 +3,5 @@
 
  <div class="sidebar">
     <p>광고 영역 등</p>
-    <img src="ad_image.jpg"  alt="광고 이미지" width="100%">
+    <img src="<c:url value='/resources/images/kosa_add_ch_kakaotalk.jpg'/>"  alt="광고 이미지" width="100%">
 </div>

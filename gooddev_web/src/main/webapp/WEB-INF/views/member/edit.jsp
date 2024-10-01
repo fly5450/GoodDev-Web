@@ -10,23 +10,17 @@
 </head>
 <body>
     <div class="container">
-        <header>
-            <div class="header-container">
-                <div class="logo-container">
-                    <img src="<c:url value='/resources/img/good.png'/>" alt="로고">
-                </div>
-                <div class="search-wrapper">
-                    <span class="search-label">통합검색</span>
-                    <div class="search-container">
-                        <form action="<c:url value='/search'/>" method="post" id="searchForm" class="search-form">
-                            <input name="keyword" id="keyword" class="search-input" placeholder="검색어를 입력해주세요">
-                            <button type="submit" class="search-button">검색</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </header>
-        
+     <!-- Header -->
+     <%@ include file="/WEB-INF/views/commons/header.jsp" %>
+
+     <!-- Navigation -->
+     <%@ include file="/WEB-INF/views/commons/nav.jsp" %>
+     
+     <!--컨텐츠부분-->
+     <div class = "main">
+         <%@ include file="/WEB-INF/views/commons/advertisement.jsp" %>
+         
+         <!-- Main Content -->
         <main>
             <h2>회원 정보 수정</h2>
             <form action="<c:url value='/member/edit'/>" method="post">
@@ -57,7 +51,7 @@
         </main>
         
         <footer>
-            <p>© 2024 굿이야(주). All rights reserved.</p>
+            <%@ include file="/WEB-INF/views/commons/footer.jsp" %>
         </footer>
     </div>
 </body>

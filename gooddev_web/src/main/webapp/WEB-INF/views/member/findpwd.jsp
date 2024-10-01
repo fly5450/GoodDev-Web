@@ -6,58 +6,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>비밀번호 찾기 - 굿이야 사이트</title>
+    <title>비밀번호 찾기 - 굿이야</title>
     <link rel="stylesheet" href="<c:url value='/resources/css/style.css'/>">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .content-center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 100px); /* 헤더와 푸터 높이를 고려하여 조정 */
+        }
+        .form-container {
+            background-color: #f9f9f9;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            margin: auto; /* 가운데 정렬 */
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .btn-primary {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        #resultMessage {
+            margin-top: 1rem;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <!-- 헤더 내용 (메인 페이지와 동일) -->
-        </header>
+        <!-- Header -->
+        <%@ include file="/WEB-INF/views/commons/header.jsp" %>
 
-        <main>
-            <h2>비밀번호 찾기</h2>
-            <form id="findPasswordForm" action="<c:url value='/member/findPassword'/>" method="post">
-                <div>
-                    <label for="mid">아이디:</label>
-                    <input type="text" id="mid" name="mid" required>
-                </div>
-                <div>
-                    <label for="email">이메일:</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <button type="submit">비밀번호 찾기</button>
-            </form>
-            <div id="resultMessage"></div>
+        <!-- Navigation -->
+        <%@ include file="/WEB-INF/views/commons/nav.jsp" %>
+
+        <!--컨텐츠부분-->
+        <div class="main">
+            <%@ include file="/WEB-INF/views/commons/advertisement.jsp" %>
+            <%@ include file="/WEB-INF/views/commons/top10List.jsp" %>
+            <!-- Main Content -->
+            <div class="main-content">
+                <c:if test="${not empty message}">
+                    <div id="resultMessage" class="alert alert-info">${message}</div>
+        </c:if>
+        
+        <main class="main-content">
+            <div class="form-container">
+                <h2>비밀번호 찾기</h2> 
+                <form action="<c:url value='/member/findpwd'/>" method="post" id="findPwdForm">  
+                    <div class="form-group">
+                        <label for="mid">아이디:</label>
+                        <input type="text" id="mid" name="mid" required> 
+                    </div>
+                    <div class="form-group">
+                        <label for="email">이메일:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <button type="submit" class="btn-primary">비밀번호 찾기</button>
+                </form>
+                <c:if test="${not empty foundUser}">
+                    <form action="<c:url value='/member/resetPassword'/>" method="post" id="resetPasswordForm">
+                        <div class="form-group">
+                            <label for="newPassword">새 비밀번호:</label>
+                            <input type="password" id="newPassword" name="newPassword" required>
+                        </div>
+                        <input type="hidden" name="mid" value="${foundUser.mid}">
+                        <button type="submit" class="btn-primary">비밀번호 재설정</button>
+                    </form>
+                </c:if>
+            </div>
         </main>
-
-        <footer>
-            <p>© 2024 굿이야. All rights reserved.</p>
-        </footer>
+        
+        <%@ include file="/WEB-INF/views/commons/advertisement.jsp" %>
+        <%@ include file="/WEB-INF/views/commons/footer.jsp" %>
     </div>
-
-    <script>
-    $(document).ready(function() {
-        $('#findPasswordForm').submit(function(e) {
-            e.preventDefault();
-            $.ajax({
-                url: $(this).attr('action'),
-                type: 'POST',
-                data: $(this).serialize(),
-                success: function(response) {
-                    if(response === 'success') {
-                        $('#resultMessage').text('임시 비밀번호가 이메일로 전송되었습니다.').css('color', 'green');
-                    } else {
-                        $('#resultMessage').text('일치하는 정보가 없습니다. 다시 확인해주세요.').css('color', 'red');
-                    }
-                },
-                error: function() {
-                    $('#resultMessage').text('오류가 발생했습니다. 나중에 다시 시도해주세요.').css('color', 'red');
-                }
-            });
-        });
-    });
-    </script>
 </body>
 </html>
