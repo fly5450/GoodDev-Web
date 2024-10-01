@@ -9,7 +9,7 @@
     <title>비밀번호 찾기 - 굿이야</title>
     <link rel="stylesheet" href="<c:url value='/resources/css/style.css'/>">
     <style>
-        .content-center {
+        /* .content-center {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -52,7 +52,7 @@
         #resultMessage {
             margin-top: 1rem;
             text-align: center;
-        }
+        } */
     </style>
 </head>
 <body>

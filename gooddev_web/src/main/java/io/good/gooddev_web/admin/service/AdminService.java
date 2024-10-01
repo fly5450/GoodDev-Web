@@ -1,15 +1,10 @@
 package io.good.gooddev_web.admin.service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
-import io.good.gooddev_web.board.dao.BoardDAO;
-import io.good.gooddev_web.board.dto.BoardDTO;
-import io.good.gooddev_web.board.service.BoardService;
 import io.good.gooddev_web.member.dao.MemberDAO;
 import io.good.gooddev_web.member.dto.MemberDTO;
 import io.good.gooddev_web.search.dto.PageRequestDTO;
@@ -25,9 +20,7 @@ public class AdminService {
 	
 	private final MapperUtil mapperUtil;
 	private final MemberDAO memberDAO;
-	private final BoardService boardService;
-	private final BoardDAO boardDAO;
-	
+
 	//멤버 조회
 	public PageResponseDTO<MemberDTO> getMemberList(PageRequestDTO pageRequestDTO) {
 		List<MemberDTO> list = memberDAO.getList(pageRequestDTO).stream().map(member -> mapperUtil.map(member, MemberDTO.class)).collect(Collectors.toList());

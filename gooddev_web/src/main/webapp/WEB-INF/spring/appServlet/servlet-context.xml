@@ -8,14 +8,13 @@
 						http://www.springframework.org/schema/beans 
 						https://www.springframework.org/schema/beans/spring-beans.xsd
 						http://www.springframework.org/schema/context 
-						https://www.springframework.org/schema/context/spring-context.xsd">
-
+						https://www.springframework.org/schema/context/spring-context.xsd">		 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	 
 	<!--  기타 MVC 설정 Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
+	<!-- <mvc:annotation-driven /> -->
 
-	
 	<!-- 외부 css파일 설정 Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
 
@@ -39,8 +38,8 @@
 		<!--메모리 제한-->
 		<beans:property name="maxInMemorySize" value="1000000"/>
 	</beans:bean>
-	<!-- 예외처리 설정 -->
-	<beans:bean class="io.good.gooddev_web.common.GlobalExceptionHandler" />
+	<!-- 예외처리 설정
+	<beans:bean class="io.good.gooddev_web.common.GlobalExceptionHandler" /> -->
 
 	<!--업로드저장경로를 접근방지를 위해 xml에서설정-->
 	<!--데이터를 가져올때 resouce로 관리하기 위한 매핑-->

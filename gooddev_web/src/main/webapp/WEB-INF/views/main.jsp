@@ -22,7 +22,7 @@
         <!--컨텐츠부분-->
         <div class = "main">
             <%@ include file="/WEB-INF/views/commons/advertisement.jsp" %>
-
+            
             <!-- Main Content -->
             <div class="main-content">
                 <!-- Content (Notice, Boards, Gallery) -->

@@ -9,62 +9,7 @@
     <title>아이디 찾기 - 굿이야</title>
     <link rel="stylesheet" href="<c:url value='/resources/css/style.css'/>">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
-        .findIdByEmail {
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        .findIdByEmail h2 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 30px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #0056b3;
-        }
-        .form-group input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-        .form-group button {
-            padding: 10px 15px;
-            background-color: #0056b3;  
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .form-group button:hover {
-            background-color: #004085;
-        }
-        .submit-btn {
-            width: 100%;
-            padding: 10px;
-            background-color: #0056b3;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 18px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        .submit-btn:hover {
-            background-color: #004085;
-        }
-    </style>
+  
 </head>
 <body>
     <div class="container">
