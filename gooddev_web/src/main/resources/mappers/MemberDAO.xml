@@ -48,7 +48,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </update>
 
 <!-- 회원가입 -->
-<insert id="register" useGeneratedKeys="true" keyProperty="mid">
+<insert id="register">
     INSERT INTO 
         good_member (mid, password, member_Name, nickname, email, phone)
     VALUES
@@ -70,10 +70,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </update>
 
 <!-- 아이디찾기 -->
-<select id="findIdByEmail" resultType="String">
+<select id="findIdByEmail" resultType="io.good.gooddev_web.member.dto.MemberDTO">
     SELECT mid 
     FROM good_member 
-    WHERE email = #{email} AND deleteYn = 'N'
+    WHERE email = #{email} 
+    AND deleteYn = 'N'
 </select>
 
 <!-- 비밀번호 찾기 및 재설정 -->
@@ -96,17 +97,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     WHERE mid = #{mid} AND deleteYn = 'N'
 </select>
 
-<!-- 유저 검증 (아이디와 이메일로) -->
+<!-- 유저 존재검증 (아이디와 이메일로) -->
 <select id="validateUser" parameterType="map" resultType="boolean">
     SELECT COUNT(*) > 0
-    FROM good_member 
+    FROM good_member
     WHERE mid = #{mid}
-    AND (#{email} IS NULL OR email = #{email})
+    <if test="email != null">
+        AND email = #{email}
+    </if>
     AND deleteYn = 'N'
 </select>
 
 <!-- 이메일 유효성 검사 -->
-<select id="EmailValid" parameterType="string" resultType="boolean">
+<select id="EmailValidatorREGEX" parameterType="String" resultType="boolean">
     SELECT COUNT(*) > 0
     FROM good_member
     WHERE email = #{email}

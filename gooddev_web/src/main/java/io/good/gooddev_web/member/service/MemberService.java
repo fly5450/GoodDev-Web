@@ -76,12 +76,18 @@ public class MemberService {
         return result;
     }
 
-     // 회원 ID를 찾기 (이메일로)
+ 
+    // 이메일로 아이디 찾기
     public String findIdByEmail(String email) {
-        Optional<MemberVO> foundMember = memberDAO.findIdByEmail(email);
-        log.info("아이디 찾기: 이메일 = {}, 결과 = {}", email, foundMember.isPresent() ? "성공" : "실패");
-        return foundMember.map(MemberVO::getMid).orElse(null);
-    }
+      Optional<MemberVO> member = memberDAO.findIdByEmail(email);
+      if (member.isPresent()) {
+          log.info("아이디 찾기 성공: 이메일 = {}, 아이디 = {}", email, member.get().getMid());
+          return member.get().getMid();
+      } else {
+          log.info("아이디 찾기 실패: 이메일 = {}", email);
+          return null;
+      }
+  }
 
     //아이디 중복 체크
   public boolean isIdDuplicate(String mid) {
@@ -90,10 +96,10 @@ public class MemberService {
   //   public boolean isIdDuplicate(String mid) {
   //     return memberDAO.checkIdDuplicate(mid) > 0;
   // }
-
+  
     //이메일 유효성 검사
     public boolean isEmailValid(String email) {
-        return memberDAO.EmailValid(email);
+        return memberDAO.EmailValidatorREGEX(email);
     }
      
     //사용자 유효성을 검증 - 아이디와 이메일로 검증(존재하는지)
@@ -108,14 +114,14 @@ public class MemberService {
     }
     // 아이디와 이메일 모두 유효성 검사
     public boolean validateIdAndEmail(String mid, String email) {
-        return IdValidator.isValidId(mid) && 
-               EmailValidator.isValidEmail(email) && 
+        return IdValidator.isValidIdREGEX(mid) && 
+               EmailValidator.isValidEmailREGEX(email) && 
                !isIdDuplicate(mid) && 
                !isEmailValid(email);
     }
   
     //비밀번호를 재설정합니다.
-    public boolean resetPassword(String mid, String email, String newPassword) {
+    public boolean resetPasswordByIdAndEmail(String mid, String email, String newPassword) {
         if (memberDAO.validateUser(mid, email)) {
             MemberVO member = memberDAO.getRead(mid).orElse(null);
             if (member != null) {
