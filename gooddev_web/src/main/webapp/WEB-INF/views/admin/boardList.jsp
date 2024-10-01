@@ -29,7 +29,7 @@
 </head>
 <body>
 	<div style="text-align: right; margin: 10px;">
-	    <form action="<c:url value='/logout' />" method="post">
+	    <form action="<c:url value='/member/logout' />" method="post">
 	        <button type="submit">로그아웃</button>
 	    </form>
 	</div>
@@ -37,12 +37,12 @@
 		<div class="d-flex">
 	        <!-- 관리자용 메뉴 바 -->
 	        <div id="my_box" style="width:24%; height: 80%; padding: 0px 30px;">
-	            <h2 style="padding-bottom: 60px; width:15rem;"><a href="/admin" style="text-decoration-line: none; color:black;"><b>관리자페이지</b></a></h2>
+	            <h2 style="padding-bottom: 60px; width:15rem;"><a href="${pageContext.request.contextPath}/admin" style="text-decoration-line: none; color:black;"><b>관리자페이지</b></a></h2> 
 	            <ul class="my_menu">
-	                <li id="menu1" style="height: 50%;"> 
-	                	<h5 class="menu_depth01">관리자 정보</h5>  
+	                <li id="menu1" style="height: 50%;">  
+	                    <h5 class="menu_depth01">관리자 정보</h5> 
 	                    <ul class="menu_depth02">
-	                        <li id="update"><a href="<c:url value='/admin/memberList'/>">전체 회원목록 관리</a></li>
+	                    	<li id="update"><a href="<c:url value='/admin/memberList'/>">전체 회원목록 관리</a></li>
 	                        <li id="update"><a href="<c:url value='/admin/noticeList'/>">전체 공지사항 관리</a></li> 
 	                        <li id="myBoardList"><a href="<c:url value='/admin/boardList'/>">전체 게시물 관리</a></li> 
 	                    </ul>
@@ -52,7 +52,7 @@
 			<div class="content" style="width:80%; padding:0px 30px;">
 				<div class="profile">
 					<div class="user_info">
-						<span class="name" id="spanNickname">관리자{$써야함} 님</span>
+						<span class="name" id="spanNickname">관리자 님</span>
 					</div>
 				</div>
 				<div class="wrapper">
@@ -75,6 +75,7 @@
 								<th scope="col">일자</th>
 								<th scope="col">조회수</th>
 								<th scope="col">좋아요</th>
+								<th scope="col">삭제</th>
 						      </tr>
 						    </thead>
 						    <tbody>
@@ -86,6 +87,11 @@
 										<td>${board.formatDate}</td>
 										<td>${board.view_cnt}</td>
 										<td>${board.like_cnt}</td>
+										<td>
+											<div class="btn_big_wrap">
+													<button type="button" onclick="location.href='<c:url value='/admin/removeBoard'/>?bno=${board.bno}'" class="btn btn-outline-dark">삭제</button>
+											</div>
+										</td>
 									</tr>
 								</c:forEach>
 						    </tbody>

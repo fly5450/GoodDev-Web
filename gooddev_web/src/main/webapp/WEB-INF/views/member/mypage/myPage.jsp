@@ -18,8 +18,6 @@
 		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 		crossorigin="anonymous"></script>
 		
-		<!-- jQuery 외부 라이브러리  설정-->
-		<script src="${pageContext.request.contextPath}/resources/jquery/jquery-3.7.1.min.js"></script>
 		
 		<!-- external css -->
 		<link rel="stylesheet" href="<c:url value='/resources/css/my_page.css'/>">
@@ -41,7 +39,7 @@
 						<li id="menu1" style="height: 50%;">  
 							<a class="menu_depth01" href="#">내 정보</a>
 							<ul class="menu_depth02">
-								<li id="update"><a href="updateMember">회원 정보 수정</a></li>
+								<li id="update"><a href="updateMember?mid=${member.mid}">회원 정보 수정</a></li>
 								<li id="myBoardList"><a href="myBoardList">나의 작성 게시물</a></li>
 							</ul>
 						</li>
@@ -50,8 +48,8 @@
 				<div class="content" style="width:80%; padding:0px 30px;">
 					<div class="profile">
 						<div class="user_info">
-							<span class="name" id="spanNickname">누구누구 님</span>
-							<p class="date">가입일 : <span>가입날짜 적을부분(db)</span></p>
+							<span class="name" id="spanNickname">${member.mid} 님</span>
+							<p class="date">가입일 : <span>${member.signup_Date}</span></p>
 						</div>
 					</div>
 				</div>

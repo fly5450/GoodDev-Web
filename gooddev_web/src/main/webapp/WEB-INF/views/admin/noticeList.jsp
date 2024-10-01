@@ -23,13 +23,17 @@
 		
 		<!-- 사용자 정의 자바스크립트 -->
 		<script>
-		
+			function openDeleteModal(bno) {
+	            document.getElementById('deleteNoticeForm').action = '/admin/deleteNotice?bno=' + bno;
+	            var modal = new bootstrap.Modal(document.getElementById('removeNoticeModal'));
+	            modal.show();
+	        }
 		</script>
 		
 </head>
 <body>
 	<div style="text-align: right; margin: 10px;">
-	    <form action="<c:url value='/logout' />" method="post">
+	    <form action="<c:url value='/member/logout' />" method="post">
 	        <button type="submit">로그아웃</button>
 	    </form>
 	</div>
@@ -37,12 +41,12 @@
 		<div class="d-flex">
 	        <!-- 관리자용 메뉴 바 -->
 	        <div id="my_box" style="width:24%; height: 80%; padding: 0px 30px;">
-	            <h2 style="padding-bottom: 60px; width:15rem;"><a href="/admin" style="text-decoration-line: none; color:black;"><b>관리자페이지</b></a></h2>
+	            <h2 style="padding-bottom: 60px; width:15rem;"><a href="${pageContext.request.contextPath}/admin" style="text-decoration-line: none; color:black;"><b>관리자페이지</b></a></h2> 
 	            <ul class="my_menu">
-	                <li id="menu1" style="height: 50%;"> 
-	                	<h5 class="menu_depth01">관리자 정보</h5>  
+	                <li id="menu1" style="height: 50%;">  
+	                    <h5 class="menu_depth01">관리자 정보</h5> 
 	                    <ul class="menu_depth02">
-	                        <li id="update"><a href="<c:url value='/admin/memberList'/>">전체 회원목록 관리</a></li>
+	                    	<li id="update"><a href="<c:url value='/admin/memberList'/>">전체 회원목록 관리</a></li>
 	                        <li id="update"><a href="<c:url value='/admin/noticeList'/>">전체 공지사항 관리</a></li> 
 	                        <li id="myBoardList"><a href="<c:url value='/admin/boardList'/>">전체 게시물 관리</a></li> 
 	                    </ul>
@@ -52,7 +56,7 @@
 			<div class="content" style="width:80%; padding:0px 30px;">
 				<div class="profile">
 					<div class="user_info">
-						<span class="name" id="spanNickname">관리자{$써야함} 님</span>
+						<span class="name" id="spanNickname">관리자 님</span>
 					</div>
 				</div>
 				<div class="wrapper">
@@ -62,7 +66,7 @@
 						<div class="title">
 							<h1 id="itemTitle">공지사항 조회</h1>
 						</div>
-						<button type="button" onclick="location.href='<c:url value='/admin/insertNotice'/>?mid=${member.mid}'" class="btn btn-outline-dark">공지사항 등록</button>
+						<button type="button" onclick="location.href='<c:url value='/admin/insertNotice'/>?mid=${member.mid}" class="btn btn-outline-dark">공지사항 등록</button>
 					</div>
 					<div class="section_block">
 						<div class="container mt-3">
@@ -70,10 +74,11 @@
 						  <table class="table">
 						    <thead class="table-dark">
 						      <tr>
-						        <th>번호</th>
-				                <th>제목</th>
-				                <th>작성자</th>
-				                <th>작성일</th>
+						        <th scope="col">번호</th>
+				                <th scope="col">제목</th>
+				                <th scope="col">작성자</th>
+				                <th scope="col">작성일</th>
+				                <th scope="col">수정/삭제</th>
 						      </tr>
 						    </thead>
 						    <tbody>
@@ -83,6 +88,12 @@
 					                    <td><a href="/gooddev_web/admin/detailNotice?bno=${notice.bno}">${notice.title}</a></td>
 					                    <td>${notice.mid}</td>
 					                    <td>${notice.formatDate}</td>
+					                    <td>
+						                    <div class="btn_big_wrap">
+												<button type="button" onclick="location.href='<c:url value='/admin/updateNoticeForm'/>?bno=${notice.bno}'" class="btn btn-outline-dark">수정</button>
+												<button type="button" onclick="location.href='<c:url value='/admin/removeNotice'/>?bno=${notice.bno}'" class="btn btn-outline-dark">삭제</button>
+											</div>
+										</td>
 					                </tr>
 					            </c:forEach>
 						    </tbody>
@@ -114,6 +125,26 @@
 			</div>
 		</div>
 	</div>
+	<!-- 공지사항 삭제 모달 -->
+    <div class="modal fade" id="removeNoticeModal" tabindex="-1" aria-labelledby="removeNoticeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="removeNoticeModalLabel">공지사항 삭제</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>공지사항을 삭제하시겠습니까?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                    <form id="deleteNoticeForm" method="post">
+                        <button type="submit" class="btn btn-danger">삭제</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 	<script>
 		//페이지네이션 자바스크립트 (게시물목록)	
 		document.querySelectorAll(".page-link").forEach(item => {
@@ -122,7 +153,7 @@
 		        e.stopPropagation();
 		        
 		        const param = e.target.getAttribute("data-param");
-	            self.location = "boardList?" + param; // 경로
+	            self.location = "noticeList?" + param; // 경로
 		    });
 		});
 	</script>
