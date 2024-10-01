@@ -25,7 +25,7 @@
 </head>
 <body>
 
-	<h1>공지사항 상세</h1>
+	<h1>회원정보 상세</h1>
 	<div style="text-align: right; margin: 10px;">
 	    <form action="<c:url value='/logout' />" method="post">
 	        <button type="submit">로그아웃</button>
@@ -33,31 +33,35 @@
 	</div>
 	<div>
 		<h3>
-			<span>게시판 번호 : </span> <span id="bno">${board.bno}</span>
+			<span>아이디 : </span> <span id="member">${member.mid}</span>
 		</h3>
 	</div>
 	<div>
 		<h3>
-			<span>제목: </span> <span>${board.title}</span>
+			<span>이름: </span> <span>${member.member_name}</span>
 		</h3>
 	</div>
 	<div>
 		<h3>
-			<span>내용: </span> <span>${board.content}</span>
+			<span>닉네임: </span> <span>${member.nickname}</span>
 		</h3>
 	</div>
 	<div>
 		<h3>
-			<span>일자: </span> <span>${board.formatDate}</span>
+			<span>전화번호: </span> <span>${member.phone}</span>
 		</h3>
 	</div>
 	<div>
 		<h3>
-			<span>조회수: </span> <span>${board.view_cnt}</span>
+			<span>이메일: </span> <span>${member.email}</span>
+		</h3>
+	</div>
+	<div>
+		<h3>
+			<span>가입날짜: </span> <span>${member.signup_Date}</span>
 		</h3>
 	</div>
 	<a href="${pageContext.request.contextPath}/admin/boardList?${pageRequestDTO.link}">뒤로가기</a>
-	<a href="${pageContext.request.contextPath}/admin/updateNoticeForm?${pageRequestDTO.link}">수정</a>
 	<a href="${pageContext.request.contextPath}/admin/remove?bno=${board.bno}&${pageRequestDTO.link}">삭제</a>
 	<a href="${pageContext.request.contextPath}/admin/boardList?${pageRequestDTO.link}">목록</a>
 

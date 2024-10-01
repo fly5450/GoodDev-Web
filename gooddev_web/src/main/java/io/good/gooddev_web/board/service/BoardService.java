@@ -184,7 +184,8 @@ public class BoardService {
     	return boardDAO.update(boardVO);
     }
     
-    public int delete(int bno) {
-    	return boardDAO.delete(bno);
+    public boolean delete(int bno, String board_password) {
+    	int deleteBoard = boardDAO.delete(bno, board_password);
+    	return deleteBoard > 0;
     }
 }

@@ -21,6 +21,7 @@
             <!-- Main Content -->
 			<div class="board-read-container">
 				<span id="bno" data-bno="${board.bno}" style="display: none;"></span>
+				<input type="hidden" id="sessionMid" value="${sessionMid}">
 				<!--제목 및 작성자정보영역-->
 				<div class="board-read-header">
 					<h1 class="board-read-title">${board.title}</h1>
@@ -58,8 +59,11 @@
 				<!--버튼기능들-->
 				<div style="margin-top: 20px;">
 					<a href="list?&${link}">돌아가기</a>
-					<a href="update?bno=${board.bno}&${pageRequestDTO.link}">수정</a>
-					<a href="delete?bno=${board.bno}&${pageRequestDTO.link}">삭제</a>
+					<c:if test="${board.mid eq sessionMid}">
+						<a href="#" class="board-read-update" data-bno="${board.bno}" data-page="${pageResponse.page}" data-link="${pageRequestDTO.link}">수정</a>
+					    <a href="#" class="board-delete" data-bno="${board.bno}" onclick="confirmDelete(${board.bno})">삭제</a>
+					</c:if>
+
 				</div>
 
                 <div class = "comment-section" id = "comment-section">
@@ -107,9 +111,9 @@
 
         window.onclick = function(event) {
             if (!event.target.matches('.attachment-button')) {
-                var dropdowns = document.getElementsByClassName("attachment-dropdown-content");
-                for (var i = 0; i < dropdowns.length; i++) {
-                    var openDropdown = dropdowns[i];
+                let dropdowns = document.getElementsByClassName("attachment-dropdown-content");
+                for (let i = 0; i < dropdowns.length; i++) {
+                    let openDropdown = dropdowns[i];
                     if (openDropdown.classList.contains('show')) {
                         openDropdown.classList.remove('show');
                     }
@@ -143,8 +147,11 @@
                 return response.json(); 
             })
             .then(data => {
-                document.getElementById('likeCount').innerText = "좋아요 수: "+data.likeCount;
-                document.getElementById('hateCount').innerText = "싫어요 수: "+data.hateCount;
+            	if (action == 'like') {
+                	document.getElementById('likeCount').innerText = "좋아요 수: "+data.likeCount;
+            	} else if (action == 'hate') {
+                	document.getElementById('hateCount').innerText = "싫어요 수: "+data.hateCount;
+            	}
             });
         }
 
@@ -301,6 +308,46 @@
                 return;
             }
 
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            links = document.querySelectorAll('.board-read-update');
+            links.forEach(function(link) {
+                link.addEventListener('click', function() {
+                	let bno = link.getAttribute('data-bno');
+                	let pageLink = link.getAttribute('data-link');
+                    let page = link.getAttribute('data-page');
+                    let encodedLink = encodeURIComponent(pageLink);
+                    link.href = "update?bno=" + bno + "&link="+encodedLink;
+                });
+            });
+        });
+        
+        function confirmDelete(bno) {
+        	const password = prompt("게시물 비밀번호를 입력하세요.")
+        	if (password !== null) {
+        		fetch("<%= request.getContextPath() %>/board/delete", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: 'bno=' + bno + '&board_password=' + encodeURIComponent(password)
+                })
+                .then(response => {
+                	if (response.ok) {
+                		return response.json();
+                	} 
+                })
+                .then(data => {
+                	console.log(data);
+                	if (data.success) {
+                		alert("게시물이 삭제되었습니다.")
+                		 window.location.href = "<%= request.getContextPath() %>/board/list"; 
+                    } else {
+                        alert("비밀번호가 틀렸습니다. 삭제를 실패하였습니다.");
+                    }
+                });
+        	}
         }
 	</script>
 </body>

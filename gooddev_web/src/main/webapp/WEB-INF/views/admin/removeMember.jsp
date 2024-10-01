@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>관리자페이지(공지사항 수정) - goodDev</title>
+<title>마이페이지(회원탈퇴) - goodDev</title>
 
 		<!-- Bootstrap 5를 위한 외부 라이브러리 설정 -->
 		<link
@@ -21,13 +21,16 @@
 		<script>
 		
 		</script>
+		
 </head>
 <body>
-	<h1>공지사항 수정</h1>
-	<div style="text-align: right; margin: 10px;">
-	    <form action="<c:url value='/logout' />" method="post">
-	        <button type="submit">로그아웃</button>
-	    </form>
+	<div class="parent-container">
+		<div class="container">
+			<div id="content">
+				회원 탈퇴가 완료되었습니다.
+			</div>
+			<button class="btn" id="goHome" onclick="location.href='/gooddev_web'">메인페이지로</button>
+		</div>
 	</div>
 </body>
 </html>

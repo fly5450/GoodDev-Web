@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="<c:url value='/resources/css/style.css'/>">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        .findIdByEmail {
+        /* .findIdByEmail {
             max-width: 500px;
             margin: 0 auto;
             padding: 20px;
@@ -63,7 +63,7 @@
         }
         .submit-btn:hover {
             background-color: #004085;
-        }
+        } */
     </style>
 </head>
 <body>

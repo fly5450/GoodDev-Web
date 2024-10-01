@@ -18,25 +18,34 @@
 		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 		crossorigin="anonymous"></script>
 		
+		<!-- jQuery 외부 라이브러리  설정-->
+		<script src="${pageContext.request.contextPath}/resources/jquery/jquery-3.7.1.min.js"></script>
+		
 		<!-- external css -->
 		<link rel="stylesheet" href="<c:url value='/resources/css/my_page.css'/>">
+		
 		
 </head>
 <body>
 	<div>
 		<h1>여기가 공지사항이 들어갈 부분</h1>
+		<div style="text-align: right; margin: 10px;">
+		    <form action="<c:url value='/logout' />" method="post">
+		        <button type="submit">로그아웃</button>
+		    </form>
+		</div>
 		<div class="container wrap" style="width:100%; height: 100%; padding-top:100px; padding-bottom: 300px;">
 			<div class="d-flex">
 		        <!-- 관리자용 메뉴 바 -->
 		        <div id="my_box" style="width:24%; height: 80%; padding: 0px 30px;">
-		            <h2 style="padding-bottom: 60px; width:15rem;"><a href="mypage" style="text-decoration-line: none; color:black;"><b>관리자페이지</b></a></h2> 
+		            <h2 style="padding-bottom: 60px; width:15rem;"><a href="/admin" style="text-decoration-line: none; color:black;"><b>관리자페이지</b></a></h2> 
 		            <ul class="my_menu">
 		                <li id="menu1" style="height: 50%;">  
-		                    <a class="menu_depth01" href="#">관리자 정보</a> 
+		                    <h5 class="menu_depth01">관리자 정보</h5> 
 		                    <ul class="menu_depth02">
-		                    	<li id="update"><a href="memberList">전체 회원목록 관리</a></li>
-		                        <li id="update"><a href="noticeList">전체 공지사항 관리</a></li> 
-		                        <li id="myBoardList"><a href="boardList">전체 게시물 관리</a></li> 
+		                    	<li id="update"><a href="<c:url value='/admin/memberList?isAdminYn=Y'/>">전체 회원목록 관리</a></li>
+		                        <li id="update"><a href="<c:url value='/admin/noticeList?isAdminYn=Y'/>">전체 공지사항 관리</a></li> 
+		                        <li id="myBoardList"><a href="<c:url value='/admin/boardList?isAdminYn=Y'/>">전체 게시물 관리</a></li> 
 		                    </ul>
 		                </li>
 		            </ul>

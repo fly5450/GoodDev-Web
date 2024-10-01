@@ -21,6 +21,7 @@
             <div class="main-content">
 				<div class="card-body">
 					<form action="insert" method="post" enctype="multipart/form-data">
+						<input type="hidden" name="link" value="${link}">
 						<div class="mb-3">
                             <select name="category_no" >
 								<c:forEach var="category" items="${totalCategory}">
@@ -49,6 +50,7 @@
 						</div>
 						<input type="submit" class="btn btn-primary" value="등록">
 						<input type="reset" class="btn btn-secondary" value="초기화">
+						<a href="list?&${link}">돌아가기</a>
 					</form>
 				</div>
 			</div>
