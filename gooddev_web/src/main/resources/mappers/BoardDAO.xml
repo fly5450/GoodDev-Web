@@ -6,11 +6,13 @@
 		<where>
 			deleteyn = 'N'
 			<if test="keyword != null and keyword.length() > 0">
+				<trim prefix="and">
 				(
 					title LIKE '%' || #{keyword} || '%'
 					OR
 					content LIKE '%' || #{keyword} || '%'
 				)
+				</trim>
 			</if>
 			<if test="mid != null and mid.length >0">
 				<trim prefix="and"> mid = #{mid} </trim>
@@ -18,7 +20,6 @@
 			<if test="category_no != null and category_no.length >0">
 				<trim prefix="and"> category_no = #{category_no} </trim>
 			</if>
-			<trim prefix="and">deleteyn = 'N'</trim>
 		</where>
 	</sql>
 
@@ -40,7 +41,6 @@
 			<![CDATA[
 			rnum > #{skip}
 			AND rnum <= #{skip} + #{size}
-			AND deleteyn = 'N'
 			]]>
 		</where>
 		ORDER BY bno DESC

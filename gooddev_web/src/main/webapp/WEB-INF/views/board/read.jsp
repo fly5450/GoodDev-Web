@@ -93,7 +93,7 @@
                             <h3>
                                 <span>내용: </span>
                                 <input type="text" id="comment_content">
-                                <button class="submit-button" onclick="insertComment(${board.bno}, '${loginInfo.mid}')">등록</button>
+                                <button class="submit-button" onclick="insertComment(${board.bno})" data-mid="${loginInfo.mid}">등록</button>
                             </h3>
                         </div>
                     </div>
@@ -197,7 +197,7 @@
         function createReplyElement(comment) {
             const replyDiv = document.createElement('div');
             replyDiv.className = 'reply';
-            replyDiv.innerHTML = 
+            replyDiv.innerHTML =
                 '<div class="comment-header">' +
                     '<span class="comment-author">' + comment.mid + '</span>' +
                 '</div>' +
@@ -207,45 +207,12 @@
             return replyDiv;
         }
 
-        function submitReply(bno,cno,mid) {
-            const isLoggedIn = <%= request.getSession().getAttribute("loginInfo") != null %>;
-
-            if (!isLoggedIn) {
-                alert("로그인이 필요합니다.");
-                const currentUrl = window.location.href;
-                window.location.href = "<%= request.getContextPath() %>/member/login?redirect="+encodeURIComponent(currentUrl);
-                return;
-            }
-            const url = "<%= request.getContextPath() %>/comment/insert";
-            const commentInput = document.getElementById("reply-input-"+cno);
-            const content = commentInput.value.trim();
-            const commentContainer = document.getElementById("replies-"+cno);
-            if (content) {
-                fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: 'bno=' + bno + '&parent_cno=' + cno + '&mid='+mid+'&comment_content='+content
-
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    const comment = data.comment;
-                    const commentElement = createReplyElement(comment);
-                    commentContainer.appendChild(commentElement);
-                    commentInput.value = '';
-                });
-            }
+        function getCurrentUser() {
+            return "${loginInfo.mid}";
         }
 
-        function insertComment(bno, mid) {
-            const isLoggedIn = <%= request.getSession().getAttribute("loginInfo") != null %>;
+        function insertComment(bno) {
+           const isLoggedIn = <%= request.getSession().getAttribute("loginInfo") != null %>;
 
             if (!isLoggedIn) {
                 alert("로그인이 필요합니다.");
@@ -254,51 +221,53 @@
                 return;
             }
 
-            const url = "<%= request.getContextPath() %>/comment/insert";
-            const commentInput = document.getElementById("comment_content");
-            const commentValue = commentInput.value;
+            var url = "<%= request.getContextPath() %>/comment/insert";
+            var commentInput = document.getElementById("comment_content");
+            var commentValue = commentInput.value;
             
             fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                body: 'bno=' + bno + '&mid=' + encodeURIComponent(mid) + '&comment_content=' + encodeURIComponent(commentValue)
+                body: 'bno=' + bno + '&mid=' + "${loginInfo.mid}" + '&comment_content=' + encodeURIComponent(commentValue)
             })
-            .then(response => {
+            .then(function(response) {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
                 return response.json();
             })
-            .then(data => {
-                const comment = data.comment;
-                const commentsDiv = document.getElementById("comment-section");
-                const commentItem = 
-                    '<div class="comment" id="comment" data-cno="' + comment.cno + '">' +
-                        '<div class="comment-header">' +
-                            '<span class="comment-author">' + comment.mid + '</span>' +
-                        '</div>' +
-                        '<div class="comment-content">' +
-                            comment.comment_content +
-                        '</div>' +
-                        '<div class="comment-actions">' +
-                            '<button class="reply-button" onclick="cocomment(' + comment.bno + ', ' + comment.cno + ')">답글보기</button>' +
-                            '<div id="cocomments_' + comment.cno + '" style="display: none;"></div>' +
-                            '<div>' +
-                                '<h3>' +
-                                    '<span>내용: </span>' +
-                                    '<input type="text" id="cocomment_content_' + comment.cno + '">' +
-                                    '<button class="submit-button" onclick="insertCocomment(' + comment.bno + ', ' + comment.cno + ', \'' + mid + '\')">등록</button>' +
-                                '</h3>' +
-                            '</div>' +
-                        '</div>' +
+            .then(function(data) {
+                var comment = data.comment;
+                var commentsDiv = document.getElementById("comment-section");
+                var commentItem = document.createElement('div');
+                commentItem.className = 'comment';
+                commentItem.id = 'comment';
+                commentItem.setAttribute('data-cno', comment.cno);
+                
+                commentItem.innerHTML = 
+                    '<div class="comment-header">' +
+                        '<span class="comment-author">' + comment.mid + '</span>' +
+                    '</div>' +
+                    '<div class="comment-content">' +
+                        comment.comment_content +
+                    '</div>' +
+                    '<div class="comment-actions">' +
+                        '<button class="reply-button" onclick="toggleReplySection(\'' + comment.bno + '\',\'' + comment.cno + '\')">답글보기</button>' +
+                    '</div>' +
+                    '<div class="reply-section" id="reply-section-' + comment.cno + '">' +
+                        '<div class="replies" id="replies-' + comment.cno + '"></div>' +
+                        '<input type="text" class="reply-input" id="reply-input-' + comment.cno + '" placeholder="답글을 입력하세요...">' +
+                        '<button class="reply-submit" onclick="submitReply(\'' + comment.bno + '\',\'' + comment.cno + '\')">등록</button>' +
                     '</div>';
-                commentsDiv.innerHTML += commentItem;
+
+                commentsDiv.appendChild(commentItem);
+                commentInput.value = '';
             });
         }
 
-        function insertCocomment(bno,cno,mid) {
+        function submitReply(bno, cno) {
             const isLoggedIn = <%= request.getSession().getAttribute("loginInfo") != null %>;
 
             if (!isLoggedIn) {
@@ -307,7 +276,33 @@
                 window.location.href = "<%= request.getContextPath() %>/member/login?redirect="+encodeURIComponent(currentUrl);
                 return;
             }
-
+           
+            var url = "<%= request.getContextPath() %>/comment/insert";
+            var commentInput = document.getElementById("reply-input-" + cno);
+            var content = commentInput.value.trim();
+            var commentContainer = document.getElementById("replies-" + cno);
+            
+            if (content) {
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: 'bno=' + bno + '&parent_cno=' + cno + '&mid=' + "${loginInfo.mid}" + '&comment_content=' + encodeURIComponent(content)
+                })
+                .then(function(response) {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(function(data) {
+                    var comment = data.comment;
+                    var commentElement = createReplyElement(comment);
+                    commentContainer.appendChild(commentElement);
+                    commentInput.value = '';
+                });
+            }
         }
         
         document.addEventListener('DOMContentLoaded', function() {
