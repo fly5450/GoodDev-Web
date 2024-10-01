@@ -136,28 +136,33 @@ public class MemberController {
            return "member/findid"; // 아이디 찾기 페이지로 이동
        }
    
-       // 아이디 찾기 POST 요청 처리
-       @PostMapping("findid")
-       public String findIdByEmail(@RequestParam("email") String email, RedirectAttributes redirectAttributes) {
-           // 이메일 유효성 검사
-           if (!EmailValidator.isValidEmailREGEX(email)) {
-               redirectAttributes.addFlashAttribute("message", "유효하지 않은 이메일 형식입니다.");
-               return "redirect:/member/findid";
-           }
-   
-           // 이메일로 아이디 찾기
-           String foundId = memberService.findIdByEmail(email);
-           if (foundId != null) {
-               // 아이디 마스킹 처리 (ex: ab****cd)
-               String maskedId = IdMasker.maskId(foundId);
-               redirectAttributes.addFlashAttribute("message", "찾은 아이디: " + maskedId);
-           } else {
-               redirectAttributes.addFlashAttribute("message", "해당 이메일로 등록된 아이디가 없습니다.");
-           }
-   
-           return "redirect:/member/findid"; // 결과 페이지로 리다이렉트
-       }
-     
+        // 아이디 찾기 POST 요청 처리
+    @PostMapping("findid")
+    public String findIdByEmail(@RequestParam("email") String email, RedirectAttributes redirectAttributes) {
+        // 이메일 유효성 검사
+        if (email == null || email.isEmpty()) {
+            redirectAttributes.addFlashAttribute("message", "이메일을 입력해 주세요.");
+            return "redirect:/member/findid";
+        }
+
+        if (!EmailValidator.isValidEmailREGEX(email)) {
+            redirectAttributes.addFlashAttribute("message", "유효하지 않은 이메일 형식입니다.");
+            return "redirect:/member/findid";
+        }
+
+        // 이메일로 아이디 찾기
+        String foundId = memberService.findIdByEmail(email);
+        if (foundId != null) {
+            // 아이디 마스킹 처리 (ex: ab****cd)
+            String maskedId = IdMasker.maskId(foundId);
+            redirectAttributes.addFlashAttribute("message", "찾은 아이디: " + maskedId);
+        } else {
+            redirectAttributes.addFlashAttribute("message", "해당 이메일로 등록된 아이디가 없습니다.");
+        }
+
+        return "redirect:/member/findid"; // 결과 페이지로 리다이렉트
+    }
+
 
      // 아이디 중복 체크와 유효성 검사 수행
     // @PostMapping("/checkIdDuplicate")
