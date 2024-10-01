@@ -32,4 +32,5 @@ public interface  BoardDAO {
     void updateHateCount(@Param("bno") int bno, @Param("hateValue") int hateValue);
     void insertHate(@Param("mid") String mid, @Param("bno") int bno, @Param("hateValue") int hateValue);
 	List<BoardVO> getBoardsByMid(String mid);
+    int deleteBoard(int bno);
 }

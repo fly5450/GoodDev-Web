@@ -189,6 +189,10 @@ public class BoardService {
     	int deleteBoard = boardDAO.delete(bno, board_password);
     	return deleteBoard > 0;
     }
+    
+    public int deleteBoard(int bno) {
+    	return boardDAO.deleteBoard(bno);
+    }
 
     public Map<String, List<BoardDTO>> getMainList() {
         Map<String, List<BoardDTO>> map= new HashMap<>();

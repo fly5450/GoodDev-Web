@@ -96,15 +96,21 @@
 					
 					<ul class="my_menu">
 						<li id="menu1" style="height: 50%;">  
-							<a class="menu_depth01" href="/myPage">나의 정보</a>
+							<a class="menu_depth01" href="detailMember">내 정보</a>
 							<ul class="menu_depth02">
-								<li id="update"><a href="updateMember">회원 정보 수정</a></li>
-								<li id="myBoardList"><a href="myBoardList">나의 작성 게시물</a></li>
+								<li id="update"><a href="updateMember?mid=${member.mid}" onclick="changeStyle(this)">회원 정보 수정</a></li>
+								<li id="myBoardList"><a href="myBoardList?mid=${member.mid}" onclick="changeStyle(this)">나의 작성 게시물</a></li>
 							</ul>
 						</li>
 					</ul>
 				</div>
 				<div class="content">
+					<div class="profile">
+						<div class="user_info">
+							<span class="name" id="spanNickname">${member.mid} 님</span>
+							<p class="date">가입일 : <span>${member.signup_Date}</span></p>
+						</div>
+					</div>
 					<form action="${pageContext.request.contextPath}/updateMember" method="post" id="updateForm">
 					    <div class="tit_area line_thick">
 							<strong class="member_info2">회원정보 수정</strong> 
@@ -174,7 +180,7 @@
 							</div>
 						</div>
 						<div class="btn_big_wrap btn_size_fix mt60">
-							<button type="button" onclick="location.href='myPage'" class="white btn_cancle">취소</button>
+							<button type="button" onclick="location.href='myPage'" class="white btn_cancel">취소</button>
 							<button type="submit" class="btn_submit">완료</button>
 						</div>
 					</form>
@@ -232,6 +238,17 @@
 		</div>
 	</div>
 	
+	<script>
+		function changeStyle(element) {
+		    // 모든 링크의 스타일을 초기화
+		    document.querySelectorAll('.menu_depth02 a').forEach(link => {
+		        link.parentElement.classList.remove('selected');
+		    });
+		    
+		    // 선택된 링크에 스타일 적용
+		    element.parentElement.classList.add('selected');
+		}
+	</script>
 
 </body>
 </html>

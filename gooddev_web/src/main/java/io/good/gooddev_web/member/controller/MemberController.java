@@ -308,6 +308,16 @@ public class MemberController {
     	return "member/mypage/myBoardList";
     }
     
+    //회원 상세보기
+    @GetMapping("/detailMember")
+	public String detailMember(@RequestParam String mid, Model model) {
+		
+	    MemberDTO member = memberService.getRead(mid);
+	    model.addAttribute("member", member);
+	    
+	    return "member/mypage/detailMember";
+	}
+    
     //회원 정보 수정
     @GetMapping("/updateMember")
     public String updateMember(Model model, HttpServletRequest request) {

@@ -17,6 +17,9 @@
 		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 		crossorigin="anonymous"></script>
 		
+		<!-- external css -->
+    	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mypage/updateMember.css">
+		
 		<!-- 사용자 정의 자바스크립트 -->
 		<script>
 		</script>

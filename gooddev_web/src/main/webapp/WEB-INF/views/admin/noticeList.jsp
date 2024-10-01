@@ -19,7 +19,7 @@
 		crossorigin="anonymous"></script>
 		
 		<!-- external css -->
-    	<link rel="stylesheet" href="<c:url value='/resources/css/page_nav.css'/>">
+    	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mypage/updateMember.css">
 		
 		<!-- 사용자 정의 자바스크립트 -->
 		<script>
@@ -156,6 +156,16 @@
 	            self.location = "noticeList?" + param; // 경로
 		    });
 		});
+		
+		function changeStyle(element) {
+		    // 모든 링크의 스타일을 초기화
+		    document.querySelectorAll('.menu_depth02 a').forEach(link => {
+		        link.parentElement.classList.remove('selected');
+		    });
+		    
+		    // 선택된 링크에 스타일 적용
+		    element.parentElement.classList.add('selected');
+		}
 	</script>
 </body>
 </html>

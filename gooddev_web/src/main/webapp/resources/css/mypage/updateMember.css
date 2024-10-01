@@ -45,14 +45,18 @@ ul.menu_depth02 a {
 	font-size: 14px;
 }
 
+.menu_depth02 .active {
+    border-right: 4px solid black;
+    color: black !important;
+}
+
 #update {
-	border-right: 4px solid black;
+    border-right: 4px solid black;
 }
 
 #update a {
-	color: black;
+    color: black;
 }
-
 
 .content {
     line-height: normal;
@@ -208,49 +212,6 @@ ul.menu_depth02 a {
 }
 
 
-.button_set {
-    line-height: normal;
-    font-weight: 500;
-    border-collapse: collapse;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    margin-top: 16px;
-    justify-content: flex-start;
-}
-
-.btn_sub_m {
-    border-collapse: collapse;
-    box-sizing: border-box;
-    margin: 0;
-    font-weight: 500;
-    vertical-align: middle;
-    cursor: pointer;
-    font-size: 13px;
-    min-width: 105px;
-    height: 38px;
-    border-radius: 3px;
-    padding: 0 30px;
-    line-height: 38px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid #cccccc;
-    background: white;
-}
-
-.section_block2 .input_clear {
-    color: var(--txt-color);
-    border-collapse: collapse;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    position: relative;
-    width: 100%;
-}
-
 
 .clear_btn {
     border-collapse: collapse;
@@ -304,7 +265,7 @@ ul.menu_depth02 a {
     margin-top: 60px;
 }
 
-.btn_cancle{
+.btn_cancel{
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -383,32 +344,9 @@ ul.menu_depth02 a {
     justify-content: center;
 }
 
-#modalContainer {
-	width: 100%;
-	height: 100%;
-	position: fixed;
-	top: 0;
-	left: 0;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	background: rgba(0, 0, 0, 0.5);
-}
 
-#modalContent {
-	position: absolute;
-	background-color: #ffffff;
-	width: 300px;
-	height: 150px;
-	padding: 15px;
-}
-
-#modalContainer.hidden {
-	display: none;
-}
 
 #changePasswordButton, 
-#changePhoneButton, 
 #modalSubmitButton {
 	cursor: pointer;
 	vertical-align: middle;
