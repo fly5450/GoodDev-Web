@@ -124,10 +124,6 @@ public class AdminController {
 	    // 전체 게시물 가져오기
 	    PageResponseDTO<BoardDTO> pageResponseDTO = boardService.getList(pageRequestDTO);
 
-	    // 필터링된 공지사항 목록
-	    List<BoardDTO> noticeList = pageResponseDTO.getList();
-
-	    log.info("Filtered Notice List Size값 한글: {}", noticeList.size());
 
 	    // 모델에 추가
 	    model.addAttribute("pageRequestDTO", pageRequestDTO);
