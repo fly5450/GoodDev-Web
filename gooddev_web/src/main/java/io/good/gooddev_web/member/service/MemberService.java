@@ -56,10 +56,11 @@ public class MemberService {
         log.warn("회원정보 수정 실패: 존재하지 않는 회원 ID = {}", modifyMember.getMid());
         return 0;
     }
+
      // 회원정보 수정 -> 회원 정보 필드를 업데이트
     private void updateMemberFields(MemberVO currentMember, MemberVO modifyMember) {
         if (modifyMember.getPassword() != null) currentMember.setPassword(modifyMember.getPassword());
-        if (modifyMember.getMemberName() != null) currentMember.setMemberName(modifyMember.getMemberName());
+        if (modifyMember.getMember_Name() != null) currentMember.setMember_Name(modifyMember.getMember_Name());
         if (modifyMember.getNickname() != null) currentMember.setNickname(modifyMember.getNickname());
         if (modifyMember.getPhone() != null) currentMember.setPhone(modifyMember.getPhone());
         if (modifyMember.getEmail() != null) currentMember.setEmail(modifyMember.getEmail());
@@ -89,11 +90,12 @@ public class MemberService {
           return memberDAO.validateUser(mid, email);
       }
     }
+    //아이디 중복 체크
     public boolean isIdDuplicate(String mid) {
-      return memberDAO.getRead(mid).isPresent();
+      return memberDAO.getRead(mid).isPresent(); //아이디가 존재하면 true, 없으면 false
   }
     //비밀번호를 재설정합니다.
-    public boolean findPwd(String mid, String email, String newPassword) {
+    public boolean resetPassword(String mid, String email, String newPassword) {
         if (memberDAO.validateUser(mid, email)) {
             MemberVO member = memberDAO.getRead(mid).orElse(null);
             if (member != null) {

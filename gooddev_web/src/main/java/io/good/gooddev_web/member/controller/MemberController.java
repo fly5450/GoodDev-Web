@@ -151,38 +151,38 @@ public class MemberController {
          return "redirect:/member/register";
      }
  
-        // 비밀번호 찾기 페이지로 이동 GET
-        @GetMapping("findpwd")
-        public String FindPwdForm() {
-            return "member/findpwd"; // findpwdjsp로 이동
-        }
+    // 비밀번호 찾기 페이지로 이동 GET
+    @GetMapping("findpwd")
+    public String FindPwdForm() {
+        return "member/findpwd"; // findpwd.jsp로 이동
+    }
 
+   // 비밀번호 찾기 처리 POST
+  
    // 비밀번호 찾기 처리 POST
    @PostMapping("findpwd")
    public String findPwdPost(@RequestParam("mid") String mid,
-                              @RequestParam("email") String email,
-                              @RequestParam("newPassword") String newPassword, // 수정: @ModelAttribute -> @RequestParam
-                              RedirectAttributes redirectAttributes) {
-        if (!EmailValidator.isValidEmail(email)) {
-            redirectAttributes.addFlashAttribute("message", "유효하지 않은 이메일 형식입니다.");
-            redirectAttributes.addFlashAttribute("mid", mid);
-            redirectAttributes.addFlashAttribute("email", email);
-            return "redirect:/member/findpwd";
-        }
-
-        Boolean success = memberService.findPwd(mid, email, newPassword);
-         // 비밀번호 재설정 성공 여부 확인
-        if (success) {
-            redirectAttributes.addFlashAttribute("message", "비밀번호가 성공적으로 재설정되었습니다.");
-            redirectAttributes.addFlashAttribute("mid", mid);
-            redirectAttributes.addFlashAttribute("email", email);
-        } else {
-            redirectAttributes.addFlashAttribute("message", "아이디 또는 이메일이 일치하지 않습니다.");
-            redirectAttributes.addFlashAttribute("mid", mid);
-            redirectAttributes.addFlashAttribute("email", email);
-        }
-        return "redirect:/member/login";  // 로그인 페이지로 리다이렉트
-    }
+                             @RequestParam("email") String email,
+                             @RequestParam("newPassword") String newPassword,
+                             RedirectAttributes redirectAttributes) {
+       if (!EmailValidator.isValidEmail(email)) {
+           redirectAttributes.addFlashAttribute("message", "유효하지 않은 이메일 형식입니다.");
+           redirectAttributes.addFlashAttribute("mid", mid);
+           redirectAttributes.addFlashAttribute("email", email);
+           return "redirect:/member/findpwd";
+       }
+   
+       Boolean success = memberService.resetPassword(mid, email, newPassword);
+       if (success) {
+           redirectAttributes.addFlashAttribute("message", "비밀번호가 성공적으로 재설정되었습니다.");
+           redirectAttributes.addFlashAttribute("mid", mid);
+       } else {
+           redirectAttributes.addFlashAttribute("message", "아이디 또는 이메일이 일치하지 않습니다.");
+           redirectAttributes.addFlashAttribute("mid", mid);
+           redirectAttributes.addFlashAttribute("email", email);
+       }
+       return "redirect:/member/login";
+   }
 
 
  //---------------- 로그인/로그아웃 ------------------

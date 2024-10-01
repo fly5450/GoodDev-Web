@@ -51,7 +51,7 @@
         </main>
         
         <footer>
-            <p>© 2024 굿이야(주). All rights reserved.</p>
+            <%@ include file="/WEB-INF/views/commons/footer.jsp" %>
         </footer>
     </div>
 </body>

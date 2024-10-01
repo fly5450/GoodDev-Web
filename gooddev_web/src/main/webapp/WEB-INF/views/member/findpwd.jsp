@@ -22,6 +22,7 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 400px;
+            margin: auto; /* 가운데 정렬 */
         }
         .form-group {
             margin-bottom: 1rem;
@@ -56,17 +57,29 @@
 </head>
 <body>
     <div class="container">
+        <!-- Header -->
         <%@ include file="/WEB-INF/views/commons/header.jsp" %>
+
+        <!-- Navigation -->
         <%@ include file="/WEB-INF/views/commons/nav.jsp" %>
-        <%@ include file="/WEB-INF/views/commons/advertisement.jsp" %>
+
+        <!--컨텐츠부분-->
+        <div class="main">
+            <%@ include file="/WEB-INF/views/commons/advertisement.jsp" %>
+            <%@ include file="/WEB-INF/views/commons/top10List.jsp" %>
+            <!-- Main Content -->
+            <div class="main-content">
+                <c:if test="${not empty message}">
+                    <div id="resultMessage" class="alert alert-info">${message}</div>
+        </c:if>
         
         <main class="main-content">
             <div class="form-container">
-                <h2>비밀번호 찾기</h2>
-                <form action="<c:url value='/member/findpwd'/>" method="post">
+                <h2>비밀번호 찾기</h2> 
+                <form action="<c:url value='/member/findpwd'/>" method="post" id="findPwdForm">  
                     <div class="form-group">
                         <label for="mid">아이디:</label>
-                        <input type="text" id="mid" name="mid" required>
+                        <input type="text" id="mid" name="mid" required> 
                     </div>
                     <div class="form-group">
                         <label for="email">이메일:</label>
@@ -74,11 +87,16 @@
                     </div>
                     <button type="submit" class="btn-primary">비밀번호 찾기</button>
                 </form>
-                <div id="resultMessage">
-                    <c:if test="${not empty message}">
-                        <p style="color: ${message.startsWith('임시 비밀번호가') ? 'green' : 'red'}">${message}</p>
-                    </c:if>
-                </div>
+                <c:if test="${not empty foundUser}">
+                    <form action="<c:url value='/member/resetPassword'/>" method="post" id="resetPasswordForm">
+                        <div class="form-group">
+                            <label for="newPassword">새 비밀번호:</label>
+                            <input type="password" id="newPassword" name="newPassword" required>
+                        </div>
+                        <input type="hidden" name="mid" value="${foundUser.mid}">
+                        <button type="submit" class="btn-primary">비밀번호 재설정</button>
+                    </form>
+                </c:if>
             </div>
         </main>
         

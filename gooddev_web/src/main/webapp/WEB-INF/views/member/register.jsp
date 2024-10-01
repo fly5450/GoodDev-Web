@@ -122,7 +122,6 @@
                             <label for="phone">전화번호:</label>
                             <input type="tel" id="phone" name="phone" required pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="000-0000-0000">
                         </div>
-
                         <button type="submit" class="submit-btn">가입하기</button>
                     </form>
                 </div>

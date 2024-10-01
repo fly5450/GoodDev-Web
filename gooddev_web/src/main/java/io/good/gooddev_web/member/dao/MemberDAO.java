@@ -3,14 +3,18 @@ package io.good.gooddev_web.member.dao;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Repository;
+
 import io.good.gooddev_web.member.dto.MemberDTO;
 import io.good.gooddev_web.member.vo.MemberVO;
 import io.good.gooddev_web.search.dto.PageRequestDTO;
+
+@Repository
 public interface MemberDAO { 
 
   List<MemberVO> getList(PageRequestDTO pageRequestDTO);  // 회원 목록 조회
   Optional<MemberVO> getRead(String mid);  // 특정 회원 조회
-  Optional<MemberVO> getRead_uuid(String uuid);  // UUID로 회원 조회
+  Optional<MemberVO> getRead_uuid(String uuid);  
   int remove(String uid);  // 회원 탈퇴
   int modify(MemberVO member);  // 회원 정보 수정
   int register(MemberVO member);  // 회원 가입

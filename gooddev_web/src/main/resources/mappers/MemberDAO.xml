@@ -23,32 +23,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </select>
 
 <!-- 회원 상세조회 (활성화된 회원) -->
-<select id="getReadMember_Optional" resultType="io.good.gooddev_web.member.vo.MemberVO">
+<select id="getRead" resultType="io.good.gooddev_web.member.vo.MemberVO">
     SELECT *
     FROM good_member
     WHERE mid = #{mid} AND deleteYn = 'N'
 </select>
 
 <!-- 회원탈퇴 -->
-<delete id="removeMember">
+<delete id="remove">
     UPDATE good_member
     SET deleteYn = 'Y'
     WHERE mid = #{mid}
 </delete>
 
 <!-- 회원정보 수정 -->
-<update id="modifyMember">
+<update id="modify">
     UPDATE good_member
     SET password = #{password},
         memberName = #{memberName},
         nickname = #{nickname},
         phone = #{phone},
         email = #{email}
-    WHERE mid = #{mid}
+    WHERE mid = #{mid} AND deleteYn = 'N'
 </update>
 
 <!-- 회원가입 -->
-<insert id="registerMember" useGeneratedKeys="true" keyProperty="mid">
+<insert id="register" useGeneratedKeys="true" keyProperty="mid">
     INSERT INTO 
         good_member (mid, password, memberName, nickname, phone, email, deleteYn)
     VALUES
@@ -59,41 +59,49 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <select id="getTotalCount" resultType="int">
     SELECT COUNT(*)
     FROM good_member
-    WHERE deleteYn = 'N'
+    WHERE deleteYn = 'N' 
 </select>
+
 <!-- 자동로그인-->
 <update id="modify_Auto_Login">
     UPDATE good_member
     SET auto_Login = #{auto_Login}
-    WHERE mid = #{mid}
+    WHERE mid = #{mid} AND deleteYn = 'N'
 </update>
 
 <!-- 아이디찾기 -->
-<select id="findId" resultType="String">
+<select id="findIdByEmail" resultType="String">
     SELECT mid 
     FROM good_member 
-    WHERE email = #{email}
+    WHERE email = #{email} AND deleteYn = 'N'
 </select>
 
 <!-- 비밀번호 찾기-->
-<select id="findPassword" resultType="String">
+<select id="findPwdById" resultType="String">
     SELECT password
     FROM good_member
-    WHERE mid = #{mid}
+    WHERE mid = #{mid} AND deleteYn = 'N'
 </select>
+
+<!-- 비밀번호 재설정 -->
+<update id="resetPassword">
+    UPDATE good_member
+    SET password = #{newPassword}
+    WHERE mid = #{mid} AND deleteYn = 'N'
+</update>
 
 <!-- 유저 검증 -->
 <select id="validateUser" parameterType="map" resultType="int">
     SELECT COUNT(*)
     FROM good_member 
-    WHERE mid = #{mid} AND email = #{email}
+    WHERE mid = #{mid} AND email = #{email} AND deleteYn = 'N'
 </select>
 
 
 <select id="getRead_Auto_Login" resultType="io.good.gooddev_web.member.vo.MemberVO"> 
     SELECT * 
     FROM good_member 
-    WHERE auto_Login = #{auto_Login}
+    WHERE auto_Login = #{auto_Login} AND deleteYn = 'N'
 </select>
 
 </mapper>

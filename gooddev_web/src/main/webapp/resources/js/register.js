@@ -21,11 +21,6 @@ $(document).ready(function() {
             e.preventDefault(); 
         }
         
-        // 아이디 중복 체크 여부 확인
-        $('#checkIdBtn').on('click', function() {
-            $('#checkIdInput').val($('#mid').val());
-        });
-        
         // 폼 유효성 검사 상태 추가
         $(this).addClass('was-validated'); 
     });

@@ -1,6 +1,7 @@
 package io.good.gooddev_web.member.vo;
 
 import java.util.Date;
+
 import io.good.gooddev_web.member.dto.MemberDTO;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -23,7 +24,7 @@ public class MemberVO {
     private String password;       // 회원 비밀번호
 
     @NotEmpty(message = "회원명은 필수입니다.")
-    private String memberName;     // 회원 이름
+    private String member_Name;     // 회원 이름
 
     @NotEmpty(message = "닉네임은 필수입니다.")
     private String nickname;       // 회원 닉네임
@@ -33,7 +34,6 @@ public class MemberVO {
 
     @Email(message = "유효한 이메일 주소를 입력하세요.")
     private String email;          // 이메일
-
     private String auto_Login;     // 자동로그인 key
     private Date last_Login_Date;  // 마지막 로그인
     private Date last_Logout_Date; // 마지막 로그아웃
@@ -47,7 +47,7 @@ public class MemberVO {
     public MemberVO(MemberDTO member) {
         this.mid = member.getMid();
         this.password = member.getPassword();
-        this.memberName = member.getMemberName();
+        this.member_Name = member.getMember_Name();
         this.nickname = member.getNickname();
         this.phone = member.getPhone();
         this.email = member.getEmail();
