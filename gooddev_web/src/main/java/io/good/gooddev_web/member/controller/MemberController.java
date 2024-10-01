@@ -1,6 +1,7 @@
 package io.good.gooddev_web.member.controller;
 
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
@@ -26,7 +27,6 @@ import io.good.gooddev_web.member.dto.MemberDTO;
 import io.good.gooddev_web.member.service.MemberService;
 import io.good.gooddev_web.member.vo.MemberVO;
 import io.good.gooddev_web.search.dto.PageRequestDTO;
-import io.good.gooddev_web.search.dto.PageResponseDTO;
 import io.good.gooddev_web.util.EmailValidator;
 import io.good.gooddev_web.util.IdMasker;
 import io.good.gooddev_web.util.MapperUtil;
@@ -211,6 +211,7 @@ public class MemberController {
 	public String loginGet(HttpServletRequest request, HttpServletResponse response,Model model) {
         try{
             String link = request.getParameter("redirect");
+            log.info("link는"+link);
             if (request.getCookies() != null) {
                 for (Cookie cookie : request.getCookies()) {
                     if (cookie.getName().equals("autoLoginTrue")) {
@@ -226,8 +227,8 @@ public class MemberController {
                     }
                 }
             }
-            String redirectLink = link != null && !link.equals("null") ? URLDecoder.decode(link, "UTF-8") : "/";
-            model.addAttribute("redirect", redirectLink);
+            String redirectLink = link != null && !link.equals("null") ? link : "/";
+            model.addAttribute("redirect", URLEncoder.encode(redirectLink,"UTF-8"));
             return "member/login";
         }
         catch(Exception e){
@@ -263,7 +264,7 @@ public class MemberController {
                 return "redirect:"+(link != null&&!link.equals("null") ? URLDecoder.decode(link, "UTF-8") : "/");
 
             } else {
-                return "redirect:login?error=error&redirect=" + (link != null && !link.equals("null")? URLDecoder.decode(link, "UTF-8") : "/");
+                return "redirect:login?error=error&redirect=" + (link != null && !link.equals("null")? URLEncoder.encode(link,"UTF-8") : "/");
             }
         } catch (Exception e) {
             e.printStackTrace(); // 로그에 오류 기록
