@@ -191,4 +191,10 @@ public class BoardService {
     public int delete(int bno) {
     	return boardDAO.delete(bno);
     }
+
+	public List<BoardDTO> getBoardsByMid(String mid) {
+		return boardDAO.getBoardsByMid(mid).stream()
+                .map(board -> mapper.map(board, BoardDTO.class))
+                .collect(Collectors.toList());
+	}
 }

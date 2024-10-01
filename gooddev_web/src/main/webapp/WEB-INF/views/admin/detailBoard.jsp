@@ -63,10 +63,8 @@
 			<span>싫어요: </span> <span id="hateCount">${board.hate_cnt}</span>
 		</h3>
 	</div>
-	<a href="${pageContext.request.contextPath}/admin/boardList?${pageRequestDTO.link}">뒤로가기</a>
-	<a href="${pageContext.request.contextPath}/admin/remove?bno=${board.bno}&${pageRequestDTO.link}">삭제</a>
-	<a href="${pageContext.request.contextPath}/admin/boardList?${pageRequestDTO.link}">목록</a>
-
+	<button type="button" onclick="history.back()" class="btn btn-outline-dark">뒤로가기</button>
+	<button type="button" onclick="location.href='${pageContext.request.contextPath}/admin/boardList?${pageRequestDTO.link}'" class="btn btn-outline-dark">목록</button>
 	<script>
 	 function confirmDelete(bno) {
         // 모달 열기
