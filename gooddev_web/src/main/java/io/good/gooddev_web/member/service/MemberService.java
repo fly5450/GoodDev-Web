@@ -155,4 +155,11 @@ public class MemberService {
     public int modify_Auto_Login(MemberVO modify_auto_login) {
         return memberDAO.modify_Auto_Login(modify_auto_login);
     }
+    
+    //마이페이지 회원정보 출력
+    public MemberDTO getMemberInfo(String mid) {
+        return memberDAO.getRead(mid)
+            .map(member -> mapperUtil.map(member, MemberDTO.class))
+            .orElse(null);
+    }
 }

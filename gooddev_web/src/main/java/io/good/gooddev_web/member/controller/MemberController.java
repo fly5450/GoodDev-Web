@@ -1,6 +1,7 @@
 package io.good.gooddev_web.member.controller;
 
 import java.net.URLDecoder;
+import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -20,10 +21,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import io.good.gooddev_web.board.dto.BoardDTO;
+import io.good.gooddev_web.board.service.BoardService;
 import io.good.gooddev_web.member.dto.MemberDTO;
 import io.good.gooddev_web.member.service.MemberService;
 import io.good.gooddev_web.member.vo.MemberVO;
 import io.good.gooddev_web.search.dto.PageRequestDTO;
+import io.good.gooddev_web.search.dto.PageResponseDTO;
 import io.good.gooddev_web.util.EmailValidator;
 import io.good.gooddev_web.util.IdMasker;
 import io.good.gooddev_web.util.IdValidator;
@@ -39,6 +43,7 @@ public class MemberController {
 
 	private final MemberService memberService;
 	private final MapperUtil mapperUtil;
+	private final BoardService boardService; 
 
 //---------------- 회원 CRUD ------------------ 1) Read 2) Create 3) Update 4) Delete  
     // 회원 목록 GET
@@ -288,7 +293,11 @@ public class MemberController {
                     cookie.setPath("/");
                     response.addCookie(cookie);
                 }
+                session.setAttribute("mid", member.getMid());
                 session.setAttribute("loginInfo", member);
+                // isAdminYn 값을 세션에 추가
+                session.setAttribute("isAdminYn", String.valueOf(member.getIsAdminYn()));
+                log.info("로그인 성공: " + mid + " 세션에 저장된 mid: " + session.getAttribute("mid"));
                 return "redirect:"+(link != null&&!link.equals("null") ? URLDecoder.decode(link, "UTF-8") : "/");
 
             } else {
@@ -304,26 +313,79 @@ public class MemberController {
     
     //회원 마이페이지
     @RequestMapping("/myPage")
-    public String myPage(Model model) {
+    public String myPage(Model model, HttpServletRequest request) {
+    	HttpSession session = request.getSession();
+        String mid = (String) session.getAttribute("mid");
+        
+        if (mid == null) {
+            return "redirect:/login"; // 로그인되지 않은 경우 로그인 페이지로 리다이렉트
+        }
+
+        // DB에서 사용자 정보를 가져오는 서비스 호출
+        MemberDTO memberInfo = memberService.getMemberInfo(mid);
+        log.info("mid 정보 보기" + mid);
+        model.addAttribute("member", memberInfo); // JSP에서 사용하기 위해 모델에 추가
+        
         return "member/mypage/myPage";
     }
         
     //나의 게시물 가져오기
     @RequestMapping("/myBoardList")
-    public String myBoardList(Model model) {
-    	//게시물 객체 가져오기
+    public String myBoardList(Model model, HttpServletRequest request) {
+    	HttpSession session = request.getSession();
+        String mid = (String) session.getAttribute("mid");
+
+        if (mid == null) {
+            return "redirect:/login"; // 로그인되지 않은 경우 로그인 페이지로 리다이렉트
+        }
+
+        // 게시물 객체 가져오기
+        List<BoardDTO> myBoards = boardService.getBoardsByMid(mid); // 사용자 게시물 가져오기
+        model.addAttribute("myBoards", myBoards); // 모델에 추가
+        
     	return "member/mypage/myBoardList";
     }
     
     //회원 정보 수정
-    @RequestMapping("/updateMember")
-    public String updateMember(Model model) {
-    	log.info("updateMember() 실행");
+    @GetMapping("/updateMember")
+    public String updateMember(Model model, HttpServletRequest request) {
+    	
+    	String mid = request.getParameter("mid");
+    	log.info("Received mid: " + mid);
+    	
+        MemberDTO member = memberService.getRead(mid); // 회원 정보 조회
+        model.addAttribute("member", member); // 모델에 추가
+        
+        log.info("updateMid() 실행" + mid);
+    	log.info("updateMember() 실행" + member);
+    	return "member/mypage/updateMember";
+    }
+    
+    //회원 정보 수정
+    @PostMapping("/updateMember")
+    public String updateMemberForm(MemberVO memberVO) {
+    	log.info("Received memberVO: " + memberVO);
+    	
+    	memberService.modifyMemberInfo(memberVO); // 회원 정보 수정
+        log.info("updateMemberPost() 실행 - POST");
+        
     	return "member/mypage/updateMember";
     }
     //회원 탈퇴
     @RequestMapping("/removeMember")
-    public String removeMember() {
+    public String removeMember(HttpServletRequest request) {
+    	HttpSession session = request.getSession();
+        String mid = (String) session.getAttribute("mid");
+        
+        if (mid == null) {
+            return "redirect:/login"; // 로그인되지 않은 경우 로그인 페이지로 리다이렉트
+        }
+        
+        memberService.remove(mid);
+        
+        // 세션 무효화
+        session.invalidate();
+    	
     	return "member/mypage/removeMember";
     }
 }

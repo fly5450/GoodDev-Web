@@ -7,6 +7,10 @@ import java.util.Optional;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+<<<<<<< HEAD
+=======
+import io.good.gooddev_web.board.dto.BoardDTO;
+>>>>>>> 78c1375a28c71914887c47802ca5c455f305476c
 import io.good.gooddev_web.board.vo.BoardCategoryVO;
 import io.good.gooddev_web.board.vo.BoardVO;
 import io.good.gooddev_web.search.dto.PageRequestDTO;
@@ -33,4 +37,5 @@ public interface  BoardDAO {
     boolean existsHate(@Param("mid") String mid, @Param("bno") int bno);
     void updateHateCount(@Param("bno") int bno, @Param("hateValue") int hateValue);
     void insertHate(@Param("mid") String mid, @Param("bno") int bno, @Param("hateValue") int hateValue);
+	List<BoardVO> getBoardsByMid(String mid);
 }

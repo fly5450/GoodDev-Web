@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>회원 정보 수정 -  goodDev</title>
+		
 
 		<!-- Bootstrap 5를 위한 외부 라이브러리 설정 --> 
 		<link
@@ -19,45 +20,68 @@
 		crossorigin="anonymous"></script>
 		
 		
-		<!-- jQuery 외부 라이브러리  설정-->
-		<script src="${pageContext.request.contextPath}/resources/jquery/jquery-3.7.1.min.js"></script>
-		
 		<!-- external css -->
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mypage/updateMember.css">
 		
 		<!-- 사용자 정의 자바스크립트 -->
 		<script>
 		
-		function changedPassword() {
-			//비밀번호 입력 데이터 양식 검사
-			var totalResult = true;
+		function changePassword() {
+			// 비밀번호 입력 데이터 양식 검사
+			let totalResult = true;
 			
-			//goodPassword 1차 검사 (영어 대소문자, 숫자 10 - 15자이하)
-			var goodPasswordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,15}$/;
-			var goodPasswordResult = goodPasswordPattern.test($("#pwdCheck1").val());
-			if(goodPasswordResult) {
-				$("#passwordSpan1").removeClass("text-danger");
-				$("#passwordSpan1").html("");
+			// 비밀번호 1차 검사 (영어 대소문자, 숫자 10 - 15자 이하)
+			const goodPasswordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,15}$/;
+			const pwd1 = document.getElementById("pwdCheck1").value;
+			const pwd2 = document.getElementById("pwdCheck2").value;
+			
+			if (goodPasswordPattern.test(pwd1)) {
+			  document.getElementById("passwordSpan1").classList.remove("text-danger");
+			  document.getElementById("passwordSpan1").innerHTML = "";
 			} else {
-				$("#passwordSpan1").addClass("text-danger");
-				$("#passwordSpan1").html("영어 대소문자, 숫자 10 ~ 15자이하로 작성해주세요.");
-				totalResult = false;
+			  document.getElementById("passwordSpan1").classList.add("text-danger");
+			  document.getElementById("passwordSpan1").innerHTML = "영어 대소문자, 숫자 10 ~ 15자이하로 작성해주세요.";
+			  totalResult = false;
 			}
 			
-			//goodPassword 일치 확인 2차 검사
-			if($('#pwdCheck1').val()) == $('#pwdCheck2').val()) {
-				$("#passwordSpan2").removeClass("text-danger");
-				   $("#passwordSpan2").html("");
-				} else {
-					$("#passwordSpan2").html("비밀번호가 일치하지 않습니다.");
-		            $("#passwordSpan2").addClass("text-danger");
-		            totalResult = false;
-				}
-				
-				if (totalResult) {
-					var changedPwd = $("#pwdCheck1").val();
-					$('#changePasswordModal').modal('hide');
-					$("#changedPassword").val(changedPwd);
+			// 비밀번호 일치 확인 2차 검사
+			if (pwd1 === pwd2) {
+			  document.getElementById("passwordSpan2").classList.remove("text-danger");
+			  document.getElementById("passwordSpan2").innerHTML = "";
+			} else {
+			  document.getElementById("passwordSpan2").classList.add("text-danger");
+			  document.getElementById("passwordSpan2").innerHTML = "비밀번호가 일치하지 않습니다.";
+			  totalResult = false;
+			}
+			
+			if (totalResult) {
+			  																		// Fetch API를 사용하여 비밀번호 변경 요청
+			  const changedPwd = pwd1; 												// 변경된 비밀번호를 변수에 저장
+			  fetch('/updatePassword', { 											// Fetch API로 비밀번호 변경 요청
+			    method: 'POST',
+			    headers: {
+			      'Content-Type': 'application/json'
+			    },
+			    body: JSON.stringify({ newPassword: changedPwd }) 					// 비밀번호를 JSON 형식으로 전송
+			  })
+			  .then(response => {
+			    if (!response.ok) {
+			      throw new Error('Network response was not ok');
+			    }
+			    return response.json();
+			  })
+			  .then(data => {
+			    if (data.success) {
+			      alert('비밀번호가 성공적으로 변경되었습니다.'); 								// 성공 메시지
+			      document.getElementById('changePasswordModal').modal('hide'); 	// 모달 닫기
+			      document.getElementById("changedPassword").value = changedPwd; 	// 변경된 비밀번호 설정
+			    } else {
+			      alert('비밀번호 변경에 실패했습니다. 다시 시도해 주세요.');
+			    }
+			  })
+			  .catch(error => {
+			    console.error('There was a problem with the fetch operation:', error);
+			  });
 			}
 		}
 		
@@ -81,7 +105,7 @@
 					</ul>
 				</div>
 				<div class="content">
-					<form action="updateMemberInfo" method="post" id="updateForm">
+					<form action="${pageContext.request.contextPath}/updateMember" method="post" id="updateForm">
 					    <div class="tit_area line_thick">
 							<strong class="member_info2">회원정보 수정</strong> 
 						</div>
@@ -96,7 +120,7 @@
 									</div>
 									<div class="td">
 										<div class="input_clear sm">
-											<input type="text" id="masName" placeholder="${good_member.memberName}" readonly>
+											<input type="text" id="masName" placeholder="${member.member_Name}" readonly>
 										</div>
 									</div>
 								</div>
@@ -106,7 +130,7 @@
 									</div>
 									<div class="td">
 										<div class="input_clear sm">
-											<input type="text" id="masId" placeholder="${good_member.mid}" readonly>
+											<input type="text" id="masId" placeholder="${member.mid}" readonly>
 										</div>
 									</div>
 								</div>
@@ -116,7 +140,7 @@
 									</div>
 									<div class="td">
 										<button id="modalOpenButton1" class="secession_btn btn white" type="button" data-bs-toggle="modal" data-bs-target="#changePasswordModal">비밀번호 변경</button>
-										<input type="hidden" id="changedPassword" name="changedPassword" value="${good_member.password}">
+										<input type="hidden" id="changedPassword" name="changedPassword" value="${member.password}">
 									</div>
 								</div>
 								<div class="tr">
@@ -126,10 +150,9 @@
 									<div class="td">
 										<div class="form_set">
 											<div class="input_clear sm">
-												<input type="text" id="orgMphone"  placeholder="${good_member.phone}" readonly>
-												<input type="hidden" id="changedMphone" name="mphone" value="${good_member.phone}">
+												<input type="text" id="orgMphone"  placeholder="${member.phone}" readonly>
+												<input type="hidden" id="changedMphone" name="mphone" value="${member.phone}">
 											</div>
-											<button id="modalOpenButton2" class="secession_btn btn white" type="button" data-bs-toggle="modal" data-bs-target="#changePhoneModal" style="margin-left: 10px;">휴대폰 번호 변경</button>
 										</div>
 									</div>
 								</div>
@@ -138,16 +161,10 @@
 										<p class="form_label">이메일</p>
 									</div>
 									<div class="td">
-										<div class="input_clear">
-											<input type="text" 
-											readonly="readonly" 
-											title="이메일 주소 입력" 
-											name="mbr.mbrEmail" 
-											id="mbrEmail" 
-											value="${member.memail}" 
-											placeholder="이메일 주소 입력">
-											<button type="button" class="clear_btn"><span class="blind">삭제</span></button>
-											<p class="err_txt" id="descMbrEmail"></p>
+										<div class="form_set">
+											<div class="input_clear sm">
+												<input type="email" id="mbrEmail"  placeholder="${member.email}" readonly>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -166,8 +183,7 @@
 				  <div class="modal-dialog">
 				    <div class="modal-content">
 				      <div class="modal-header">
-				        <h4 class="modal-title">탈퇴 주의사항</h4>
-				        <h3>탈퇴하면 복구 되지 않습니다.</h3>
+				        <h4 class="modal-title">탈퇴하면 복구되지 않습니다</h4>
 				        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 				      </div>
 				      <div class="modal-body">
@@ -192,33 +208,22 @@
 				      </div>
 				      <div class="modal-body">
 				        <p>새로운 비밀번호를 입력해주세요.</p>
+				        <div style="margin-bottom: 3px;">
+					        <input id="pwdCheck1" type="password" placeholder="알파벳 대소문자, 숫자를 혼용해서 10자 이상 15자 이하" style="width: 70%;">
+					    </div>
+					    <div style="text-align: width: 70%;">
+					        <span id="passwordSpan1" class="text-danger"></span>
+					    </div>
+				        <div style="margin-bottom: 3px;">
+					        <input id="pwdCheck2" type="password" placeholder="다시 한 번 입력해주세요." style="width: 70%;">
+					    </div>
+					    <div style="text-align: width: 70%;">
+					        <span id="passwordSpan2" class="text-danger"></span>
+					    </div>
 				      </div>
-				      <input id="pwdCheck1" value="" style="width:70%; margin-left: auto; margin-right: auto;" type="password" placeholder="알파벳 대소문자, 숫자를 혼용해서 10자 이상 15자 이하"></input>
-				      <span id="passwordSpan1"></span>
-				      <input id="pwdCheck2" value="" style="width:70%; margin-left: auto; margin-right: auto;" type="password" placeholder="다시 한 번 입력해주세요."></input>
-				      <span id="passwordSpan2"></span>
 				      <div class="modal-footer">
 				        <button type="button" id="modalCloseButton" data-bs-dismiss="modal">취소</button>
-						<button type="button" id="changePasswordButton" onclick="changePassword()">확인</button>
-				      </div>
-				    </div>
-				  </div>
-				</div>
-				<!-- 전화번호 변경 모달 -->
-				<div class="modal" id="changePhoneModal">
-				  <div class="modal-dialog">
-				    <div class="modal-content">
-				      <div class="modal-header">
-				        <h4 class="modal-title">전화번호 변경</h4>
-				        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-				      </div>
-				      <div class="modal-body">
-				        <p>새로운 전화번호를 입력해주세요.</p>
-				      </div>
-				      <input id="phoneCheck" style="width:70%; margin-left: auto; margin-right: auto;" type="text" value="" placeholder="'-' 없이 입력해주세요."></input>
-				      <div class="modal-footer">
-				        <button type="button" id="modalCloseButton" data-bs-dismiss="modal">취소</button>
-						<button type="button" id="changePhoneButton" onclick="changeMphone()">확인</button>
+				        <button type="button" id="changePasswordButton" onclick="changePassword()">확인</button>
 				      </div>
 				    </div>
 				  </div>

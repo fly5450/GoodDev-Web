@@ -38,6 +38,7 @@
                             <input type="password" id="password" name="password" value="&{memberDTO.password}" required>
                             <span id="passwordCheckMessage"></span>
                         </div>
+
                         
                         <!-- 
                         <div class="form-group">

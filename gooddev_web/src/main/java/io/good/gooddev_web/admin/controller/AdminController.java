@@ -1,5 +1,6 @@
 package io.good.gooddev_web.admin.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,27 +39,26 @@ public class AdminController {
 	private final BoardDAO boardDAO;
 	
 	@RequestMapping("")
-	public String main(HttpSession session) {
-	    Character isAdminYn = (Character) session.getAttribute("isAdminYn");
+	public String main(HttpSession session, Model model) {
+	    String isAdminYn = (String) session.getAttribute("isAdminYn");
 	    
-	    // isAdminYn이 null일 경우 기본값을 'N'으로 설정
+	    // isAdminYn이 null일 경우 기본값을 "N"으로 설정
 	    if (isAdminYn == null) {
-	        isAdminYn = 'N'; // 기본값 설정
+	        isAdminYn = "N"; // 기본값 설정
 	    }
 	    
-	    if (isAdminYn != 'Y') {
-	        return "redirect:/errorPage"; // 관리자 권한이 없을 경우 에러 페이지로 리다이렉트
+	    if (!isAdminYn.equals("Y")) {
+	        return "redirect:/"; // 관리자 권한이 없을 경우 에러 페이지로 리다이렉트
 	    }
+	    
 	    System.out.println("세션저장어떻게됏냐?: " + isAdminYn);
+	    
 	    return "admin/admin_main"; // 관리자 페이지로 이동
 	}
 	
 	//전체 회원목록 조회
 	@GetMapping("/memberList")
-	public String getMemberList(@RequestParam char isAdminYn, PageRequestDTO pageRequestDTO, BindingResult bindingResult ,Model model) {
-		if (isAdminYn != 'Y') {
-	        return "redirect:/errorPage"; // 관리자 권한이 없을 경우 에러 페이지로 리다이렉트
-		}
+	public String getMemberList(PageRequestDTO pageRequestDTO, BindingResult bindingResult ,Model model) {
 		if (bindingResult.hasErrors()) {
 	        log.error("Binding errors: {}", bindingResult.getAllErrors());
 	    }
@@ -71,10 +71,7 @@ public class AdminController {
 	
 	//회원 상세보기
 	@GetMapping("/detailMember")
-	public String detailMember(@RequestParam char isAdminYn, @RequestParam String mid, Model model) {
-		if (isAdminYn != 'Y') {
-	        return "redirect:/errorPage"; // 관리자 권한이 없을 경우 에러 페이지로 리다이렉트
-		}
+	public String detailMember(@RequestParam String mid, Model model) {
 		
 	    MemberDTO member = memberService.getRead(mid);
 	    model.addAttribute("member", member);
@@ -82,12 +79,18 @@ public class AdminController {
 	    return "/admin/detailMember";
 	}
 	
+	//회원 삭제(비활성화)
+	@GetMapping("/removeMember")
+	public String removeMember(String mid) {
+		
+		memberService.remove(mid);
+		
+		return "redirect:/admin/memberList";
+	}
+	
 	//전체 게시물 조회
 	@GetMapping("/boardList")
-	public PageResponseDTO<BoardDTO> getBoardList(@RequestParam char isAdminYn, PageRequestDTO pageRequestDTO, Model model) {
-		if (isAdminYn != 'Y') {
-	        return null; // 관리자 권한이 없을 경우 null 반환 또는 에러 처리
-	    }
+	public PageResponseDTO<BoardDTO> getBoardList(PageRequestDTO pageRequestDTO, Model model) {
 		
 		int totalCount = boardDAO.getTotalCount(pageRequestDTO);
 		
@@ -101,10 +104,7 @@ public class AdminController {
 	
 	//게시물 상세보기
 	@GetMapping("/detailBoard")
-	public String detailBoard(@RequestParam char isAdminYn, @RequestParam int bno,Model model) {
-		if (isAdminYn != 'Y') {
-	        return "redirect:/errorPage"; // 관리자 권한이 없을 경우 에러 페이지로 리다이렉트
-		}
+	public String detailBoard(@RequestParam int bno,Model model) {
 		
 	    model.addAttribute("board", boardService.getRead(bno));
 	    
@@ -113,21 +113,13 @@ public class AdminController {
 	
 	//전체 공지사항 조회
 	@GetMapping("/noticeList")
-	public String getNoticeList(@RequestParam char isAdminYn, PageRequestDTO pageRequestDTO, Model model) {
-		if (isAdminYn != 'Y') {
-	        return "redirect:/errorPage"; // 관리자 권한이 없을 경우 에러 페이지로 리다이렉트
-		}
+	public String getNoticeList(PageRequestDTO pageRequestDTO, Model model) {
 		
 		String category = "10"; // 공지사항 카테고리
 	    pageRequestDTO.setCategory_no(category); // category_no 설정
 
 	    // 전체 게시물 가져오기
 	    PageResponseDTO<BoardDTO> pageResponseDTO = boardService.getList(pageRequestDTO);
-
-	    // 필터링된 공지사항 목록
-	    List<BoardDTO> noticeList = pageResponseDTO.getList();
-
-	    log.info("Filtered Notice List Size값 한글: {}", noticeList.size());
 
 	    // 모델에 추가
 	    model.addAttribute("pageRequestDTO", pageRequestDTO);
@@ -137,23 +129,17 @@ public class AdminController {
 	}
 	
 	//게시물 삭제
-	@GetMapping("/remove")
-	public String remove(@RequestParam char isAdminYn, int bno, PageRequestDTO pageRequestDTO) {
-		if (isAdminYn != 'Y') {
-	        return "redirect:/errorPage"; // 관리자 권한이 없을 경우 에러 페이지로 리다이렉트
-		}
+	@GetMapping("/removeBoard")
+	public String removeBoard(int bno) {
 		
-		boardService.remove(bno);
+		boardService.delete(bno);
 		
-		return "redirect:/admin/boardList" + pageRequestDTO.getLink();
+		return "redirect:/admin/boardList";
 	}
 	
 	//공지사항 상세보기
 	@RequestMapping("/detailNotice")
-	public String detailNotice(@RequestParam char isAdminYn, int bno, Model model) {
-		if (isAdminYn != 'Y') {
-	        return "redirect:/errorPage"; // 관리자 권한이 없을 경우 에러 페이지로 리다이렉트
-		}
+	public String detailNotice(int bno, Model model) {
 		
 		model.addAttribute("board", boardService.getRead(bno));
 		
@@ -161,21 +147,17 @@ public class AdminController {
 	}
 	
 	//공지사항 수정 폼
-	@GetMapping("/updateNotice")
-	public String updateNotice(@RequestParam char isAdminYn, Model model) {
-		if (isAdminYn != 'Y') {
-	        return "redirect:/errorPage"; // 관리자 권한이 없을 경우 에러 페이지로 리다이렉트
-		}
+	@GetMapping("/updateNoticeForm")
+	public String updateNoticeForm(Model model, int bno) {
+	    BoardDTO boardDTO = boardService.getRead(bno);
+	    model.addAttribute("board", boardDTO); // 가져온 게시글 정보를 모델에 추가
 		
-		return "/admin/updateNotice";
+		return "admin/updateNoticeForm";
 	}
 	
 	//공지사항 수정 처리
-	@PostMapping("/updateNoticeForm")
-	public String updateNotice(@RequestParam char isAdminYn, BoardDTO boardDTO, BindingResult bindingResult, Model model) {
-		if (isAdminYn != 'Y') {
-	        return "redirect:/errorPage"; // 관리자 권한이 없을 경우 에러 페이지로 리다이렉트
-		}
+	@PostMapping("/updateNotice")
+	public String updateNotice(BoardDTO boardDTO, BindingResult bindingResult, Model model) {
 		
 		if (bindingResult.hasErrors()) {
 	        log.error("Binding errors: {}", bindingResult.getAllErrors());
@@ -184,29 +166,27 @@ public class AdminController {
 	        return "admin/updateNoticeForm";
 	    }
 
-//	    // 공지사항 수정
-//	    boardService.update(mapper.map(boardDTO, BoardVO.class));
+	    // 공지사항 수정
+	    boardService.update(mapper.map(boardDTO, BoardVO.class));
 		
 		return "redirect:/admin/noticeList";
 	}
 	
 	//공지사항 삭제
-	@RequestMapping("/removeNotice")
-	public String removeNotice(@RequestParam char isAdminYn, long mid ,Model model) {
-		if (isAdminYn != 'Y') {
-	        return "redirect:/errorPage"; // 관리자 권한이 없을 경우 에러 페이지로 리다이렉트
-		}
+	@GetMapping("/removeNotice")
+	public String removeNotice(int bno) {
+		log.info("bno값:    " + bno);
+		boardService.delete(bno);
 		
-		boardService.remove(mid);
-		
-		return "redirect:/noticeList";
+		return "redirect:/admin/noticeList";
 	}
 	
 	//공지사항 등록
 	@GetMapping("/insertNotice")
-	public String insertNoticeGet(@RequestParam char isAdminYn) {
-		if (isAdminYn != 'Y') {
-	        return "redirect:/errorPage"; // 관리자 권한이 없을 경우 에러 페이지로 리다이렉트
+	public String insertNoticeGet(HttpSession session) {
+		String isAdminYn = (String) session.getAttribute("isAdminYn"); // 세션에서 관리자 여부를 가져옴
+		if (isAdminYn == null || !isAdminYn.equals("Y")) {
+	        return "redirect:/"; // 관리자 권한이 없을 경우 에러 페이지로 리다이렉트
 		}
 		
 		log.info("insertNotice 진행중()...");
@@ -216,14 +196,30 @@ public class AdminController {
 	
 	//공지사항 등록
 	@PostMapping("/insertNotice")
-	public String insertNotice(@RequestParam char isAdminYn, BoardDTO boardDTO) {
-		if (isAdminYn != 'Y') {
-	        return "redirect:/errorPage"; // 관리자 권한이 없을 경우 에러 페이지로 리다이렉트
-		}
-		
-		boardService.insert(mapper.map(boardDTO, BoardVO.class));
-		
-		return "redirect:/admin/noticeList";
+	public String insertNotice(BoardDTO boardDTO, BoardVO boardVO, HttpSession session, Model model) {
+
+	    try {
+	        // 세션에서 사용자 ID 가져오기
+	        String getMid = (String) session.getAttribute("mid");
+	        boardVO.setMid(getMid);
+	        log.info("현재 세션의 mid 값: " + getMid);
+	        if (getMid == null) {
+	            throw new RuntimeException("사용자 ID(mid)가 세션에 존재하지 않습니다.");
+	        }
+	        boardDTO.setMid(getMid); // BoardDTO에 mid 설정
+	        // 현재 날짜와 시간 설정
+	        boardDTO.setInsert_date(new Date()); // 현재 날짜를 Date로 직접 설정
+	        // 삭제 여부 기본값 설정
+	        boardDTO.setDeleteYn("N"); // 신규 게시물은 삭제되지 않음
+	        
+	        boardDAO.insert(boardVO);
+	        
+	        
+	        return "redirect:/admin/noticeList"; // 공지사항 목록으로 리다이렉트
+	    } catch (Exception e) {
+	    	log.error("공지작성중 오류: " , e);
+	        return "admin/insertNotice"; // 공지사항 등록 페이지로 돌아가기
+	    }
 	}
 	
 	

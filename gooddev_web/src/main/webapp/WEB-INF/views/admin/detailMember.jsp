@@ -38,7 +38,7 @@
 	</div>
 	<div>
 		<h3>
-			<span>이름: </span> <span>${member.member_name}</span>
+			<span>이름: </span> <span>${member.member_Name}</span>
 		</h3>
 	</div>
 	<div>
@@ -61,9 +61,8 @@
 			<span>가입날짜: </span> <span>${member.signup_Date}</span>
 		</h3>
 	</div>
-	<a href="${pageContext.request.contextPath}/admin/boardList?${pageRequestDTO.link}">뒤로가기</a>
-	<a href="${pageContext.request.contextPath}/admin/remove?bno=${board.bno}&${pageRequestDTO.link}">삭제</a>
-	<a href="${pageContext.request.contextPath}/admin/boardList?${pageRequestDTO.link}">목록</a>
+	<button type="button" onclick="history.back()" class="btn btn-outline-dark">뒤로가기</button>
+	<button type="button" onclick="location.href='${pageContext.request.contextPath}/admin/boardList?${pageRequestDTO.link}'" class="btn btn-outline-dark">목록</button>
 
 	<script>
 	 function confirmDelete(bno) {
@@ -71,22 +70,22 @@
         const deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmationModal'));
         deleteModal.show();
 
-        // 삭제 버튼 클릭 시 삭제 처리
+        //비활성화 버튼 클릭 시 삭제 처리
         document.getElementById('confirmDeleteButton').onclick = function() {
-            // 삭제 요청
+            //비활성화 요청
             fetch(`/${pageContext.request.contextPath}/admin/remove?bno=${bno}`)
                 .then(response => {
                     if (response.ok) {
-                        // 삭제 성공 시 목록 페이지로 리디렉션
+                        //성공 시 목록 페이지로 리디렉션
                         window.location.href = `${pageContext.request.contextPath}/admin/boardList?${pageRequestDTO.link}`;
                     } else {
-                        // 삭제 실패 시 알림 표시
-                        alert("게시물 삭제에 실패했습니다.");
+                        //실패 시 알림 표시
+                        alert("회원 비활성화에 실패했습니다.");
                     }
                 })
                 .catch(error => {
-                    console.error('삭제 중 오류 발생:', error);
-                    alert("게시물 삭제 중 오류가 발생했습니다.");
+                    console.error('비활성화 중 오류 발생:', error);
+                    alert("회원 비활성화 중 오류가 발생했습니다.");
                 });
         };
     }
@@ -97,15 +96,15 @@
 	    <div class="modal-dialog">
 	        <div class="modal-content">
 	            <div class="modal-header">
-	                <h5 class="modal-title" id="deleteConfirmationModalLabel">삭제 확인</h5>
+	                <h5 class="modal-title" id="deleteConfirmationModalLabel">비활성화 확인</h5>
 	                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 	            </div>
 	            <div class="modal-body">
-	                <p>게시물을 삭제하시겠습니까?</p>
+	                <p>회원을 비활성화 하시겠습니까?</p>
 	            </div>
 	            <div class="modal-footer">
 	                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-	                <button type="button" class="btn btn-danger" id="confirmDeleteButton">삭제</button>
+	                <button type="button" class="btn btn-danger" id="confirmDeleteButton">비활성화</button>
 	            </div>
 	        </div>
 	    </div>
