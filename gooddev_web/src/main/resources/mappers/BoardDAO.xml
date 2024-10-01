@@ -156,7 +156,7 @@
 	</update>
 	
 	<update id="delete">
-		update good_board set deleteyn = 'Y' where bno = #{bno}
+		update good_board set deleteyn = 'Y' where bno = #{bno} and board_password = #{board_password}
 	</update>
 	
 </mapper>

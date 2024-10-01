@@ -31,7 +31,7 @@ public interface  BoardDAO {
     int getHateCount(int bno);
     List<BoardVO> topTenList();
     int update(BoardVO boardVO);
-    int delete(int bno);
+    int delete(@Param("bno") int bno, @Param("board_password") String board_password);
     boolean existsHate(@Param("mid") String mid, @Param("bno") int bno);
     void updateHateCount(@Param("bno") int bno, @Param("hateValue") int hateValue);
     void insertHate(@Param("mid") String mid, @Param("bno") int bno, @Param("hateValue") int hateValue);
