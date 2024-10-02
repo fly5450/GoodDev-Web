@@ -58,10 +58,10 @@
 
 				<!--버튼기능들-->
 				<div style="margin-top: 20px;">
-					<a href="list?&${link}">돌아가기</a>
+					<a href="list?page=1&size=10&category_no=${board.category_no}">게시글 목록보기</a>
 					<c:if test="${board.mid eq sessionMid}">
-						<a href="#" class="board-read-update" data-bno="${board.bno}" data-page="${pageResponse.page}" data-link="${pageRequestDTO.link}">수정</a>
-					    <a href="#" class="board-delete" data-bno="${board.bno}" onclick="confirmDelete(${board.bno})">삭제</a>
+						<a href="#" class="board-read-update" data-bno="${board.bno}" data-page="${pageResponse.page}">수정</a>
+					    <a href="#" class="board-delete" data-bno="${board.bno}" onclick="confirmDelete('${board.bno}','${board.category_no}')">삭제</a>
 					</c:if>
 
 				</div>
@@ -310,15 +310,13 @@
             links.forEach(function(link) {
                 link.addEventListener('click', function() {
                 	let bno = link.getAttribute('data-bno');
-                	let pageLink = link.getAttribute('data-link');
                     let page = link.getAttribute('data-page');
-                    let encodedLink = encodeURIComponent(pageLink);
-                    link.href = "update?bno=" + bno + "&link="+encodedLink;
+                    link.href = "update?bno=" + bno + "&link="+encodeURIComponent(window.location.href);;
                 });
             });
         });
         
-        function confirmDelete(bno) {
+        function confirmDelete(bno,category_no) {
         	const password = prompt("게시물 비밀번호를 입력하세요.")
         	if (password !== null) {
         		fetch("<%= request.getContextPath() %>/board/delete", {
@@ -337,7 +335,7 @@
                 	console.log(data);
                 	if (data.success) {
                 		alert("게시물이 삭제되었습니다.")
-                		 window.location.href = "<%= request.getContextPath() %>/board/list"; 
+                		 window.location.href = "list?page=1&size=10&category_no="+category_no;
                     } else {
                         alert("비밀번호가 틀렸습니다. 삭제를 실패하였습니다.");
                     }

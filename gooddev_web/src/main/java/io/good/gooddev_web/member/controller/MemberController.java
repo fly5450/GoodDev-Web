@@ -406,4 +406,5 @@ public class MemberController {
     	
     	return "member/mypage/removeMember";
     }
+    
 }

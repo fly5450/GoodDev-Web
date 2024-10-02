@@ -5,7 +5,6 @@ import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,39 +67,33 @@ public class BoardController {
 	}
 
 	@GetMapping("/board/read")
-	public void boardRead(@RequestParam int bno, @RequestParam String link, Model model, HttpSession session) {
+	public void boardRead(@RequestParam int bno, Model model, HttpSession session) {
 		boardService.viewCount(bno);
 		MemberDTO memberDTO = (MemberDTO) session.getAttribute("loginInfo");
 		String mid = memberDTO != null ? memberDTO.getMid() : null; 
 		CommentVO commentVO = new CommentVO(String.valueOf(bno));
 		List<CommentDTO> commentAllByBno = commentService.getList(commentVO);
-		if (link != null) {
-			link = URLDecoder.decode(link, StandardCharsets.UTF_8);
-		}
-		System.out.println("************" + link);
+
 	    model.addAttribute("board", boardService.getRead(bno));
 		model.addAttribute("comments", commentAllByBno);
-		model.addAttribute("link", link);
 		model.addAttribute("sessionMid", mid);
 	}
 	
 	@GetMapping("/board/update")
 	public void boardUpdate(@RequestParam int bno, @RequestParam String link, Model model) {
-		model.getAttribute(link);
-		if (link != null) {
-			link = URLDecoder.decode(link, StandardCharsets.UTF_8);
-		} 
-		System.out.println("link : " + link);
 		model.addAttribute("board", boardService.getRead(bno));
 		model.addAttribute("link", link);
 		
 	}
 	
 	@PostMapping("/board/update")
-	public String update(BoardDTO boardDTO, @RequestParam String link, Model model) {
-		boardService.update(mapper.map(boardDTO, BoardVO.class));
-		model.getAttribute(link);
-		return "redirect:/board/list?" + link;
+	public String update(BoardDTO boardDTO, @RequestParam String link) {
+		try{
+			boardService.update(mapper.map(boardDTO, BoardVO.class));
+			return "redirect:"+(link != null&& !link.equals("null")? URLDecoder.decode(link, "UTF-8") : "/");
+		}catch(Exception e){
+			return "redirect:/";
+		}
 	}
 	
 	@PostMapping("/board/delete")
