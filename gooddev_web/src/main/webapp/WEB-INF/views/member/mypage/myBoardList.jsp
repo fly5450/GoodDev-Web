@@ -36,7 +36,7 @@
 	            <h2 style="padding-bottom: 60px; width:15rem;"><a href="myPage" style="text-decoration-line: none; color:black;"><b>마이페이지</b></a></h2>
 	            <ul class="my_menu">
 	                <li id="menu1" style="height: 50%;">  
-	                    <a class="menu_depth01" href="${pageContext.request.contextPath}/member/detailMember?mid=${member.mid}">내 정보</a>
+	                    <a class="menu_depth01" href="${pageContext.request.contextPath}/member/detailMember?mid=${loginInfo.mid}">내 정보</a>
 	                    <ul class="menu_depth02">
 	                        <li id="update"><a href="updateMember?mid=${loginInfo.mid}" onclick="changeStyle(this)">회원 정보 수정</a></li>
 							<li id="update"><a href="myBoardList?mid=${loginInfo.mid}" onclick="changeStyle(this)">나의 작성 게시물</a></li>
@@ -48,7 +48,7 @@
 				<div class="profile">
 					<div class="user_info">
 						<span class="name" id="spanNickname">${loginInfo.nickname} 님</span>
-						<p class="date">가입일 : <span>${loginInfo.signup_Date}</span></p>
+						<p class="date">가입일 : <span>${loginInfo.formatDate}</span></p>
 					</div>
 				</div>
 				<div class="wrapper">

@@ -113,7 +113,7 @@
 					<div class="profile">
 						<div class="user_info">
 							<span class="name" id="spanNickname">${loginInfo.nickname} 님</span>
-							<p class="date">가입일 : <span>${loginInfo.signup_Date}</span></p>
+							<p class="date">가입일 : <span>${loginInfo.formatDate}</span></p>
 						</div>
 					</div>
 					<form action="${pageContext.request.contextPath}/updateMember" method="post" id="updateForm">
@@ -220,7 +220,7 @@
 				      <div class="modal-body">
 				        <p>새로운 비밀번호를 입력해주세요.</p>
 				        <div style="margin-bottom: 3px;">
-					        <input id="pwdCheck1" type="password" placeholder="알파벳 대소문자, 숫자를 혼용해서 10자 이상 15자 이하" style="width: 70%;">
+					        <input id="pwdCheck1" type="password" placeholder="영어 , 숫자 포함 6 ~ 20자이하로 작성해주세요." style="width: 70%;">
 					    </div>
 					    <div style="text-align: width: 70%;">
 					        <span id="passwordSpan1" class="text-danger"></span>

@@ -811,7 +811,7 @@ input.board-update-title {
     margin-top: 10px;
 }
 .gallery-container{
-    height : 100%;
+    max-height : 100%;
 }
 .page-button {
     background-color: #f0f0f0; /* 기본 배경색 */
@@ -1037,3 +1037,6 @@ input.board-update-title {
     justify-content: space-between;
 }
 
+.login-message {
+	margin-top: 20px;
+}

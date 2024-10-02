@@ -48,7 +48,7 @@
 					<div class="profile">
 						<div class="user_info">
 							<span class="name" id="spanNickname">${loginInfo.nickname} 님</span>
-							<p class="date">가입일 : <span>${loginInfo.signup_Date}</span></p>
+							<p class="date">가입일 : <span>${loginInfo.formatDate}</span></p>
 						</div>
 					</div>
 				</div>

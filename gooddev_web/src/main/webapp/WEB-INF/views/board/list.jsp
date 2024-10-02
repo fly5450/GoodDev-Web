@@ -33,7 +33,7 @@
 							</tr>
 						</thead>
 						<tbody id="list_body">
-							<<c:choose>
+							<c:choose>
 								<c:when test="${empty pageResponseDTO.list}">
 									<tr>
 										<td colspan="6" style="text-align: center;">검색 결과가 없습니다.</td>
