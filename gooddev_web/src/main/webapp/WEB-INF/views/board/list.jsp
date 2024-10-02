@@ -94,6 +94,7 @@
 			const destinationUrl = "<%= request.getContextPath() %>/board/list";
 			const bodyData = 'page=' + page + '&size=' + size + '&category_no=' + category_no + '&keyword=' + encodeURIComponent('${pageRequestDTO.keyword}');
 			let data = await doFetch(destinationUrl,bodyData);
+			console.log(data);
 			const container = document.getElementById("list_body");
 			container.innerHTML = '';
 			const list = data.pageResponseDTO.list;
