@@ -45,8 +45,8 @@
 	                <li id="menu1" style="height: 50%;">  
 	                    <a class="menu_depth01" href="${pageContext.request.contextPath}/member/detailMember?mid=${member.mid}">내 정보</a>
 	                    <ul class="menu_depth02">
-	                        <li id="update"><a href="updateMember?mid=${member.mid}" onclick="changeStyle(this)">회원 정보 수정</a></li>
-							<li id="update"><a href="myBoardList" onclick="changeStyle(this)">나의 작성 게시물</a></li>
+	                        <li id="update"><a href="updateMember?mid=${loginInfo.mid}" onclick="changeStyle(this)">회원 정보 수정</a></li>
+							<li id="update"><a href="myBoardList?mid=${loginInfo.mid}" onclick="changeStyle(this)">나의 작성 게시물</a></li>
 	                    </ul>
 	                </li>
 	            </ul>
@@ -54,8 +54,8 @@
 			<div class="content" style="width:80%; padding:0px 30px;">
 				<div class="profile">
 					<div class="user_info">
-						<span class="name" id="spanNickname">${member.mid} 님</span>
-						<p class="date">가입일 : <span>${member.signup_Date}</span></p>
+						<span class="name" id="spanNickname">${loginInfo.nickname} 님</span>
+						<p class="date">가입일 : <span>${loginInfo.signup_Date}</span></p>
 					</div>
 				</div>
 				<div class="wrapper">
