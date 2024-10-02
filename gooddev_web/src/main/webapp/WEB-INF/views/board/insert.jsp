@@ -50,7 +50,7 @@
 						</div>
 						<input type="submit" class="btn btn-primary" value="등록">
 						<input type="reset" class="btn btn-secondary" value="초기화">
-						<a href="list?&${link}">돌아가기</a>
+						<a href="list?page=1&size=10&category=${param.category_no}">목록으로 돌아가기</a>
 					</form>
 				</div>
 			</div>

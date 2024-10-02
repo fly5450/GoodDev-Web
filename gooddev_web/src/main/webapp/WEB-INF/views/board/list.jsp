@@ -33,37 +33,44 @@
 							</tr>
 						</thead>
 						<tbody id="list_body">
-							<c:forEach var="board" items="${pageResponseDTO.list}">
-								<tr>
-									<td >${board.bno}</td>
-									<td><a href="#" class="list-title" data-board-bno="${board.bno}">${board.title}</a></td>
-									<td>${board.mid}</td>
-									<td>${board.formatDate}</td>
-									<td>${board.view_cnt}</td>
-									<td>${board.like_cnt}</td>
-								</tr>
-							</c:forEach>
+							<<c:choose>
+								<c:when test="${empty pageResponseDTO.list}">
+									<tr>
+										<td colspan="6" style="text-align: center;">검색 결과가 없습니다.</td>
+									</tr>
+								</c:when>
+								<c:otherwise>
+									<c:forEach var="board" items="${pageResponseDTO.list}"> 
+										<tr>
+											<td>${board.bno}</td>
+											<td><a href="#" class="list-title" data-board-bno="${board.bno}">${board.title}</a></td>
+											<td>${board.mid}</td>
+											<td>${board.formatDate}</td>
+											<td>${board.view_cnt}</td>
+											<td>${board.like_cnt}</td>
+										</tr>
+									</c:forEach>
+								</c:otherwise>
+							</c:choose>
 						</tbody>
 					</table>
-					<input type="hidden" name="category_no" value="${pageRequestDTO.category_no}">
-					<div>
-						<%-- <a href="#" class="board-list-insert" data-category_no="${pageRequestDTO.category_no}">글쓰기</a> --%>
-						<a href="insert?category_no=${pageRequestDTO.category_no}">글쓰기</a>
-						<jsp:include page="/WEB-INF/views/commons/page_nav.jsp"></jsp:include>
-						<div class="search-wrapper">
-							<span class="search-label">제목+내용</span>
-							<div class="search-container">
-								<form action="list" method="get" class="search-form">
-										<input name="page" type="hidden" class="search-input" value="${pageResponseDTO.page}">
-										<input name="size" type="hidden" class="search-input" value="${pageResponseDTO.size}">
-										<input name="category_no" type="hidden" class="search-input" value="${pageRequestDTO.category_no}">
-										<input name="keyword" id="keyword" class="search-input" placeholder="검색어를 입력해주세요">
-										<button type="submit" class="search-button">검색</button>
-								</form>
-							</div>
+				<div>
+					<a href="insert?category_no=${pageRequestDTO.category_no}">글쓰기</a>
+					<jsp:include page="/WEB-INF/views/commons/page_nav.jsp"></jsp:include>
+					<div class="search-wrapper">
+						<span class="search-label">제목+내용</span>
+						<div class="search-container">
+							<form action="list" method="get" class="search-form">
+									<input name="page" type="hidden" class="search-input" value="${pageResponseDTO.page}">
+									<input name="size" type="hidden" class="search-input" value="${pageResponseDTO.size}">
+									<input name="category_no" type="hidden" class="search-input" value="${pageRequestDTO.category_no}">
+									<input name="keyword" id="keyword" class="search-input" placeholder="검색어를 입력해주세요">
+									<button type="submit" class="search-button">검색</button>
+							</form>
 						</div>
 					</div>
 				</div>
+			</div>
 				<%@ include file="/WEB-INF/views/commons/top10List.jsp" %>
 			</div>
 			<%@ include file="/WEB-INF/views/commons/advertisement.jsp" %>
@@ -85,7 +92,7 @@
 
 		async function paginationClick(page,size,category_no) {
 			const destinationUrl = "<%= request.getContextPath() %>/board/list";
-			const bodyData = 'page=' + page + '&size=' + size +'&category_no=' +category_no;
+			const bodyData = 'page=' + page + '&size=' + size + '&category_no=' + category_no + '&keyword=' + encodeURIComponent('${pageRequestDTO.keyword}');
 			let data = await doFetch(destinationUrl,bodyData);
 			const container = document.getElementById("list_body");
 			container.innerHTML = '';
@@ -132,7 +139,7 @@
             const boardTr = document.createElement('tr');
            boardTr.innerHTML =
 				'<td>' + board.bno + '</td>' +
-				'<td><a href="read?bno=' + board.bno + '&link=' + encodeURIComponent(window.location.href) +
+				'<td><a href="read?bno=' + board.bno +
 				'" class="list-title" data-board-bno="' + board.bno +
 				'">' + board.title + '</a></td>' +
 				'<td>' + board.mid + '</td>' +
@@ -148,18 +155,9 @@
             links.forEach(function(link) {
                 link.addEventListener('click', function() {
                     let boardBno = link.getAttribute('data-board-bno');
-                    let pageLink = window.location.href;
-                    let encodedLink = encodeURIComponent(pageLink);
-                    link.href = "read?bno=" + boardBno + "&link="+encodedLink;
+                    link.href = "read?bno=" + boardBno;
                 });
             });
-            /* links = document.querySelectorAll('.board-list-insert');
-            links.forEach(function(link) {
-                link.addEventListener('click', function() {
-                    let category_no = link.getAttribute('data-category_no');
-                    link.href = "insert?" +"category_no="+ category_no;
-                });
-            }); */
         });
 	</script>
 
