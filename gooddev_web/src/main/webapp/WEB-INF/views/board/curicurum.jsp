@@ -3,7 +3,7 @@
 	pageEncoding="UTF-8"%>
 <html>
 <head>
-<title>gallery</title>
+<title>커리큘럼</title>
 <link rel="stylesheet" href="<c:url value='/resources/css/style.css'/>">
 </head>
 <body>
@@ -15,31 +15,33 @@
         <%@ include file="/WEB-INF/views/commons/nav.jsp" %>
 
         <!--컨텐츠부분-->
-        <div class = "main">
+        <div class="main">
             <%@ include file="/WEB-INF/views/commons/advertisement.jsp" %>
-
-            <!-- Main Content -->
             <div class="main-content">
-				<div class="curicurum-container">
-					<c:choose>
-						<c:when test="${curicurum == 'MSA5'}">
-							<p>MSA5차 커리큘럼</p>
-							<img src="${pageContext.request.contextPath}/resources/img/스크린샷 2024-10-01 오후 6.47.10.png" alt="msa5차">
-						</c:when>
-						<c:when test="${curicurum == 'MSA6'}">
-							<p>MSA6차 커리큘럼</p>
-							<img src="${pageContext.request.contextPath}/resources/img/스크린샷 2024-10-01 오후 6.48.00.png" alt="msa6차">
-						</c:when>
-						<c:when test="${curicurum == 'MSA7'}">
-							<p>MSA7차 커리큘럼</p>
-							<img src="${pageContext.request.contextPath}/resources/img/스크린샷 2024-10-01 오후 6.57.45.png" alt="msa7차">
-						</c:when>
-					</c:choose>
-				</div>
-			</div>
-			<%@ include file="/WEB-INF/views/commons/advertisement.jsp" %>
-		</div>
-		<%@ include file="/WEB-INF/views/commons/footer.jsp" %>
-	</div>
+                <div class="content">
+                    <div class="curicurum-container">
+                        <div class="curicurum-board">
+                            <h2>KOSA 국비지원 개발자 교육 커리큘럼 소개</h2>
+                        </div>
+                        <div class="curicurum-list">
+                            <h2>MSA5차 커리큘럼</h2>
+                            <img src="${pageContext.request.contextPath}/resources/img/스크린샷 2024-10-01 오후 6.47.10.png" alt="msa5차">
+                            <hr class="curriculum-divider">
+                        
+                            <h2>MSA6차 커리큘럼</h2>
+                            <img src="${pageContext.request.contextPath}/resources/img/스크린샷 2024-10-01 오후 6.48.00.png" alt="msa6차">
+                            <hr class="curriculum-divider">
+
+                            <h2>MSA7차 커리큘럼</h2>
+                            <img src="${pageContext.request.contextPath}/resources/img/스크린샷 2024-10-01 오후 6.57.45.png" alt="msa7차">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <%@ include file="/WEB-INF/views/commons/advertisement.jsp" %>
+        </div>
+        <%@ include file="/WEB-INF/views/commons/footer.jsp" %>
+    </div>
+ 
 </body>
 </html>
