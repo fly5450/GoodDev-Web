@@ -20,18 +20,21 @@
 
             <!-- Main Content -->
             <div class="main-content">
-				<div class="gallery-container">
-					<main class="gallery">
-							<c:forEach var="board" items="${pageResponseDTO.list}">
-								<div class="gallery-item">
-									<c:forEach var="boardFile" items="${board.boardFileDTOList}">
-										<img src="download/${boardFile.fid}" alt="이미지"/>
-									</c:forEach>
-									<a href="read?bno=${board.bno}&link=${pageRequestDTO.link}" class="title">${board.title}</a>
-								</div>
-							</c:forEach>
-					</main>
-					<a href="insert?${pageRequestDTO.category_no}">글쓰기</a>
+				<div class="curicurum-container">
+					<c:choose>
+						<c:when test="${curicurum == 'MSA5'}">
+							<p>MSA5차 커리큘럼</p>
+							<img src="${pageContext.request.contextPath}/resources/img/스크린샷 2024-10-01 오후 6.47.10.png" alt="msa5차">
+						</c:when>
+						<c:when test="${curicurum == 'MSA6'}">
+							<p>MSA6차 커리큘럼</p>
+							<img src="${pageContext.request.contextPath}/resources/img/스크린샷 2024-10-01 오후 6.48.00.png" alt="msa6차">
+						</c:when>
+						<c:when test="${curicurum == 'MSA7'}">
+							<p>MSA7차 커리큘럼</p>
+							<img src="${pageContext.request.contextPath}/resources/img/스크린샷 2024-10-01 오후 6.57.45.png" alt="msa7차">
+						</c:when>
+					</c:choose>
 				</div>
 			</div>
 			<%@ include file="/WEB-INF/views/commons/advertisement.jsp" %>

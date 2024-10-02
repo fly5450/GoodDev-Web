@@ -133,6 +133,8 @@ public class AdminController {
 	public String removeBoard(int bno) {
 		
 		boardService.deleteBoard(bno);
+
+
 		
 		return "redirect:/admin/boardList";
 	}
@@ -177,6 +179,7 @@ public class AdminController {
 	public String removeNotice(int bno) {
 		log.info("bno값:    " + bno);
 		boardService.deleteBoard(bno);
+
 		
 		return "redirect:/admin/noticeList";
 	}

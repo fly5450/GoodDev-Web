@@ -16,7 +16,7 @@ import lombok.Setter;
 public class MemberDTO {
     private String mid; // 아이디
     private String password; // 비밀번호
-    private String member_Name; // 회원명(실명)
+    private String member_name; // 회원명(실명)
     private String nickname; // 닉네임
     private String phone; // 전화번호
     private String email; // 이메일
@@ -34,7 +34,7 @@ public class MemberDTO {
         this.mid = mid;
         this.password = password;
         // 나머지 필드는 기본값으로 초기화(필요하다면 기존 생성자에 필드를 추가하도록 수정)
-        this.member_Name = "";
+        this.member_name = "";
         this.nickname = "";
         this.phone = "";
         this.email = "";
