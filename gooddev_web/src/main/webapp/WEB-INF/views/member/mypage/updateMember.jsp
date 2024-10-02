@@ -29,8 +29,8 @@
 			// 비밀번호 입력 데이터 양식 검사
 			let totalResult = true;
 			
-			// 비밀번호 1차 검사 (영어 대소문자, 숫자 8 - 15자 이하)
-			const goodPasswordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$/;
+			// 비밀번호 1차 검사 (영어, 숫자 포함 6 - 20자 이하)
+			const goodPasswordPattern = /^(?=.*\d)(?=.*[a-z]).{6,20}$/;
 			const pwd1 = document.getElementById("pwdCheck1").value;
 			const pwd2 = document.getElementById("pwdCheck2").value;
 			
@@ -39,7 +39,7 @@
 			  document.getElementById("passwordSpan1").innerHTML = "";
 			} else {
 			  document.getElementById("passwordSpan1").classList.add("text-danger");
-			  document.getElementById("passwordSpan1").innerHTML = "영어 대소문자, 숫자 8 ~ 15자이하로 작성해주세요.";
+			  document.getElementById("passwordSpan1").innerHTML = "영어 , 숫자 포함 6 ~ 20자이하로 작성해주세요.";
 			  totalResult = false;
 			}
 			
@@ -54,14 +54,14 @@
 			}
 			
 			if (totalResult) {
-			  																		// Fetch API를 사용하여 비밀번호 변경 요청
-			  const changedPwd = pwd1; 												// 변경된 비밀번호를 변수에 저장
-			  fetch('/updatePassword', { 											// Fetch API로 비밀번호 변경 요청
+			  const url = "<%= request.getContextPath() %>/member/updateMember";												// Fetch API를 사용하여 비밀번호 변경 요청
+			  const changedPwd = pwd1; 												
+			  fetch(url, {  
 			    method: 'POST',
 			    headers: {
-			      'Content-Type': 'application/json'
+			      'Content-Type': 'application/x-www-form-urlencoded'
 			    },
-			    body: JSON.stringify({ newPassword: changedPwd }) 					// 비밀번호를 JSON 형식으로 전송
+			    body: 'newPassword=' + encodeURIComponent(changedPwd)
 			  })
 			  .then(response => {
 			    if (!response.ok) {
@@ -71,15 +71,22 @@
 			  })
 			  .then(data => {
 			    if (data.success) {
-			      alert('비밀번호가 성공적으로 변경되었습니다.'); 								// 성공 메시지
-			      document.getElementById('changePasswordModal').modal('hide'); 	// 모달 닫기
-			      document.getElementById("changedPassword").value = changedPwd; 	// 변경된 비밀번호 설정
+			      alert('비밀번호가 성공적으로 변경되었습니다.');
+			      const modal = bootstrap.Modal.getInstance(document.getElementById('changePasswordModal'));
+			      if (modal) {
+			        modal.hide();
+			      } else {
+			        console.error('모달 인스턴스를 찾을 수 없습니다.');
+			      }
+			      
+			      document.getElementById("changedPassword").value = changedPwd;
 			    } else {
 			      alert('비밀번호 변경에 실패했습니다. 다시 시도해 주세요.');
 			    }
 			  })
 			  .catch(error => {
 			    console.error('There was a problem with the fetch operation:', error);
+			    alert('오류가 발생했습니다. 다시 시도해 주세요.');
 			  });
 			}
 		}
@@ -124,7 +131,7 @@
 									</div>
 									<div class="td">
 										<div class="input_clear sm">
-											<input type="text" id="masName" placeholder="${member.member_Name}" readonly>
+											<input type="text" id="masName" placeholder="${member.member_name}" readonly>
 										</div>
 									</div>
 								</div>

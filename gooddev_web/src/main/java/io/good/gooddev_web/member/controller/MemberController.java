@@ -2,12 +2,15 @@ package io.good.gooddev_web.member.controller;
 
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -334,13 +337,16 @@ public class MemberController {
     
     //회원 정보 수정
     @PostMapping("/updateMember")
-    public String updateMemberForm(MemberVO memberVO) {
-    	log.info("Received memberVO: " + memberVO);
-    	
-    	memberService.modifyMemberInfo(memberVO); // 회원 정보 수정
-        log.info("updateMemberPost() 실행 - POST");
-        
-    	return "member/mypage/updateMember";
+    public ResponseEntity<Map<String, Boolean>> updateMemberForm(@RequestParam String newPassword,HttpSession session) {
+    	Map<String, Boolean> response = new HashMap<>();
+    	MemberDTO member = (MemberDTO) session.getAttribute("loginInfo");
+    	member.setPassword(newPassword);
+    	int result = memberService.modifyMemberInfo(mapperUtil.map(member,MemberVO.class)); // 회원 정보 수정
+    	if(result>0) {
+    		response.put("success",true);
+    	}
+    	else response.put("success",false);
+    	return ResponseEntity.ok(response);
     }
     //회원 탈퇴
     @RequestMapping("/removeMember")

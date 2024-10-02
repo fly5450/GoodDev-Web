@@ -49,23 +49,13 @@ public class MemberService {
         MemberVO currentMember = memberDAO.getRead(modifyMember.getMid()).orElse(null);
         
         if (currentMember != null) {
-            updateMemberFields(currentMember, modifyMember);
-            int result = memberDAO.modify(currentMember);
+            int result = memberDAO.modify(modifyMember);
             log.info("회원정보 수정: ID = {}, 결과 = {}", modifyMember.getMid(), result);
             return result;
         }
-        log.warn("회원정보 수정 실패: 존재하지 않는 회원 ID = {}", modifyMember.getMid());
         return 0;
     }
 
-     // 회원정보 수정 -> 회원 정보 필드를 업데이트
-    private void updateMemberFields(MemberVO currentMember, MemberVO modifyMember) {
-        if (modifyMember.getPassword() != null) currentMember.setPassword(modifyMember.getPassword());
-        if (modifyMember.getMember_name() != null) currentMember.setMember_name(modifyMember.getMember_name());
-        if (modifyMember.getNickname() != null) currentMember.setNickname(modifyMember.getNickname());
-        if (modifyMember.getPhone() != null) currentMember.setPhone(modifyMember.getPhone());
-        if (modifyMember.getEmail() != null) currentMember.setEmail(modifyMember.getEmail());
-    }
 
   // 새 회원을 등록합니다.
   public int register(final MemberVO member) {
