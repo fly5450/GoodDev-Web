@@ -94,7 +94,7 @@ public class MemberService {
 
     //아이디 중복 체크
   public boolean checkIdDuplicate(String mid) {
-    return memberDAO.getRead(mid).isPresent(); // 아이디가 존재하면 Treu, 없으면 False 리턴
+    return memberDAO.getRead(mid).isPresent(); // 아이디가 존재하면 True, 없으면 False 리턴
   } 
   //   public boolean isIdDuplicate(String mid) {
   //     return memberDAO.checkIdDuplicate(mid) > 0;
@@ -165,5 +165,8 @@ public class MemberService {
         return memberDAO.getRead(mid)
             .map(member -> mapperUtil.map(member, MemberDTO.class))
             .orElse(null);
+    }
+    public boolean checkIdAndEmail(String mid, String email) {
+      return findIdByEmail(email).equals(mid);
     }
 }

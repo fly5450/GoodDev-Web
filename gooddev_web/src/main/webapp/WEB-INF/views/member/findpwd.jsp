@@ -63,7 +63,6 @@
 
 <script type="text/javascript">
     var contextPath = "${pageContext.request.contextPath}";
-
     document.addEventListener('DOMContentLoaded', function() {
         let findPwdBtn = document.getElementById('findPwdBtn');
         let submitBtn = document.getElementById('submitBtn');
@@ -75,16 +74,16 @@
             let email = document.getElementById('email').value;
 
             // AJAX를 사용하여 서버에 아이디와 이메일 확인 요청
-            fetch(`${contextPath}/member/checkIdDuplicate`, {
+            fetch(contextPath+"/member/checkIdAndEmail", {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                body: JSON.stringify({ mid: mid, email: email })
+                body: 'mid='+mid+'&email='+email
             })
             .then(response => response.json())
             .then(data => {
-                if (data.exists) {
+                if (data.success) {
                     // 사용자가 존재하면 새 비밀번호 입력 폼 표시
                     newPasswordGroup.style.display = 'block';
                     findPwdBtn.style.display = 'none';

@@ -158,7 +158,18 @@ public class MemberController {
             } else {
                 return "available";
             }
-        }   
+        } 
+        @PostMapping("/checkIdAndEmail")    
+        @ResponseBody
+        public ResponseEntity<Map<String,Boolean>> checkIdAndEmail(@RequestParam("mid") String mid,@RequestParam("email") String email) {
+            Map<String,Boolean> response = new HashMap<>();
+            if (!EmailValidator.isValidEmailREGEX(email)||!IdValidator.isValidIdREGEX(mid)|| !memberService.checkIdAndEmail(mid,email)) {
+               response.put("success",false);
+               return ResponseEntity.ok(response);
+            }
+            response.put("success",true);
+            return ResponseEntity.ok(response);
+        }
 
     // 비밀번호 찾기 페이지로 이동 GET
     @GetMapping("findpwd")
