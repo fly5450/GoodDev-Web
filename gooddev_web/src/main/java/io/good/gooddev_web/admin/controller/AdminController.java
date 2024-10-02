@@ -131,8 +131,7 @@ public class AdminController {
 	//게시물 삭제
 	@GetMapping("/removeBoard")
 	public String removeBoard(int bno) {
-		
-		boardService.delete(bno, null);
+    boardService.delete(bno, null);
 		
 		return "redirect:/admin/boardList";
 	}
