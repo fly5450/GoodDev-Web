@@ -37,7 +37,8 @@ public class MemberVO {
     @Pattern(regexp = "^\\d{3}-\\d{3,4}-\\d{4}$", message = "전화번호는 010-0000-0000 형식으로 입력해주세요.")
     private String phone;          // 전화번호
 
-    @Email(message = "유효한 이메일 주소를 입력하세요.")
+    @NotEmpty(message = "이메일은 필수입니다.")
+    @Email(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,6}$",  message = "유효한 이메일 주소를 입력하세요.")     
     private String email;          // 이메일
     
     private String auto_Login;     // 자동로그인 key

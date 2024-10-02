@@ -65,33 +65,13 @@ public class MemberController {
         return "member/register";
     }
     
-    // 회원 가입 처리
+    // 회원 가입 처리 POST
     @PostMapping("register")
     public String register(@Validated @ModelAttribute("memberDTO") MemberDTO memberDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-    log.info("회원가입 요청 처리 중");
+        log.info("회원가입 요청 처리 중");
+        log.info(memberDTO.getEmail() + memberDTO.getMember_name());
 
-    // 유효성 검사 오류 발생 시
-    // if (bindingResult.hasErrors()) {
-    //         log.error("유효성 검사 오류: {}", bindingResult.getAllErrors()); // 오류 로그 출력
-    //         redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.memberDTO", bindingResult);
-    //         redirectAttributes.addFlashAttribute("memberDTO", memberDTO);
-    //         return "redirect:/member/register";
-    //     }
-
-    //     // 아이디와 이메일 유효성 검사
-    //     if (!memberService.validateIdAndEmail(memberDTO.getMid(), memberDTO.getEmail())) {
-    //         redirectAttributes.addFlashAttribute("message", "유효하지 않은 아이디 또는 이메일입니다.");
-    //         redirectAttributes.addFlashAttribute("memberDTO", memberDTO);
-    //         return "redirect:/member/register";
-    //     }
-
-    //     // 회원 등록
-    //     memberService.register(mapperUtil.map(memberDTO, MemberVO.class));
-    //     log.info("새 회원 등록: {}", memberDTO.getMid());
-    //     redirectAttributes.addFlashAttribute("message", "회원 가입이 성공적으로 완료되었습니다.");
-    //     return "redirect:/member/login";
-        log.info(memberDTO.getEmail()+memberDTO.getMember_name());
-        memberService.register(mapperUtil.map(memberDTO, MemberVO.class));
+        memberService.register(mapperUtil.map(memberDTO, MemberVO.class)); //서비스 레이어에서 처리
         log.info("새 회원 등록: {}", memberDTO.getMid());
         redirectAttributes.addFlashAttribute("message", "회원 가입이 성공적으로 완료되었습니다.");
         return "redirect:/";
@@ -116,22 +96,7 @@ public class MemberController {
         memberService.modifyMemberInfo(mapperUtil.map(memberDTO, MemberVO.class));
         return "redirect:/member/list";
     }
-    // // 회원 탈퇴 POST처리
-    // @PostMapping("remove/{mid}")
-    // public String removeMember(@PathVariable String mid, HttpSession session, RedirectAttributes redirectAttributes) {
-    //     MemberDTO loginMember = (MemberDTO) session.getAttribute("loginInfo");
-        
-    //     if (loginMember == null || !loginMember.getMid().equals(mid)) {
-    //         redirectAttributes.addFlashAttribute("message", "권한이 없습니다.");
-    //         return "redirect:/";
-    //     }
-        
-    //     memberService.remove(mid); // 회원 탈퇴 처리
-    //     session.invalidate(); // 로그아웃 처리 (세션 무효화)
-    //     redirectAttributes.addFlashAttribute("message", "회원 탈퇴가 완료되었습니다.");
-        
-    //     return "redirect:/";
-    // }
+   
    
       //---------------- 아이디/비밀번호 찾기 ------------------
     // 아이디 찾기 : 사용자가 아이디 찾기 페이지를 요청할 때 호출됨
@@ -142,68 +107,53 @@ public class MemberController {
            return "member/findid"; // 아이디 찾기 페이지로 이동
        }
    
-        // 아이디 찾기 POST 요청 처리
+    // 아이디 찾기 POST 요청 처리
     @PostMapping("findid")
     public String findIdByEmail(@RequestParam("email") String email, RedirectAttributes redirectAttributes) {
         // 이메일 유효성 검사
-        if (email == null || email.isEmpty()) {
+        if (email == null || email.isEmpty())
+         {
             redirectAttributes.addFlashAttribute("message", "이메일을 입력해 주세요.");
             return "redirect:/member/findid";
         }
-
         if (!EmailValidator.isValidEmailREGEX(email)) {
             redirectAttributes.addFlashAttribute("message", "유효하지 않은 이메일 형식입니다.");
             return "redirect:/member/findid";
         }
-
-        // 이메일로 아이디 찾기
-        String foundId = memberService.findIdByEmail(email);
-        if (foundId != null) {
-            // 아이디 마스킹 처리 (ex: ab****cd)
+            String foundId = memberService.findIdByEmail(email);     // 이메일로 아이디 찾기
+         // 아이디 마스킹 처리 (ex: ab****cd) 후 사용자에게 알려줌
+            if (foundId != null) {
             String maskedId = IdMasker.maskId(foundId);
             redirectAttributes.addFlashAttribute("message", "찾은 아이디: " + maskedId);
         } else {
             redirectAttributes.addFlashAttribute("message", "해당 이메일로 등록된 아이디가 없습니다.");
         }
-
-        return "redirect:/member/findid"; // 결과 페이지로 리다이렉트
+        return "redirect:/member/findid"; 
+    }
+    // 이메일 중복 체크 : 비동기 통신 사용
+    @PostMapping("/checkEmailDuplicate")
+    @ResponseBody
+    public String checkEmailDuplicate(@RequestParam("email") String email) {
+        // 이메일 형식 유효성 검사
+        if (!EmailValidator.isValidEmailREGEX(email)) {
+            return "invalid";
+        }
+        // 서비스 메서드를 사용하여 이메일 중복 여부 확인
+        boolean isDuplicate = memberService.checkEmailDuplicate(email);
+        // 중복된 이메일이 있으면 "duplicate" 반환, 없으면 "available" 반환
+        return isDuplicate ? "duplicate" : "available";
     }
 
-
-     // 아이디 중복 체크와 유효성 검사 수행
-    // @PostMapping("/checkIdDuplicate")
-    // public String checkIdDuplicate(@RequestParam("mid") String mid, RedirectAttributes redirectAttributes) {
-        
-    //     // 먼저 유효성 검사 (아이디 형식에 대한 정규식 검사) 수행
-    //     if (!IdValidator.isValidId(mid)) {
-    //         redirectAttributes.addFlashAttribute("message", "아이디는 4~20자의 영문, 숫자만 가능합니다.");
-    //         return "redirect:/member/register";
-    //     }
-    //     // 서비스 메서드 활용하여 중복 여부 확인
-    //     boolean isDuplicate = memberService.isIdDuplicate(mid);
-        
-    //     if (isDuplicate) //중복된 아이디가 있으면
-    //     {
-    //         redirectAttributes.addFlashAttribute("message", "이미 사용 중인 아이디입니다.");
-    //     } 
-    //     else //중복된 아이디가 없으면
-    //     {
-    //         redirectAttributes.addFlashAttribute("message", "사용 가능한 아이디입니다.");
-    //         redirectAttributes.addFlashAttribute("checkedId", mid);
-    //     }
-    //     return "redirect:/member/register";
-    // }   
-    
     // 아이디 중복 체크 : 비동기 통신 사용
         @PostMapping("/checkIdDuplicate")    
         @ResponseBody // json 형식으로 데이터를 반환
-        public String checkIdDuplicate(@RequestParam("mid") String mid) {
+        public String checkIdValid(@RequestParam("mid") String mid) {
             // 먼저 유효성 검사 (아이디 형식에 대한 정규식 검사) 수행
             if (!IdValidator.isValidIdREGEX(mid)) {
                 return "invalid";
             }
             // 서비스 메서드 활용하여 중복 여부 확인
-            boolean isDuplicate = memberService.isIdDuplicate(mid);
+            boolean isDuplicate = memberService.checkIdDuplicate(mid);
             // 중복된 아이디가 있으면 "duplicate" 반환, 없으면 "available" 반환
             if (isDuplicate) {
                 return "duplicate";
@@ -231,7 +181,7 @@ public class MemberController {
            return "redirect:/member/findpwd";
        }
    
-       int success = memberService.resetPassword(mid, email, newPassword);
+       int success = memberService.findPassword(mid, email, newPassword);
        if (success==1) {
            redirectAttributes.addFlashAttribute("message", "비밀번호가 성공적으로 재설정되었습니다.");
            redirectAttributes.addFlashAttribute("mid", mid);

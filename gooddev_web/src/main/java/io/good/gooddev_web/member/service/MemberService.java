@@ -33,7 +33,7 @@ public class MemberService {
 
       return new PageResponseDTO<>(pageRequestDTO, list, memberDAO.getTotalCount(pageRequestDTO));
     }
-    
+    // 회원 정보조회
     public MemberDTO getRead(String mid) {
       return memberDAO.getRead(mid)
           .map(member -> mapperUtil.map(member, MemberDTO.class))
@@ -67,14 +67,39 @@ public class MemberService {
         if (modifyMember.getEmail() != null) currentMember.setEmail(modifyMember.getEmail());
     }
 
-    //새 회원을 등록합니다.
-    public int register(final MemberVO member) {
-        int result = memberDAO.register(member);
-        log.info("회원가입 처리: ID = {}, 결과 = {}", member.getMid(), result);
-        return result;
-    }
-
- 
+  // 새 회원을 등록합니다.
+  public int register(final MemberVO member) {
+      // 유효성 검증 추가
+      if (!isValidRegisterMember(member)) {
+          log.warn("회원가입 실패: 유효하지 않은 회원 정보 = {}", member);
+          return 0;
+      }
+      int result = memberDAO.register(member);
+  
+      if (result > 0) {
+          log.info("회원가입 처리: ID = {}, 결과 = {}", member.getMid(), result);
+      } else {
+          log.warn("회원가입 실패: ID = {}", member.getMid());
+      }
+      return result;
+  }
+  
+  // 회원 정보 유효성 검사 메소드
+  private boolean isValidRegisterMember(MemberVO member) {
+      return member != null // 존재할 경우
+          && isNotBlank(member.getMid())          //공백 체크
+          && isNotBlank(member.getPassword())
+          && isNotBlank(member.getMember_name())
+          && isNotBlank(member.getEmail())
+          && isEmailValid(member.getEmail())
+          && !checkIdDuplicate(member.getMid()); // ID중복체크
+  }
+  
+  // 문자열이 null이 아니고 비어있지 않은지 확인하는 헬퍼 메소드
+  private boolean isNotBlank(String str) {
+      return str != null && !str.trim().isEmpty();
+  }
+    
     // 이메일로 아이디 찾기
     public String findIdByEmail(String email) {
       Optional<MemberVO> member = memberDAO.findIdByEmail(email);
@@ -88,22 +113,30 @@ public class MemberService {
   }
 
     //아이디 중복 체크
-  public boolean isIdDuplicate(String mid) {
-    return memberDAO.getRead(mid).isPresent(); // 아이디가 존재하면 true, 없으면 false
+  public boolean checkIdDuplicate(String mid) {
+    return memberDAO.getRead(mid).isPresent(); // 아이디가 존재하면 Treu, 없으면 False 리턴
   } 
   //   public boolean isIdDuplicate(String mid) {
   //     return memberDAO.checkIdDuplicate(mid) > 0;
   // }
-  
-    //이메일 유효성 검사
-    public boolean isEmailValid(String email) {
-        return memberDAO.EmailValidatorREGEX(email);
+    // 아이디 정규식 검사
+    public boolean isIdValid(String mid) {
+        return memberDAO.IdValidatorREGEX(mid);
     }
-     
-    //사용자 유효성을 검증 - 아이디와 이메일로 검증(존재하는지) 비밀번호찾기
-  public int resetPassword(String mid,String email,String newPassword) {
-  
-      // 아이디와 이메일로 검증
+
+  //이메일 중복 체크
+  public boolean checkEmailDuplicate(String email){
+    return memberDAO.getRead(email).isPresent(); //이메일이 존재하면 Treu, 없으면 False 리턴
+    
+  }
+  //이메일 정규식 검사
+  public boolean isEmailValid(String email) {
+      return memberDAO.emailValidatorREGEX(email);
+  }
+    
+    //비밀번호찾기
+  public int findPassword(String mid,String email,String newPassword) {
+      // 이메일로 검증
       Optional<MemberVO> member= memberDAO.getRead(mid);
       if(member.isPresent()){
         MemberVO modifyMember = member.get();
@@ -114,10 +147,10 @@ public class MemberService {
         else return -1;
       }
       else return -1;
-    }
-
-    public int resetPasswordByIdAndEmail(String newPassword) {
-       return memberDAO.resetPasswordByIdAndEmail(newPassword);
+  }
+    //비밀번호 재설정
+    public int resetPassword(String newPassword) {
+       return memberDAO.resetPassword(newPassword);
     }
 
     

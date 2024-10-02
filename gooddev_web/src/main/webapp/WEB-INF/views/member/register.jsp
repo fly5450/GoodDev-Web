@@ -77,10 +77,10 @@
                 registerLink.setAttribute('formaction', originalHref + "?redirect=" + encodeURIComponent(redirectParam));
                 document.getElementById('registerForm').submit(); // 폼 제출
             });
-
             let isValidId = false;
             let isEmailValid = false;
             let isPasswordValid = false;
+
 
             // 아이디 중복 확인
             $("#checkIdBtn").click(function() {
@@ -114,17 +114,36 @@
                 });
             });
 
-            // 비밀번호 유효성 검사
-            $("#password").blur(function() {
-                const password = $(this).val();
-                const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-                if (passwordRegex.test(password)) {
-                    $("#passwordCheckMessage").text("유효한 비밀번호 형식입니다.");
-                    isPasswordValid = true;
-                } else {
-                    $("#passwordCheckMessage").text("비밀번호는 8자 이상이며, 영문자와 숫자를 포함해야 합니다.");
-                    isPasswordValid = false;
+            // 이메일 중복 확인
+            $("#email").blur(function() {
+                const checkEmail = $(this).val();
+                if (!checkEmail) {
+                    $("#emailCheckMessage").text("이메일을 입력해주세요.");
+                    isEmailValid = false;
+                    return;
                 }
+
+                $.ajax({
+                    url: contextPath + '/member/checkEmailDuplicate', 
+                    type: 'POST',
+                    data: { email: checkEmail },
+                    success: function(response) {
+                        if (response === "invalid") {
+                            $("#emailCheckMessage").text("유효하지 않은 이메일 형식입니다.");
+                            isEmailValid = false;
+                        } else if (response === "duplicate") {
+                            $("#emailCheckMessage").text("이미 사용 중인 이메일입니다.");
+                            isEmailValid = false;
+                        } else if (response === "available") {
+                            $("#emailCheckMessage").text("사용 가능한 이메일입니다.");
+                            isEmailValid = true;
+                        }
+                    },
+                    error: function() {
+                        $("#emailCheckMessage").text("서버 오류가 발생했습니다. 다시 시도해주세요.");
+                        isEmailValid = false;
+                    }
+                });
             });
 
             // 이메일 유효성 검사
@@ -140,6 +159,21 @@
                 }
             });
 
+
+            // 비밀번호 유효성 검사
+            $("#password").blur(function() {
+                const password = $(this).val();
+                const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,20}$/;
+                if (passwordRegex.test(password)) {
+                    $("#passwordCheckMessage").text("유효한 비밀번호 형식입니다.");
+                    isPasswordValid = true;
+                } else {
+                    $("#passwordCheckMessage").text("비밀번호는 6자 ~ 최대 15자 이며, 영문자와 숫자를 포함해야 합니다.");
+                    isPasswordValid = false;
+                }
+            });
+
+         
             // 폼 제출 전 유효성 검사
             $("#registerForm").submit(function(e) {
                 e.preventDefault(); // 기본 동작을 막음
@@ -155,6 +189,44 @@
                 }
             });
         });
+               // //ID검사 아이디는 알파벳소문자,숫자혼용 7~11자
+            // var midPattern = /^(?=.*\d)(?=.*[a-z]).{7,11}$/;
+            // var midResult = midPattern.test( $("#mid").val());
+            // if(midResult) {
+            //    $("#midSpan").removeClass("text-danger");
+            // } else{
+            //    $("#midSpan").addClass("text-danger");
+            //    totalResult = false;
+            // }
+                           
+            // //Email 검사하기
+            // var memailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            // var memailResult = memailPattern.test($("#memail").val());
+            // if(memailResult) {
+            //    $("#memailSpan").removeClass("text-danger");
+            // } else {
+            //    $("#memailSpan").addClass("text-danger");
+            //    totalResult = false;
+            // }
+            
+            // //Password 검사하기
+            // var mpasswordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}$/;
+            // var mpasswordResult = mpasswordPattern.test($("#mpassword").val());
+            // if(mpasswordResult) {
+            //    $("#mpasswordSpan1").removeClass("text-danger");
+            // } else {
+            //    $("#mpasswordSpan1").addClass("text-danger");
+            //    totalResult = false;
+            // }
+            
+            // //Password 확인
+            // if($('#mpassword').val() == $('#mpassword2').val()) {
+            //    $("#mpasswordSpan2").removeClass("text-danger");
+            //    $("#mpasswordSpan2").html("");
+            // } else {
+            //    $("#mpasswordSpan2").html("비밀번호가 일치하지 않습니다.");
+            //        $("#mpasswordSpan2").addClass("text-danger");
+            //        totalResult = false;
     </script>
 </body>
 </html>

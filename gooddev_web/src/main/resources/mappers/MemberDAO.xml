@@ -93,7 +93,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 <!-- 이메일 유효성 검사 -->
-    <select id="EmailValidatorREGEX" parameterType="String" resultType="boolean">
+    <select id="checkEmailDuplicate" parameterType="String" resultType="boolean">
         SELECT COUNT(*) > 0
         FROM good_member
         WHERE email = #{email}

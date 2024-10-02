@@ -52,7 +52,7 @@
 
         <!-- Footer -->
         <%@ include file="/WEB-INF/views/commons/footer.jsp" %>
-        <script type="text/javascript">
+<script type="text/javascript">
             $(document).ready(function() {
                 $("#findIdForm").submit(function(event) {
                     event.preventDefault(); // 기본 폼 제출 동작 막음
@@ -84,7 +84,7 @@
                     });
                 });
             });
-        </script>
+</script>
     </div>
 </body>
 </html>
