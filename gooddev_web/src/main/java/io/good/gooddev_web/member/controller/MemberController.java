@@ -293,18 +293,17 @@ public class MemberController {
         
     //나의 게시물 가져오기
     @GetMapping("/myBoardList")
-    public String myBoardList(@RequestParam("mid") String mid, PageRequestDTO pageRequestDTO, Model model, HttpServletRequest request) {
+    public String myBoardList(PageRequestDTO pageRequestDTO, Model model, HttpServletRequest request) {
     	HttpSession session = request.getSession();
-        mid = (String) session.getAttribute("mid");
+        String mid = (String) session.getAttribute("mid");
 
         if (mid == null) {
             return "redirect:/login"; // 로그인되지 않은 경우 로그인 페이지로 리다이렉트
         }
-        // 게시물 객체 가져오기
-        List<BoardDTO> myBoards = boardService.getBoardsByMid(mid, pageRequestDTO); // 사용자 게시물 가져오기
-        model.addAttribute("myBoards", myBoards); // 모델에 추가
-        
-    	return "member/mypage/myBoardList";
+        pageRequestDTO.setMid(mid);
+        model.addAttribute("pageResponseDTO", boardService.getList(pageRequestDTO));
+
+        return "member/mypage/myBoardList";
     }
     
     //회원 상세보기

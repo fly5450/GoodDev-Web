@@ -50,7 +50,7 @@
 			<div class="content" style="width:80%; padding:0px 30px;">
 				<div class="profile">
 					<div class="user_info">
-						<span class="name" id="spanNickname">관리자 님</span>
+						<span class="name" id="spanNickname">${loginInfo.nickname} 님</span>
 					</div>
 				</div>
 				<div class="wrapper">
