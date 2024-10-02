@@ -1032,3 +1032,7 @@ input.board-update-title {
         padding: 8px 3px;
     }
 }
+.gallery-other-container{
+    display: flex;
+    justify-content: space-between;
+}

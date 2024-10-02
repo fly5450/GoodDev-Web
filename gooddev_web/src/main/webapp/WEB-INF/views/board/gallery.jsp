@@ -31,7 +31,10 @@
 								</div>
 							</c:forEach>
 					</main>
-					<a href="insert?category_no=${pageRequestDTO.category_no}">글쓰기</a>
+					<div class = "gallery-other-container">
+						<a href="insert?category_no=${pageRequestDTO.category_no}">글쓰기</a>
+
+					</div>
 				</div>
 			</div>
 			<%@ include file="/WEB-INF/views/commons/advertisement.jsp" %>

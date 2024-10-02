@@ -23,7 +23,7 @@
             
 	        <!-- Main Content -->
 	        <div class="board-update-container">
-		        <form action="update" method="post">
+		        <form action="update" method="post" enctype="multipart/form-data">
 		        	<input type="hidden" name="bno" value="${board.bno}"/>
 		        	<input type="hidden" name="link" value="${link}"/>
 		        	<div class="board-update-header">
@@ -32,6 +32,10 @@
 		        			<span class="board-update-author">작성자: ${board.mid}</span>
 		        			<span class="board-update-date">일자: ${board.formatDate}</span>
 		        		</div>
+						<div class="input-group mb-3">
+							<span class="input-group-text">첨부파일</span>
+							<input type="file" name="file" multiple><br />
+						</div>
 		        	</div>
 		        	<!-- 내용 영역 -->
 		        	<div class="board-update-content">

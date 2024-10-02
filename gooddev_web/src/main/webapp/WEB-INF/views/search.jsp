@@ -25,19 +25,26 @@
             <!-- Main Content -->
             <div class="main-content">
                 <div class="search-results-container">
-					<c:forEach var="entry" items="${totalMap.entrySet()}">
-						<section class="search-board">
-							<h2>${entry.key}</h2>
-							<ul class="search-board-list">
-								<c:forEach var="board" items="${entry.value}">
-									<li class="search-board-item"><a href="#" class="search-detail-link" data-board-bno="${board.bno}" data-page = "${pageResponse.page}" data-link="${pageRequestDTO.link}">${board.title}</a></li>
-								</c:forEach>
-								<li class="search-board-item more-link">
-									<a href="#" class="search-plus-link" data-link="${pageRequestDTO.link}">해당 게시판의 결과 더보기</a>
-								</li>
-							</ul>
-						</section>
-					</c:forEach>
+                    <c:choose>
+                        <c:when test="${empty totalMap}">
+                            <p colspan="6" style="text-align: center;">검색 결과가 없습니다.</p>
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach var="entry" items="${totalMap.entrySet()}">
+                                <section class="search-board">
+                                    <h2>${entry.key}</h2>
+                                    <ul class="search-board-list">
+                                        <c:forEach var="board" items="${entry.value}">
+                                            <li class="search-board-item"><a href="#" class="search-detail-link" data-board-bno="${board.bno}" data-page = "${pageResponse.page}" data-link="${pageRequestDTO.link}">${board.title}</a></li>
+                                        </c:forEach>
+                                        <li class="search-board-item more-link">
+                                            <a href="#" class="search-plus-link" data-link="${pageRequestDTO.link}">해당 게시판의 결과 더보기</a>
+                                        </li>
+                                    </ul>
+                                </section>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
 				</div>
             </div>
             <!--광고부분-->

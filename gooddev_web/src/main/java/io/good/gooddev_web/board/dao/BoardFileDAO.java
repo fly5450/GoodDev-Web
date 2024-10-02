@@ -15,4 +15,5 @@ public interface BoardFileDAO {
 
 	Optional<BoardFileVO> getRead(String fid);
 
+	int delete(int bno);
 }

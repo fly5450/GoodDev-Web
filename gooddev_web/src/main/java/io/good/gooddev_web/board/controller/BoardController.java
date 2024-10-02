@@ -120,6 +120,7 @@ public class BoardController {
 	@PostMapping("/board/insert")
 	public String boardInsert(BoardDTO boardDTO, MemberDTO memberDTO, Model model, @RequestParam String link, PageRequestDTO pageRequestDTO) {
 		boardService.insert(mapper.map(boardDTO, BoardVO.class));
+		if(boardDTO.getCategory_no()==50) return "redirect:/board/gallery?"+pageRequestDTO.getLink();
 		return "redirect:/board/list?" + pageRequestDTO.getLink();
 	}
 
