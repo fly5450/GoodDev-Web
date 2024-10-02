@@ -18,8 +18,6 @@
 		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 		crossorigin="anonymous"></script>
 		
-		<!-- jQuery 외부 라이브러리  설정-->
-		<script src="${pageContext.request.contextPath}/resources/jquery/jquery-3.7.1.min.js"></script>
 		
 		<!-- external css -->
     	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mypage/my_page.css">
@@ -55,7 +53,7 @@
 				<div class="profile">
 					<div class="user_info">
 						<span class="name" id="spanNickname">${loginInfo.nickname} 님</span>
-						<p class="date">가입일 : <span>${loginInfo.signup_Date}</span></p>
+						<p class="date">가입일 : <span>${loginInfo.formatDate}</span></p>
 					</div>
 				</div>
 				<div class="wrapper">
@@ -76,7 +74,7 @@
 							</div>
 							<div>
 								<h4 style="margin-bottom: 5px;">
-									<span>이름 : </span> <span>${member.member_Name}</span>
+									<span>이름 : </span> <span>${member.member_name}</span>
 								</h4>
 							</div>
 							<div>

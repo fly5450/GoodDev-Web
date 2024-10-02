@@ -1,5 +1,6 @@
 package io.good.gooddev_web.member.dto;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import lombok.AllArgsConstructor;
@@ -46,4 +47,9 @@ public class MemberDTO {
         this.signup_Date = new Date(); // 기본값
         this.signout_Date = null; // 기본값
     }
+    
+    public String getFormatDate() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yy/MM/dd");
+		return sdf.format(signup_Date);
+	}
 }
