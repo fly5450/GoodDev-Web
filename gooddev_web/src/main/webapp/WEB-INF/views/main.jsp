@@ -22,7 +22,7 @@
         <!--컨텐츠부분-->
         <div class = "main">
             <%@ include file="/WEB-INF/views/commons/advertisement.jsp" %>
-
+            
             <!-- Main Content -->
             <div class="main-content">
                 <!-- Content (Notice, Boards, Gallery) -->
@@ -31,18 +31,18 @@
                         <div class="main-notice-board">
                             <h2>공지사항</h2>
                             <c:forEach var="notice" items="${noticeList}">
-                                   <a href="board/read?bno=${notice.bno}">${notice.title}</a><br />
+                                   <a href="#"class="main-list" data-board-bno="${notice.bno}">${notice.title}</a><br />
                             </c:forEach>
                         </div>
                     <!-- 게시판 Section -->
                     <div class="main-boards">
                         <c:forEach var="entry" items="${mainMap}">
-                            <div class="boards">
+                            <div class="main-boards-list">
                                 <!-- key를 출력 -->
                                 <h2>${entry.key}</h2>
                                 <div class="board" id="board1">
                                     <c:forEach var="board" items="${entry.value}">
-                                        <a href="board/read?bno=${board.bno}">${board.title}</a><br />
+                                        <a href="#" class="main-list" data-board-bno="${board.bno}">${board.title}</a><br />
                                     </c:forEach>
                                 </div>
                             </div>
@@ -57,7 +57,7 @@
                                         <c:forEach var="boardFile" items="${board.boardFileDTOList}">
                                             <img src="board/download/${boardFile.fid}" alt="이미지"/>
                                         </c:forEach>
-                                        <a href="board/read?bno=${board.bno}&link=${pageRequestDTO.link}" class="title">${board.title}</a>
+                                        <a href="#" class="main-list" data-board-bno="${board.bno}">${board.title}</a>
                                     </div>
                                 </c:forEach>
                         </main>
@@ -138,7 +138,7 @@
                         let boardBno = link.getAttribute('data-board-bno');
                         let pageLink = window.location.href;
                         let encodedLink = encodeURIComponent(pageLink);
-                        link.href = "read?bno=" + boardBno + "&link="+encodedLink;
+                        link.href = "board/read?bno=" + boardBno + "&link="+encodedLink;
                     });
                 });
             });
