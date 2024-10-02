@@ -132,7 +132,7 @@
             const boardTr = document.createElement('tr');
            boardTr.innerHTML =
 				'<td>' + board.bno + '</td>' +
-				'<td><a href="read?bno=' + board.bno + '&link=' + encodeURIComponent(window.location.href) +
+				'<td><a href="read?bno=' + board.bno +
 				'" class="list-title" data-board-bno="' + board.bno +
 				'">' + board.title + '</a></td>' +
 				'<td>' + board.mid + '</td>' +
@@ -148,9 +148,7 @@
             links.forEach(function(link) {
                 link.addEventListener('click', function() {
                     let boardBno = link.getAttribute('data-board-bno');
-                    let pageLink = window.location.href;
-                    let encodedLink = encodeURIComponent(pageLink);
-                    link.href = "read?bno=" + boardBno + "&link="+encodedLink;
+                    link.href = "read?bno=" + boardBno;
                 });
             });
             /* links = document.querySelectorAll('.board-list-insert');
