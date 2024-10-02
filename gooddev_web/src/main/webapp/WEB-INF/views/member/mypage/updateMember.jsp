@@ -22,7 +22,6 @@
 		
 		<!-- external css -->
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mypage/updateMember.css">
-		
 		<!-- 사용자 정의 자바스크립트 -->
 		<script>
 		
@@ -30,8 +29,8 @@
 			// 비밀번호 입력 데이터 양식 검사
 			let totalResult = true;
 			
-			// 비밀번호 1차 검사 (영어 대소문자, 숫자 10 - 15자 이하)
-			const goodPasswordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,15}$/;
+			// 비밀번호 1차 검사 (영어 대소문자, 숫자 8 - 15자 이하)
+			const goodPasswordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$/;
 			const pwd1 = document.getElementById("pwdCheck1").value;
 			const pwd2 = document.getElementById("pwdCheck2").value;
 			
@@ -40,7 +39,7 @@
 			  document.getElementById("passwordSpan1").innerHTML = "";
 			} else {
 			  document.getElementById("passwordSpan1").classList.add("text-danger");
-			  document.getElementById("passwordSpan1").innerHTML = "영어 대소문자, 숫자 10 ~ 15자이하로 작성해주세요.";
+			  document.getElementById("passwordSpan1").innerHTML = "영어 대소문자, 숫자 8 ~ 15자이하로 작성해주세요.";
 			  totalResult = false;
 			}
 			
@@ -93,18 +92,23 @@
 		<div class="d-flex">
 				<div id="my_box"  style="width:24%; height: 80%; padding: 0px 30px;">
 					<h2 style="padding-bottom: 60px; width:15rem;"><a href="myPage" style="text-decoration-line: none; color:black;"><b>마이페이지</b></a></h2>
-					
 					<ul class="my_menu">
 						<li id="menu1" style="height: 50%;">  
-							<a class="menu_depth01" href="/myPage">나의 정보</a>
+							<a class="menu_depth01" href="${pageContext.request.contextPath}/member/detailMember?mid=${member.mid}">내 정보</a>
 							<ul class="menu_depth02">
-								<li id="update"><a href="updateMember">회원 정보 수정</a></li>
-								<li id="myBoardList"><a href="myBoardList">나의 작성 게시물</a></li>
+								<li id="update"><a href="updateMember?mid=${loginInfo.mid}" onclick="changeStyle(this)">회원 정보 수정</a></li>
+								<li id="update"><a href="myBoardList?mid=${loginInfo.mid}" onclick="changeStyle(this)">나의 작성 게시물</a></li>
 							</ul>
 						</li>
 					</ul>
 				</div>
 				<div class="content">
+					<div class="profile">
+						<div class="user_info">
+							<span class="name" id="spanNickname">${loginInfo.nickname} 님</span>
+							<p class="date">가입일 : <span>${loginInfo.signup_Date}</span></p>
+						</div>
+					</div>
 					<form action="${pageContext.request.contextPath}/updateMember" method="post" id="updateForm">
 					    <div class="tit_area line_thick">
 							<strong class="member_info2">회원정보 수정</strong> 
@@ -174,7 +178,7 @@
 							</div>
 						</div>
 						<div class="btn_big_wrap btn_size_fix mt60">
-							<button type="button" onclick="location.href='myPage'" class="white btn_cancle">취소</button>
+							<button type="button" onclick="location.href='myPage'" class="white btn_cancel">취소</button>
 							<button type="submit" class="btn_submit">완료</button>
 						</div>
 					</form>
@@ -232,6 +236,17 @@
 		</div>
 	</div>
 	
+	<script>
+		function changeStyle(element) {
+		    // 모든 링크의 스타일을 초기화
+		    document.querySelectorAll('.menu_depth02 a').forEach(link => {
+		        link.parentElement.classList.remove('selected');
+		    });
+		    
+		    // 선택된 링크에 스타일 적용
+		    element.parentElement.classList.add('selected');
+		}
+	</script>
 
 </body>
 </html>

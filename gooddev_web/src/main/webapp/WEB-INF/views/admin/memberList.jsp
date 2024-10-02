@@ -18,8 +18,12 @@
 		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 		crossorigin="anonymous"></script>
 		
+		<!-- jQuery 외부 라이브러리  설정-->
+		<script src="${pageContext.request.contextPath}/resources/jquery/jquery-3.7.1.min.js"></script>
+		
 		<!-- external css -->
-    	<link rel="stylesheet" href="<c:url value='/resources/css/page_nav.css'/>">
+    	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mypage/my_page.css">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/page_nav.css">
 		
 		<!-- 사용자 정의 자바스크립트 -->
 		<script>
@@ -44,7 +48,7 @@
 	                    <ul class="menu_depth02">
 	                    	<li id="update"><a href="<c:url value='/admin/memberList'/>">전체 회원목록 관리</a></li>
 	                        <li id="update"><a href="<c:url value='/admin/noticeList'/>">전체 공지사항 관리</a></li> 
-	                        <li id="myBoardList"><a href="<c:url value='/admin/boardList'/>">전체 게시물 관리</a></li> 
+	                        <li id="update"><a href="<c:url value='/admin/boardList'/>">전체 게시물 관리</a></li> 
 	                    </ul>
 	                </li>
 	            </ul>
@@ -52,7 +56,7 @@
 			<div class="content">
 				<div class="profile">
 					<div class="user_info">
-						<span class="name" id="spanNickname">관리자 님</span>
+						<span class="name" id="spanNickname">${loginInfo.nickname} 님</span>
 					</div>
 				</div>
 				<div class="wrapper">
@@ -133,6 +137,16 @@
 	            self.location = "memberList?" + param; // 경로
 		    });
 		});
+		
+		function changeStyle(element) {
+		    // 모든 링크의 스타일을 초기화
+		    document.querySelectorAll('.menu_depth02 a').forEach(link => {
+		        link.parentElement.classList.remove('selected');
+		    });
+		    
+		    // 선택된 링크에 스타일 적용
+		    element.parentElement.classList.add('selected');
+		}
 	</script>
 
 </body>

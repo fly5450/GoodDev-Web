@@ -160,10 +160,4 @@
 		update good_board set deleteyn = 'Y' where bno = #{bno} and board_password = #{board_password}
 	</update>
 	
-	<!-- 마이페이지 나의 게시물 목록 가져오기 -->
-	<select id="getBoardsByMid" parameterType="String" resultType="io.good.gooddev_web.board.vo.BoardVO">
-	    SELECT * 
-	    FROM good_board 
-	    WHERE mid = #{mid}
-	</select>
 </mapper>

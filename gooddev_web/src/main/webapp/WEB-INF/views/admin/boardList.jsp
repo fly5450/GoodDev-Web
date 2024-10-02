@@ -18,9 +18,11 @@
 		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 		crossorigin="anonymous"></script>
 		
-		<!-- external css -->
-    	<link rel="stylesheet" href="<c:url value='/resources/css/page_nav.css'/>">
 		
+		<!-- external css -->
+		
+    	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mypage/my_page.css">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/page_nav.css">
 		<!-- 사용자 정의 자바스크립트 -->
 		<script>
 		
@@ -40,11 +42,11 @@
 	            <h2 style="padding-bottom: 60px; width:15rem;"><a href="${pageContext.request.contextPath}/admin" style="text-decoration-line: none; color:black;"><b>관리자페이지</b></a></h2> 
 	            <ul class="my_menu">
 	                <li id="menu1" style="height: 50%;">  
-	                    <h5 class="menu_depth01">관리자 정보</h5> 
+	                    <a class="menu_depth01" href="${pageContext.request.contextPath}/member/detailMember?mid=${member.mid}">관리자 정보</a> 
 	                    <ul class="menu_depth02">
 	                    	<li id="update"><a href="<c:url value='/admin/memberList'/>">전체 회원목록 관리</a></li>
 	                        <li id="update"><a href="<c:url value='/admin/noticeList'/>">전체 공지사항 관리</a></li> 
-	                        <li id="myBoardList"><a href="<c:url value='/admin/boardList'/>">전체 게시물 관리</a></li> 
+	                        <li id="update"><a href="<c:url value='/admin/boardList'/>">전체 게시물 관리</a></li> 
 	                    </ul>
 	                </li>
 	            </ul>
@@ -52,7 +54,7 @@
 			<div class="content" style="width:80%; padding:0px 30px;">
 				<div class="profile">
 					<div class="user_info">
-						<span class="name" id="spanNickname">관리자 님</span>
+						<span class="name" id="spanNickname">${loginInfo.nickname} 님</span>
 					</div>
 				</div>
 				<div class="wrapper">
@@ -134,6 +136,16 @@
 	            self.location = "boardList?" + param; // 경로
 		    });
 		});
+		
+		function changeStyle(element) {
+		    // 모든 링크의 스타일을 초기화
+		    document.querySelectorAll('.menu_depth02 a').forEach(link => {
+		        link.parentElement.classList.remove('selected');
+		    });
+		    
+		    // 선택된 링크에 스타일 적용
+		    element.parentElement.classList.add('selected');
+		}
 	</script>
 </body>
 </html>

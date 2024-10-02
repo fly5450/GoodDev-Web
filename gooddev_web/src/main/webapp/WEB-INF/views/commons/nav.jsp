@@ -21,8 +21,20 @@
     </div>
     <div class="menu-item">
         <a href="${pageContext.request.contextPath}/board/gallery?page=1&size=9&category_no=50">갤러리</a>
-    </div> <div class="menu-item">
+    </div> 
+    <div class="menu-item">
         <a href="${pageContext.request.contextPath}/board/curicurum">커리큘럼</a>
+		<div class="dropdown">
+		    <div class="dropdown-item">
+			<a href="${pageContext.request.contextPath}/board/curicurum?curicurum=MSA5" class = "navbar a">MSA5차</a>
+			</div>
+			<div class="dropdown-item">
+			    <a href="${pageContext.request.contextPath}/board/curicurum?curicurum=MSA6" class = "navbar a">MSA6차</a>
+			</div>
+			<div class="dropdown-item">
+			    <a href="${pageContext.request.contextPath}/board/curicurum?curicurum=MSA7" class = "navbar a">MSA7차</a>
+			</div>
+        </div>
     </div> <div class="menu-item">
         <a href="https://www.sw.or.kr/site/sw/edu/selectEduListGallery.do" >교육신청</a>
     </div>

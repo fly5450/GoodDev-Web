@@ -202,6 +202,11 @@ public class BoardController {
 		PageResponseDTO<BoardDTO> pageResponseDTO = boardService.getGalleryList(pageRequestDTO);
 		model.addAttribute("pageResponseDTO", pageResponseDTO);
 	}
+	
+	@GetMapping("/board/curicurum")
+	public void curi(String curicurum, Model model) {
+		model.addAttribute("curicurum", curicurum);
+	}
 }
 
 

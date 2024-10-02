@@ -236,6 +236,10 @@ public class BoardService {
             throw new RuntimeException("Transaction failed", e);
         }
     }
+    
+    public int deleteBoard(int bno) {
+    	return boardDAO.deleteBoard(bno);
+    }
 
     public Map<String, List<BoardDTO>> getMainList() {
         Map<String, List<BoardDTO>> map= new HashMap<>();
@@ -273,11 +277,5 @@ public class BoardService {
         }
         return getList;
     }
-
-	public List<BoardDTO> getBoardsByMid(String mid) {
-		return boardDAO.getBoardsByMid(mid).stream()
-                .map(board -> mapper.map(board, BoardDTO.class))
-                .collect(Collectors.toList());
-	}
 
 }

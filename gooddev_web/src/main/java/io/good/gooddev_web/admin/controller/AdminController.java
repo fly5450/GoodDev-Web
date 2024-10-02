@@ -132,7 +132,9 @@ public class AdminController {
 	@GetMapping("/removeBoard")
 	public String removeBoard(int bno) {
 		
-		boardService.delete(bno, null);
+		boardService.deleteBoard(bno);
+
+
 		
 		return "redirect:/admin/boardList";
 	}
@@ -176,7 +178,8 @@ public class AdminController {
 	@GetMapping("/removeNotice")
 	public String removeNotice(int bno) {
 		log.info("bno값:    " + bno);
-		boardService.delete(bno, null);
+		boardService.deleteBoard(bno);
+
 		
 		return "redirect:/admin/noticeList";
 	}

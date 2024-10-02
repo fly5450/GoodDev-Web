@@ -20,7 +20,7 @@
 		
 		
 		<!-- external css -->
-		<link rel="stylesheet" href="<c:url value='/resources/css/my_page.css'/>">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mypage/my_page.css">
 		
 		
 </head>
@@ -42,7 +42,7 @@
 		                    <ul class="menu_depth02">
 		                    	<li id="update"><a href="<c:url value='/admin/memberList'/>">전체 회원목록 관리</a></li>
 		                        <li id="update"><a href="<c:url value='/admin/noticeList'/>">전체 공지사항 관리</a></li> 
-		                        <li id="myBoardList"><a href="<c:url value='/admin/boardList'/>">전체 게시물 관리</a></li> 
+		                        <li id="update"><a href="<c:url value='/admin/boardList'/>">전체 게시물 관리</a></li> 
 		                    </ul>
 		                </li>
 		            </ul>
@@ -50,7 +50,7 @@
 			<div class="content" style="width:80%; padding:0px 30px;">
 				<div class="profile">
 					<div class="user_info">
-						<span class="name" id="spanNickname">관리자 님</span>
+						<span class="name" id="spanNickname">${loginInfo.nickname} 님</span>
 					</div>
 				</div>
 				<div class="wrapper">
@@ -94,6 +94,17 @@
 	            self.location = "boardList?" + param; // 경로
 		    });
 		});
+		
+		
+		function changeStyle(element) {
+		    // 모든 링크의 스타일을 초기화
+		    document.querySelectorAll('.menu_depth02 a').forEach(link => {
+		        link.parentElement.classList.remove('selected');
+		    });
+		    
+		    // 선택된 링크에 스타일 적용
+		    element.parentElement.classList.add('selected');
+		}
 	</script>
 	</div>
 </body>
