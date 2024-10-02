@@ -231,16 +231,17 @@ public class MemberController {
            return "redirect:/member/findpwd";
        }
    
-       Boolean success = memberService.resetPasswordByIdAndEmail(mid, email, newPassword);
-       if (success) {
+       int success = memberService.resetPassword(mid, email, newPassword);
+       if (success==1) {
            redirectAttributes.addFlashAttribute("message", "비밀번호가 성공적으로 재설정되었습니다.");
            redirectAttributes.addFlashAttribute("mid", mid);
+           return "redirect:/";
        } else {
            redirectAttributes.addFlashAttribute("message", "아이디 또는 이메일이 일치하지 않습니다.");
            redirectAttributes.addFlashAttribute("mid", mid);
            redirectAttributes.addFlashAttribute("email", email);
+           return "redirect:/member/findpwd";
        }
-       return "redirect:/member/login";
    }
 
 

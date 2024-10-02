@@ -12,8 +12,6 @@ import io.good.gooddev_web.member.dto.MemberDTO;
 import io.good.gooddev_web.member.vo.MemberVO;
 import io.good.gooddev_web.search.dto.PageRequestDTO;
 import io.good.gooddev_web.search.dto.PageResponseDTO;
-import io.good.gooddev_web.util.EmailValidator;
-import io.good.gooddev_web.util.IdValidator;
 import io.good.gooddev_web.util.MapperUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -102,37 +100,24 @@ public class MemberService {
         return memberDAO.EmailValidatorREGEX(email);
     }
      
-    //사용자 유효성을 검증 - 아이디와 이메일로 검증(존재하는지)
-  public boolean isUserValid(String mid, String email) {
-    if (email == null) {
-          // 아이디만으로 검증
-          return memberDAO.validateUser(mid, null);
-      } else {
-          // 아이디와 이메일로 검증
-          return memberDAO.validateUser(mid, email);
-      }
-    }
-    // 아이디와 이메일 모두 유효성 검사
-    public boolean validateIdAndEmail(String mid, String email) {
-        return IdValidator.isValidIdREGEX(mid) && 
-               EmailValidator.isValidEmailREGEX(email) && 
-               !isIdDuplicate(mid) && 
-               !isEmailValid(email);
-    }
+    //사용자 유효성을 검증 - 아이디와 이메일로 검증(존재하는지) 비밀번호찾기
+  public int resetPassword(String mid,String email,String newPassword) {
   
-    //비밀번호를 재설정합니다.
-    public boolean resetPasswordByIdAndEmail(String mid, String email, String newPassword) {
-        if (memberDAO.validateUser(mid, email)) {
-            MemberVO member = memberDAO.getRead(mid).orElse(null);
-            if (member != null) {
-                member.setPassword(newPassword);
-                int result = memberDAO.modify(member);
-                log.info("비밀번호 재설정: ID = {}, 결과 = {}", mid, result > 0 ? "성공" : "실패");
-                return result > 0;
-            }
+      // 아이디와 이메일로 검증
+      Optional<MemberVO> member= memberDAO.getRead(mid);
+      if(member.isPresent()){
+        MemberVO modifyMember = member.get();
+        if(modifyMember.getEmail().equals(email)){
+          modifyMember.setPassword(newPassword);
+          return memberDAO.modify(modifyMember);
         }
-        log.warn("비밀번호 재설정 실패: 유효하지 않은 사용자 ID = {}, 이메일 = {}", mid, email);
-        return false;
+        else return -1;
+      }
+      else return -1;
+    }
+
+    public int resetPasswordByIdAndEmail(String newPassword) {
+       return memberDAO.resetPasswordByIdAndEmail(newPassword);
     }
 
     
