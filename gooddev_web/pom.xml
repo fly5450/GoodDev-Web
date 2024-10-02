@@ -213,6 +213,13 @@
 		    <version>7.0.0.Final</version>
 		</dependency>
 	
+		<!-- 비동기 통신을 위한 라이브러리 -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.15.2</version>
+		</dependency>
+
 		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -222,6 +229,8 @@
 
 		</dependency>
 		<!-- restapi 사용을 위한 라이브러리-->
+
+		<!-- ajax 사용을 위한 라이브러리-->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
@@ -232,6 +241,13 @@
 			<groupId>org.apache.velocity</groupId>
 			<artifactId>velocity-engine-core</artifactId>
 			<version>2.3</version>
+			<exclusions>
+				<!-- 충돌 방지를 위해 slf4j 제외-->
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 	</dependencies>
     <build>

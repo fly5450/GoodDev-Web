@@ -5,7 +5,7 @@
     <div class="header-container">
         <div class="logo-container">
            <a href="${pageContext.request.contextPath}/">
-                <img src="${pageContext.request.contextPath}/resources/img/good.png" alt="로고">
+                <img src="${pageContext.request.contextPath}/resources/images/good.png" alt="로고">
             </a>
         </div>
         <div class="search-wrapper">

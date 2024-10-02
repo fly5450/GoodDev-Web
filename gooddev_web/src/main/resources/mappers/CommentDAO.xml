@@ -7,11 +7,14 @@
 		select *
 		from good_comment
 		<where>
-			<if test="bno != null and bno.length >0">
+			<if test="bno != null and bno.length > 0">
 				bno = #{bno}
 			</if>
-			<if test="parent_cno != null and parent_cno.length >0">
+			<if test="parent_cno != null and parent_cno.length > 0">
 				<trim prefix="and"> parent_cno = #{parent_cno} </trim>
+			</if>
+			<if test="parent_cno == null">
+				<trim prefix="and"> parent_cno is null </trim>
 			</if>
 		</where>
 	</select>

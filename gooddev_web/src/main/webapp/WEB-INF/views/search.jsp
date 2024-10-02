@@ -64,7 +64,8 @@
             links.forEach(function(link) {
                 link.addEventListener('click', function() {
                     let pageLink = link.getAttribute('data-link');
-                    link.href = "board/list?"+pageLink;
+                    let encodedLink = encodeURIComponent(pageLink);
+                    link.href = "board/list?"+encodedLink;
                 });
             });
         });

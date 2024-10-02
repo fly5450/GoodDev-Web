@@ -31,7 +31,7 @@
 								</div>
 							</c:forEach>
 					</main>
-					<a href="insert">글쓰기</a>
+					<a href="insert?${pageRequestDTO.category_no}">글쓰기</a>
 				</div>
 			</div>
 			<%@ include file="/WEB-INF/views/commons/advertisement.jsp" %>
