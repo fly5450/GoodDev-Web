@@ -20,8 +20,9 @@
 		
 		
 		<!-- external css -->
-    	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/my_page.css">
 		
+    	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mypage/my_page.css">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/page_nav.css">
 		<!-- 사용자 정의 자바스크립트 -->
 		<script>
 		
@@ -41,11 +42,11 @@
 	            <h2 style="padding-bottom: 60px; width:15rem;"><a href="${pageContext.request.contextPath}/admin" style="text-decoration-line: none; color:black;"><b>관리자페이지</b></a></h2> 
 	            <ul class="my_menu">
 	                <li id="menu1" style="height: 50%;">  
-	                    <h5 class="menu_depth01">관리자 정보</h5> 
+	                    <a class="menu_depth01" href="${pageContext.request.contextPath}/member/detailMember?mid=${member.mid}">관리자 정보</a> 
 	                    <ul class="menu_depth02">
 	                    	<li id="update"><a href="<c:url value='/admin/memberList'/>">전체 회원목록 관리</a></li>
 	                        <li id="update"><a href="<c:url value='/admin/noticeList'/>">전체 공지사항 관리</a></li> 
-	                        <li id="myBoardList"><a href="<c:url value='/admin/boardList'/>">전체 게시물 관리</a></li> 
+	                        <li id="update"><a href="<c:url value='/admin/boardList'/>">전체 게시물 관리</a></li> 
 	                    </ul>
 	                </li>
 	            </ul>

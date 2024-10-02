@@ -20,7 +20,7 @@
 		
 		
 		<!-- external css -->
-		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mypage/updateMember.css">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mypage/my_page.css">
 		
 		
 </head>
@@ -42,7 +42,7 @@
 		                    <ul class="menu_depth02">
 		                    	<li id="update"><a href="<c:url value='/admin/memberList'/>">전체 회원목록 관리</a></li>
 		                        <li id="update"><a href="<c:url value='/admin/noticeList'/>">전체 공지사항 관리</a></li> 
-		                        <li id="myBoardList"><a href="<c:url value='/admin/boardList'/>">전체 게시물 관리</a></li> 
+		                        <li id="update"><a href="<c:url value='/admin/boardList'/>">전체 게시물 관리</a></li> 
 		                    </ul>
 		                </li>
 		            </ul>

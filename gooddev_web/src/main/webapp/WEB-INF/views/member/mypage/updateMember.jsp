@@ -22,7 +22,6 @@
 		
 		<!-- external css -->
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mypage/updateMember.css">
-		
 		<!-- 사용자 정의 자바스크립트 -->
 		<script>
 		
@@ -30,8 +29,8 @@
 			// 비밀번호 입력 데이터 양식 검사
 			let totalResult = true;
 			
-			// 비밀번호 1차 검사 (영어 대소문자, 숫자 10 - 15자 이하)
-			const goodPasswordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,15}$/;
+			// 비밀번호 1차 검사 (영어 대소문자, 숫자 8 - 15자 이하)
+			const goodPasswordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$/;
 			const pwd1 = document.getElementById("pwdCheck1").value;
 			const pwd2 = document.getElementById("pwdCheck2").value;
 			
@@ -40,7 +39,7 @@
 			  document.getElementById("passwordSpan1").innerHTML = "";
 			} else {
 			  document.getElementById("passwordSpan1").classList.add("text-danger");
-			  document.getElementById("passwordSpan1").innerHTML = "영어 대소문자, 숫자 10 ~ 15자이하로 작성해주세요.";
+			  document.getElementById("passwordSpan1").innerHTML = "영어 대소문자, 숫자 8 ~ 15자이하로 작성해주세요.";
 			  totalResult = false;
 			}
 			
@@ -93,13 +92,12 @@
 		<div class="d-flex">
 				<div id="my_box"  style="width:24%; height: 80%; padding: 0px 30px;">
 					<h2 style="padding-bottom: 60px; width:15rem;"><a href="myPage" style="text-decoration-line: none; color:black;"><b>마이페이지</b></a></h2>
-					
 					<ul class="my_menu">
 						<li id="menu1" style="height: 50%;">  
-							<a class="menu_depth01" href="detailMember">내 정보</a>
+							<a class="menu_depth01" href="${pageContext.request.contextPath}/member/detailMember?mid=${member.mid}">내 정보</a>
 							<ul class="menu_depth02">
 								<li id="update"><a href="updateMember?mid=${member.mid}" onclick="changeStyle(this)">회원 정보 수정</a></li>
-								<li id="myBoardList"><a href="myBoardList?mid=${member.mid}" onclick="changeStyle(this)">나의 작성 게시물</a></li>
+								<li id="update"><a href="myBoardList?mid=${member.mid}" onclick="changeStyle(this)">나의 작성 게시물</a></li>
 							</ul>
 						</li>
 					</ul>

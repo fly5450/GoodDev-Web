@@ -18,7 +18,8 @@
 		crossorigin="anonymous"></script>
 		
 		<!-- external css -->
-    	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mypage/updateMember.css">
+    	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mypage/my_page.css">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/page_nav.css">
 
 </head>
 <body>

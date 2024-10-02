@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>마이페이지(게시물리스트) - goodDev</title>
+<title>관리자페이지(게시물리스트) - goodDev</title>
 
 		<!-- Bootstrap 5를 위한 외부 라이브러리 설정 -->
 		<link
@@ -19,8 +19,8 @@
 		crossorigin="anonymous"></script>
 		
 		<!-- external css -->
-    	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mypage/updateMember.css">
-		
+    	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mypage/my_page.css">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/page_nav.css">
 		<!-- 사용자 정의 자바스크립트 -->
 		<script>
 			function openDeleteModal(bno) {
@@ -48,7 +48,7 @@
 	                    <ul class="menu_depth02">
 	                    	<li id="update"><a href="<c:url value='/admin/memberList'/>">전체 회원목록 관리</a></li>
 	                        <li id="update"><a href="<c:url value='/admin/noticeList'/>">전체 공지사항 관리</a></li> 
-	                        <li id="myBoardList"><a href="<c:url value='/admin/boardList'/>">전체 게시물 관리</a></li> 
+	                        <li id="update"><a href="<c:url value='/admin/boardList'/>">전체 게시물 관리</a></li> 
 	                    </ul>
 	                </li>
 	            </ul>

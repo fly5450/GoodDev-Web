@@ -231,10 +231,11 @@ public class BoardService {
         return getList;
     }
 
-	public List<BoardDTO> getBoardsByMid(String mid) {
-		return boardDAO.getBoardsByMid(mid).stream()
+	public List<BoardDTO> getBoardsByMid(String mid, PageRequestDTO pageRequestDTO) {
+		return boardDAO.getBoardsByMid(mid, pageRequestDTO).stream()
                 .map(board -> mapper.map(board, BoardDTO.class))
                 .collect(Collectors.toList());
+		
 	}
 
 }

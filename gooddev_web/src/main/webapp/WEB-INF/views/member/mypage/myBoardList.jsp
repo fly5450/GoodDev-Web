@@ -20,8 +20,8 @@
 		
 		
 		<!-- external css -->
-    	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mypage/updateMember.css">
-		
+    	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mypage/my_page.css">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/page_nav.css">
 		<!-- 사용자 정의 자바스크립트 -->
 		<script>
 		
@@ -36,10 +36,10 @@
 	            <h2 style="padding-bottom: 60px; width:15rem;"><a href="myPage" style="text-decoration-line: none; color:black;"><b>마이페이지</b></a></h2>
 	            <ul class="my_menu">
 	                <li id="menu1" style="height: 50%;">  
-	                    <a class="menu_depth01" href="detailMember">내 정보</a>
+	                    <a class="menu_depth01" href="${pageContext.request.contextPath}/member/detailMember?mid=${member.mid}">내 정보</a>
 	                    <ul class="menu_depth02">
 	                        <li id="update"><a href="updateMember?mid=${member.mid}" onclick="changeStyle(this)">회원 정보 수정</a></li>
-							<li id="myBoardList"><a href="myBoardList?mid=${member.mid}" onclick="changeStyle(this)">나의 작성 게시물</a></li>
+							<li id="update"><a href="myBoardList?mid=${member.mid}" onclick="changeStyle(this)">나의 작성 게시물</a></li>
 	                    </ul>
 	                </li>
 	            </ul>
@@ -94,7 +94,7 @@
 						  </table>
 							  <!-- 페이지네이션 -->
 							  <div class="float-end" >
-							    <ul class="pagination flex-wrap" >
+							     <ul class="pagination flex-wrap" >
 							        <c:if test="${not empty pageResponseDTO && not empty pageRequestDTO}">
 							            <c:if test="${pageResponseDTO.prev}">
 							                <li class="page-item" ><a class="page-link" href="#" data-param="${pageRequestDTO.getParam(pageResponseDTO.start-1)}">이전</a></li>
@@ -110,8 +110,8 @@
 							                <li class="page-item"><a class="page-link"href="#" data-param="${pageRequestDTO.getParam(pageResponseDTO.end+1)}">다음</a></li>
 							            </c:if>
 							        </c:if>
-							    </ul>
-							</div>
+							     </ul>
+							  </div>
 						</div>
 					</div>
 				</div>
@@ -127,7 +127,7 @@
 		        e.stopPropagation();
 		        
 		        const param = e.target.getAttribute("data-param");
-	            self.location = "myBoardList"; // 경로
+	            self.location = "myBoardList?" + param; // 경로
 		    });
 		});
 		

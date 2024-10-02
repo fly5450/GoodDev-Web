@@ -22,7 +22,8 @@
 		<script src="${pageContext.request.contextPath}/resources/jquery/jquery-3.7.1.min.js"></script>
 		
 		<!-- external css -->
-    	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mypage/updateMember.css">
+    	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mypage/my_page.css">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/page_nav.css">
     	
 		<!-- 사용자 정의 자바스크립트 -->
 		<script>
@@ -42,10 +43,10 @@
 	            <h2 style="padding-bottom: 60px; width:15rem;"><a href="myPage" style="text-decoration-line: none; color:black;"><b>마이페이지</b></a></h2>
 	            <ul class="my_menu">
 	                <li id="menu1" style="height: 50%;">  
-	                    <a class="menu_depth01" href="detailMember">내 정보</a>
+	                    <a class="menu_depth01" href="${pageContext.request.contextPath}/member/detailMember?mid=${member.mid}">내 정보</a>
 	                    <ul class="menu_depth02">
 	                        <li id="update"><a href="updateMember?mid=${member.mid}" onclick="changeStyle(this)">회원 정보 수정</a></li>
-							<li id="myBoardList"><a href="myBoardList" onclick="changeStyle(this)">나의 작성 게시물</a></li>
+							<li id="update"><a href="myBoardList" onclick="changeStyle(this)">나의 작성 게시물</a></li>
 	                    </ul>
 	                </li>
 	            </ul>

@@ -45,14 +45,18 @@ ul.menu_depth02 a {
 	font-size: 14px;
 }
 
+.menu_depth02 .active {
+    border-right: 4px solid black;
+    color: black !important;
+}
+
 #update {
-	border-right: 4px solid black;
+    border-right: 4px solid black;
 }
 
 #update a {
-	color: black;
+    color: black;
 }
-
 
 .content {
     line-height: normal;
