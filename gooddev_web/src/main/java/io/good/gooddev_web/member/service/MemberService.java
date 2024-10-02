@@ -69,19 +69,9 @@ public class MemberService {
 
   // 새 회원을 등록합니다.
   public int register(final MemberVO member) {
-      // 유효성 검증 추가
-      if (!isValidRegisterMember(member)) {
-          log.warn("회원가입 실패: 유효하지 않은 회원 정보 = {}", member);
-          return 0;
-      }
-      int result = memberDAO.register(member);
-  
-      if (result > 0) {
-          log.info("회원가입 처리: ID = {}, 결과 = {}", member.getMid(), result);
-      } else {
-          log.warn("회원가입 실패: ID = {}", member.getMid());
-      }
-      return result;
+
+       return memberDAO.register(member);
+
   }
   
   // 회원 정보 유효성 검사 메소드
