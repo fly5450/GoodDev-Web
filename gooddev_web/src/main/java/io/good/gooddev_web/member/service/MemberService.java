@@ -63,7 +63,7 @@ public class MemberService {
      // 회원정보 수정 -> 회원 정보 필드를 업데이트
     private void updateMemberFields(MemberVO currentMember, MemberVO modifyMember) {
         if (modifyMember.getPassword() != null) currentMember.setPassword(modifyMember.getPassword());
-        if (modifyMember.getMember_Name() != null) currentMember.setMember_Name(modifyMember.getMember_Name());
+        if (modifyMember.getMember_name() != null) currentMember.setMember_name(modifyMember.getMember_name());
         if (modifyMember.getNickname() != null) currentMember.setNickname(modifyMember.getNickname());
         if (modifyMember.getPhone() != null) currentMember.setPhone(modifyMember.getPhone());
         if (modifyMember.getEmail() != null) currentMember.setEmail(modifyMember.getEmail());
