@@ -18,9 +18,10 @@
 		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 		crossorigin="anonymous"></script>
 		
-		<!-- external css -->
-    	<link rel="stylesheet" href="<c:url value='/resources/css/page_nav.css'/>">
 		
+		<!-- external css -->
+    	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mypage/my_page.css">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/page_nav.css">
 		<!-- 사용자 정의 자바스크립트 -->
 		<script>
 		
@@ -32,13 +33,13 @@
 		<div class="d-flex">
 	        <!-- 일반 사용자용 메뉴 바 -->
 	        <div id="my_box" style="width:24%; height: 80%; padding: 0px 30px;">
-	            <h2 style="padding-bottom: 60px; width:15rem;"><a href="mypage" style="text-decoration-line: none; color:black;"><b>마이페이지</b></a></h2>
+	            <h2 style="padding-bottom: 60px; width:15rem;"><a href="myPage" style="text-decoration-line: none; color:black;"><b>마이페이지</b></a></h2>
 	            <ul class="my_menu">
 	                <li id="menu1" style="height: 50%;">  
-	                    <a class="menu_depth01" href="#">나의 정보</a>
+	                    <a class="menu_depth01" href="${pageContext.request.contextPath}/member/detailMember?mid=${member.mid}">내 정보</a>
 	                    <ul class="menu_depth02">
-	                        <li id="update"><a href="updateMember">회원 정보 수정</a></li>
-	                        <li id="myBoardList"><a href="myBoardList">나의 작성 게시물</a></li>
+	                        <li id="update"><a href="updateMember?mid=${member.mid}" onclick="changeStyle(this)">회원 정보 수정</a></li>
+							<li id="update"><a href="myBoardList?mid=${member.mid}" onclick="changeStyle(this)">나의 작성 게시물</a></li>
 	                    </ul>
 	                </li>
 	            </ul>
@@ -46,8 +47,8 @@
 			<div class="content" style="width:80%; padding:0px 30px;">
 				<div class="profile">
 					<div class="user_info">
-						<span class="name" id="spanNickname">누구누구 님</span>
-						<p class="date">가입일 : <span>가입날짜 적을부분(db)</span></p>
+						<span class="name" id="spanNickname">${member.mid} 님</span>
+						<p class="date">가입일 : <span>${member.signup_Date}</span></p>
 					</div>
 				</div>
 				<div class="wrapper">
@@ -64,31 +65,36 @@
 						  <table class="table">
 						    <thead class="table-dark">
 						      <tr>
-						        <th>No</th>
-						        <th>닉네임</th>
-						        <th>작성일시</th>
-						        <th>수정/삭제</th>
+						        <th scope="col">번호</th>
+								<th scope="col">제목</th>
+								<th scope="col">작성자</th>
+								<th scope="col">일자</th>
+								<th scope="col">조회수</th>
+								<th scope="col">좋아요</th>
+								<th scope="col">삭제</th>
 						      </tr>
 						    </thead>
 						    <tbody>
-						    	<c:forEach var="member" items="${pageResponseDTO.list}">
+						    	<c:forEach var="board" items="${myBoards}">
 							      <tr>
-							        <td>${member.class_No}</td>
-							        <td>${member.nickname}</td>
-							        <td>${member.signup_Date}</td>
-							        <td>
-							        	<div class="btn_big_wrap">
-											<button type="button" onclick="location.href='${pageContext.request.contextPath}/admin/memberUpdate'" class="btn btn-outline-dark">수정</button>
-											<button type="button" onclick="location.href='#'" class="btn btn-outline-dark">삭제</button>
+							        <td>${board.bno}</td>
+									<td><a href="${pageContext.request.contextPath}/admin/detailBoard?bno=${board.bno}&${pageRequestDTO.link}">${board.title}</a></td>
+									<td>${board.mid}</td>
+									<td>${board.formatDate}</td>
+									<td>${board.view_cnt}</td>
+									<td>${board.like_cnt}</td>
+									<td>
+										<div class="btn_big_wrap">
+											<button type="button" onclick="location.href='<c:url value='/board/delete'/>?bno=${board.bno}'" class="btn btn-outline-dark">삭제</button>
 										</div>
-							        </td>
+									</td>
 							      </tr>
 						    	</c:forEach>
 						    </tbody>
 						  </table>
 							  <!-- 페이지네이션 -->
 							  <div class="float-end" >
-							    <ul class="pagination flex-wrap" >
+							     <ul class="pagination flex-wrap" >
 							        <c:if test="${not empty pageResponseDTO && not empty pageRequestDTO}">
 							            <c:if test="${pageResponseDTO.prev}">
 							                <li class="page-item" ><a class="page-link" href="#" data-param="${pageRequestDTO.getParam(pageResponseDTO.start-1)}">이전</a></li>
@@ -104,8 +110,8 @@
 							                <li class="page-item"><a class="page-link"href="#" data-param="${pageRequestDTO.getParam(pageResponseDTO.end+1)}">다음</a></li>
 							            </c:if>
 							        </c:if>
-							    </ul>
-							</div>
+							     </ul>
+							  </div>
 						</div>
 					</div>
 				</div>
@@ -121,9 +127,19 @@
 		        e.stopPropagation();
 		        
 		        const param = e.target.getAttribute("data-param");
-	            self.location = "boardList?" + param; // 경로
+	            self.location = "myBoardList?" + param; // 경로
 		    });
 		});
+		
+		function changeStyle(element) {
+		    // 모든 링크의 스타일을 초기화
+		    document.querySelectorAll('.menu_depth02 a').forEach(link => {
+		        link.parentElement.classList.remove('selected');
+		    });
+		    
+		    // 선택된 링크에 스타일 적용
+		    element.parentElement.classList.add('selected');
+		}
 	</script>
 </body>
 </html>

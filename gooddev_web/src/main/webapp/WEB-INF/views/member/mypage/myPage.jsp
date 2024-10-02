@@ -20,8 +20,8 @@
 		
 		
 		<!-- external css -->
-		<link rel="stylesheet" href="<c:url value='/resources/css/my_page.css'/>">
-		
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mypage/my_page.css">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/page_nav.css">
 		<!-- 사용자 정의 자바스크립트 -->
 		<script>
 		
@@ -29,7 +29,6 @@
 		
 </head>
 <body>
-	<h1>여기가 include 헤더 들어갈 부분</h1>
 	<div>
 		<div class="container wrap" style="width:100%; height: 100%; padding-top:100px; padding-bottom: 300px;">
 			<div class="d-flex">
@@ -37,10 +36,10 @@
 					<h2 style="padding-bottom: 60px; width:15rem;"><a href="myPage" style="text-decoration-line: none; color:black;"><b>마이페이지</b></a></h2>
 					<ul class="my_menu">
 						<li id="menu1" style="height: 50%;">  
-							<a class="menu_depth01" href="#">내 정보</a>
+							<a class="menu_depth01" href="${pageContext.request.contextPath}/member/detailMember?mid=${member.mid}">내 정보</a>
 							<ul class="menu_depth02">
-								<li id="update"><a href="updateMember?mid=${member.mid}">회원 정보 수정</a></li>
-								<li id="myBoardList"><a href="myBoardList">나의 작성 게시물</a></li>
+								<li id="update"><a href="updateMember?mid=${member.mid}" onclick="changeStyle(this)">회원 정보 수정</a></li>
+								<li id="update"><a href="myBoardList?mid=${member.mid}" onclick="changeStyle(this)">나의 작성 게시물</a></li>
 							</ul>
 						</li>
 					</ul>
@@ -56,6 +55,17 @@
 			</div>
 		</div>
 	</div>
-	<h1>여기가 footer 들어갈 부분</h1>
+	
+	<script>
+		function changeStyle(element) {
+		    // 모든 링크의 스타일을 초기화
+		    document.querySelectorAll('.menu_depth02 a').forEach(link => {
+		        link.parentElement.classList.remove('selected');
+		    });
+		    
+		    // 선택된 링크에 스타일 적용
+		    element.parentElement.classList.add('selected');
+		}
+	</script>
 </body>
 </html>

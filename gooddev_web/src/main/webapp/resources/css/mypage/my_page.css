@@ -11,21 +11,6 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 	box-sizing: border-box;
 }
 
-.btn_detail {
-	text-decoration: none;
-	color: black;
-	margin-left: 30px;
-}
-
-.btn_detail:hover {
-	text-decoration: underline;
-}
-
-
-#goItem:hover {
-	text-decoration: underline;
-}
-
 .my_menu {
     line-height: normal;
     font-size: 14px;
@@ -60,37 +45,29 @@ ul.menu_depth02 a {
 	font-size: 14px;
 }
 
-
-#spanNknm {
-    line-height: normal;
-    font-weight: 500;
-    font-size: 28px;
-    box-sizing: border-box;
-    color: white;
+.menu_depth02 .active {
+    border-right: 4px solid black;
+    color: black !important;
 }
 
-.profile {
+#update {
+    border-right: 4px solid black;
+}
+
+#update a {
+    color: black;
+}
+
+.content {
     line-height: normal;
     font-size: 14px;
     font-weight: 500;
     box-sizing: border-box;
     margin: 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
-}
-
-.profile_wrap {
-	background-color: black;
-	padding: 30px 40px;
-}
-
-.user_info {
-	padding-left: 20px;
-}
-
-.date {
-	color: white;
+    padding: 60px 30px 0 30px;
+    padding-top: 0;
+    flex: 1;
+    min-width: 980px;
 }
 
 .tit_area {
@@ -104,56 +81,72 @@ ul.menu_depth02 a {
     justify-content: flex-start;
 }
 
-.s_tit {
-    box-sizing: border-box;
+.form_table {
+    line-height: normal;
     font-size: 14px;
     font-weight: 500;
-    color: #999999;
-    margin-left: 5px;
-}
-
-.info {
-	color: #000;
-    border-collapse: collapse;
-    border-spacing: 0;
-    word-break: break-all;
-    line-height: 1.5;
-    font-size: 14px;
-    text-align: left;
-    border: 0;
-    background: transparent;
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    outline: none;
-    list-style: none;
-    display: table-cell;
-    padding-left: 10px;
-    vertical-align: middle;
+    display: table;
     width: 100%;
+    border-collapse: collapse;
+    border-top: 1px solid black;
 }
 
-.info a {
-	text-decoration: none;
-	color: black;
-}
-
-.name {
-	border-collapse: collapse;
-    border-spacing: 0;
-    word-break: break-all;
-    list-style: none;
-    border: 0;
-    vertical-align: top;
-    background: transparent;
+.form_table .tr {
+    font-weight: 500;
+    border-collapse: collapse;
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    outline: none;
-    color: #000;
-    font-size: 14px;
-    line-height: 22px;
-    max-height: 44px;
-    font-weight: bold;
-    overflow: hidden;
+    display: flex;
+    border-bottom: 1px solid #f2f2f2;
 }
 
+.tr .th {
+    border-collapse: collapse;
+    box-sizing: border-box;
+    margin: 0;
+    display: table-cell;
+    padding: 20px 0;
+    vertical-align: top;
+    align-items: center;
+    width: 160px;
+}
+
+.form_label {
+    border-collapse: collapse;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    font-weight: 500;
+    height: 48px;
+    margin-top: 0;
+    display: flex;
+    align-items: center;
+}
+
+.tr .td {
+    line-height: normal;
+    font-size: 14px;
+    font-weight: 500;
+    border-collapse: collapse;
+    box-sizing: border-box;
+    display: table-cell;
+    padding: 20px 0;
+    vertical-align: top;
+    flex: 1;
+    margin: 0;
+    margin-left: 30px;
+}
+
+.input_clear {
+    border-collapse: collapse;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    width: 240px;
 }

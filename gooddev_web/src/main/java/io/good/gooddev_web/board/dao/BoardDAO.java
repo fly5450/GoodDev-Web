@@ -31,5 +31,6 @@ public interface  BoardDAO {
     boolean existsHate(@Param("mid") String mid, @Param("bno") int bno);
     void updateHateCount(@Param("bno") int bno, @Param("hateValue") int hateValue);
     void insertHate(@Param("mid") String mid, @Param("bno") int bno, @Param("hateValue") int hateValue);
-	List<BoardVO> getBoardsByMid(String mid);
+	List<BoardVO> getBoardsByMid(@Param("mid") String mid, PageRequestDTO pageRequestDTO);
+    int deleteBoard(int bno);
 }
