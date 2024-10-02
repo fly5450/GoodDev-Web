@@ -2,7 +2,6 @@ package io.good.gooddev_web.member.vo;
 
 import java.util.Date;
 
-import io.good.gooddev_web.member.dto.MemberDTO;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -50,21 +49,4 @@ public class MemberVO {
     private Date signout_Date;     // 탈퇴 날짜
     private int class_No;          // 분류 번호
 
-    // DTO를 VO로 변환하는 생성자
-    public MemberVO(MemberDTO member) {
-        this.mid = member.getMid();
-        this.password = member.getPassword();
-        this.member_name = member.getMember_name();
-        this.nickname = member.getNickname();
-        this.phone = member.getPhone();
-        this.email = member.getEmail();
-        this.auto_Login = member.getAuto_Login();
-        this.last_Login_Date = member.getLast_Login_Date();
-        this.last_Logout_Date = member.getLast_Logout_Date();
-        this.deleteYn = member.getDeleteYn();
-        this.isAdminYn = member.getIsAdminYn();
-        this.signup_Date = member.getSignup_Date();
-        this.signout_Date = member.getSignout_Date();
-        this.class_No = member.getClass_No();
-    }
 }

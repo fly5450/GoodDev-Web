@@ -9,21 +9,7 @@
     <title>비밀번호 찾기 - 굿이야</title>
     <link rel="stylesheet" href="<c:url value='/resources/css/style.css'/>">
     
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script type="text/javascript">
-        var contextPath = "${pageContext.request.contextPath}";
-
-        document.addEventListener('DOMContentLoaded', function() {
-            let findPwdBtn = document.querySelector('button[type="submit"]');
-            findPwdBtn.addEventListener('click', function(event) {
-                event.preventDefault(); // 기본 제출 동작을 막음
-                let originalAction = document.getElementById('findPwdForm').getAttribute('action');
-                const redirectParam = window.location.href;
-                document.getElementById('findPwdForm').setAttribute('action', originalAction + "?redirect=" + encodeURIComponent(redirectParam));
-                document.getElementById('findPwdForm').submit(); // 폼 제출
-            });
-        });
-    </script>
+    
 </head>
 <body>
     <div class="container">
@@ -34,9 +20,8 @@
         <%@ include file="/WEB-INF/views/commons/nav.jsp" %>
 
         <!--컨텐츠부분-->
-        <div class="main">
+        <div class = "main">
             <%@ include file="/WEB-INF/views/commons/advertisement.jsp" %>
-            <%@ include file="/WEB-INF/views/commons/top10List.jsp" %>
             
             <!-- Main Content -->
             <div class="main-content">
@@ -56,26 +41,36 @@
                                 <label for="email">이메일:</label>
                                 <input type="email" id="email" name="email" required>
                             </div>
+                            <div class="form-group">
+                                <label for="password">새 비밀번호:</label>
+                                <input type="password" id="password" name="newPassword" required>
+                            </div>
                             <button type="submit" class="btn-primary">비밀번호 찾기</button>
                         </form>
-
-                        <c:if test="${not empty foundUser}">
-                            <form action="<c:url value='/member/resetPassword'/>" method="post" id="resetPasswordForm">
-                                <div class="form-group">
-                                    <label for="newPassword">새 비밀번호:</label>
-                                    <input type="password" id="newPassword" name="newPassword" required>
-                                </div>
-                                <input type="hidden" name="mid" value="${foundUser.mid}">
-                                <button type="submit" class="btn-primary">비밀번호 재설정</button>
-                            </form>
-                        </c:if>
                     </div>
                 </main>
-        
-                <%@ include file="/WEB-INF/views/commons/advertisement.jsp" %>
-                <%@ include file="/WEB-INF/views/commons/footer.jsp" %>
             </div>
+            <!--광고부분-->
+            <%@ include file="/WEB-INF/views/commons/advertisement.jsp" %>
         </div>
+
+        <!-- Footer -->
+       <%@ include file="/WEB-INF/views/commons/footer.jsp" %>
+
     </div>
+    <script type="text/javascript">
+        var contextPath = "${pageContext.request.contextPath}";
+
+        document.addEventListener('DOMContentLoaded', function() {
+            let findPwdBtn = document.querySelector('button[type="submit"]');
+            findPwdBtn.addEventListener('click', function(event) {
+                event.preventDefault(); // 기본 제출 동작을 막음
+                let originalAction = document.getElementById('findPwdForm').getAttribute('action');
+                const redirectParam = window.location.href;
+                document.getElementById('findPwdForm').setAttribute('action', originalAction + "?redirect=" + encodeURIComponent(redirectParam));
+                document.getElementById('findPwdForm').submit(); // 폼 제출
+            });
+        });
+    </script>
 </body>
 </html>
