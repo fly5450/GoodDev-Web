@@ -2,7 +2,6 @@ package io.good.gooddev_web.member.controller;
 
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import io.good.gooddev_web.board.dto.BoardDTO;
 import io.good.gooddev_web.board.service.BoardService;
 import io.good.gooddev_web.member.dto.MemberDTO;
 import io.good.gooddev_web.member.service.MemberService;
@@ -69,10 +67,7 @@ public class MemberController {
     @PostMapping("register")
     public String register(@Validated @ModelAttribute("memberDTO") MemberDTO memberDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         log.info("회원가입 요청 처리 중");
-        log.info(memberDTO.getEmail() + memberDTO.getMember_name());
-
         memberService.register(mapperUtil.map(memberDTO, MemberVO.class)); //서비스 레이어에서 처리
-        log.info("새 회원 등록: {}", memberDTO.getMid());
         redirectAttributes.addFlashAttribute("message", "회원 가입이 성공적으로 완료되었습니다.");
         return "redirect:/";
     }
