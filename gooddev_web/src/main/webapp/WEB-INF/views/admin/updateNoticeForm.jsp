@@ -28,9 +28,7 @@
 <body>
 	<h1>공지사항 수정</h1>
 	<div style="text-align: right; margin: 10px;">
-	    <form action="<c:url value='/logout' />" method="post">
-	        <button type="submit">로그아웃</button>
-	    </form>
+	    <%@ include file="/WEB-INF/views/commons/minilogin.jsp" %>
 	</div>
 	<div class="card-body">
 		<form action="${pageContext.request.contextPath}/admin/updateNotice" method="post" enctype="multipart/form-data">

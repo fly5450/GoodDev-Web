@@ -33,9 +33,7 @@
 </head>
 <body>
 	<div style="text-align: right; margin: 10px;">
-	    <form action="<c:url value='/member/logout' />" method="post">
-	        <button type="submit">로그아웃</button>
-	    </form>
+	    <%@ include file="/WEB-INF/views/commons/minilogin.jsp" %>
 	</div>
 	<div class="container wrap" style="width:100%; height: 100%; padding-top:100px; padding-bottom: 300px;">
 		<div class="d-flex">
@@ -85,7 +83,7 @@
 						    	<c:forEach var="member" items="${pageResponseDTO.list}">
 							      <tr>
 							        <td>${member.mid}</td>
-							        <td>${member.member_Name}</td>
+							        <td>${member.member_name}</td>
 							        <td>${member.nickname}</td>
 							        <td>${member.email}</td>
 							        <td>${member.signup_Date}</td>

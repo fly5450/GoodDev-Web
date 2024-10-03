@@ -208,24 +208,18 @@ public class MemberController {
     //로그아웃
     @RequestMapping("logout")
     public String logout(HttpServletRequest request,HttpSession session) {
-        try{
-        String link = request.getParameter("redirect");
         MemberDTO member = (MemberDTO) session.getAttribute("loginInfo");
         member.setAuto_Login("");
         memberService.modify_Auto_Login(mapperUtil.map(member, MemberVO.class));
         session.invalidate();
-        return "redirect:"+(link != null&&!link.equals("null") ? URLDecoder.decode(link, "UTF-8") : "/");
-        }catch(Exception e){
-            e.getStackTrace();
-            return "redirect:/";
-        }
+        return "redirect:/";
     }
 
     @GetMapping("login")
 	public String loginGet(HttpServletRequest request, HttpServletResponse response,Model model) {
         try{
             String link = request.getParameter("redirect");
-            log.info("link는"+link);
+            log.info("link는"+link);    
             if (request.getCookies() != null) {
                 for (Cookie cookie : request.getCookies()) {
                     if (cookie.getName().equals("autoLoginTrue")) {

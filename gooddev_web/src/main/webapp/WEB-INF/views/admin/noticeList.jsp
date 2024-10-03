@@ -33,9 +33,7 @@
 </head>
 <body>
 	<div style="text-align: right; margin: 10px;">
-	    <form action="<c:url value='/member/logout' />" method="post">
-	        <button type="submit">로그아웃</button>
-	    </form>
+	   <%@ include file="/WEB-INF/views/commons/minilogin.jsp" %>
 	</div>
 	<div class="container wrap" style="width:100%; height: 100%; padding-top:100px; padding-bottom: 300px;">
 		<div class="d-flex">
@@ -66,7 +64,7 @@
 						<div class="title">
 							<h1 id="itemTitle">공지사항 조회</h1>
 						</div>
-						<button type="button" onclick="location.href='<c:url value='/admin/insertNotice'/>?mid=${member.mid}" class="btn btn-outline-dark">공지사항 등록</button>
+						<button type="button" onclick="location.href='${pageContext.request.contextPath}/admin/insertNotice?mid=${member.mid}'" class="btn btn-outline-dark">공지사항 등록</button>
 					</div>
 					<div class="section_block">
 						<div class="container mt-3">

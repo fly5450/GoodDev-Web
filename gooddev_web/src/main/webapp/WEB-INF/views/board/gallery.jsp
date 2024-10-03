@@ -25,7 +25,7 @@
 							<c:forEach var="board" items="${pageResponseDTO.list}">
 								<div class="gallery-item">
 									<c:forEach var="boardFile" items="${board.boardFileDTOList}">
-										<img src="/download/${boardFile.fid}" alt="이미지"/>
+										<img src="download/${boardFile.fid}" alt="이미지"/>
 									</c:forEach>
 									<a href="read?bno=${board.bno}&link=${pageRequestDTO.link}" class="title">${board.title}</a>
 								</div>

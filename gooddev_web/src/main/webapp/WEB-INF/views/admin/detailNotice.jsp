@@ -31,9 +31,7 @@
 
 	<h1>공지사항 상세</h1>
 	<div style="text-align: right; margin: 10px;">
-	    <form action="<c:url value='/logout' />" method="post">
-	        <button type="submit">로그아웃</button>
-	    </form>
+	   <%@ include file="/WEB-INF/views/commons/minilogin.jsp" %>
 	</div>
 	<div>
 		<h3>
