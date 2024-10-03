@@ -392,6 +392,7 @@ footer {
     text-align: right;
     margin-top: 10px;
     margin-left: auto;
+    white-space: nowrap;
 }
 
 .search-plus-link {
@@ -402,10 +403,12 @@ footer {
     text-decoration: none;
     border-radius: 3px;
     text-align: center;
+    white-space: nowrap;
 }
 
 .search-plus-link:hover {
     background-color: #e0e0e0;
+    white-space: nowrap;
 }
 
 .board-read-container {

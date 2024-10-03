@@ -31,14 +31,16 @@
                         </c:when>
                         <c:otherwise>
                             <c:forEach var="entry" items="${totalMap.entrySet()}">
+                                <c:set var="category" value="" />
                                 <section class="search-board">
                                     <h2>${entry.key}</h2>
                                     <ul class="search-board-list">
                                         <c:forEach var="board" items="${entry.value}">
                                             <li class="search-board-item"><a href="#" class="search-detail-link" data-board-bno="${board.bno}" data-page = "${pageResponse.page}" data-link="${pageRequestDTO.link}">${board.title}</a></li>
+                                            <c:set var="category" value="${board.category_no}" />
                                         </c:forEach>
                                         <li class="search-board-item more-link">
-                                            <a href="#" class="search-plus-link" data-link="${pageRequestDTO.link}">해당 게시판의 결과 더보기</a>
+                                            <a href="#" class="search-plus-link" data-link="page=1&size=10&category_no=${category}&keyword=${pageRequestDTO.keyword}">해당 게시판의 결과 더보기</a>
                                         </li>
                                     </ul>
                                 </section>
@@ -71,8 +73,7 @@
             links.forEach(function(link) {
                 link.addEventListener('click', function() {
                     let pageLink = link.getAttribute('data-link');
-                    let encodedLink = encodeURIComponent(pageLink);
-                    link.href = "board/list?"+encodedLink;
+                    link.href = "board/list?"+pageLink;
                 });
             });
         });

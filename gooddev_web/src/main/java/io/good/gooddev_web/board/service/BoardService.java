@@ -47,7 +47,8 @@ public class BoardService {
         List<BoardCategoryVO> totalCategory= boardDAO.getTotalCategory();
         for(BoardCategoryVO category : totalCategory){
             pageRequestDTO.setCategory_no(String.valueOf(category.getCategory_no()));
-            List <BoardDTO> boardList = boardDAO.getList(pageRequestDTO).stream().map(board -> mapper.map(board, BoardDTO.class)).collect(Collectors.toList());
+            List <BoardDTO> boardList = boardDAO.getList(pageRequestDTO).stream().map(board ->
+            mapper.map(board, BoardDTO.class)).collect(Collectors.toList());
             if (!boardList.isEmpty()) {
                 map.put(category.getCategory_name(), boardList);
             }
