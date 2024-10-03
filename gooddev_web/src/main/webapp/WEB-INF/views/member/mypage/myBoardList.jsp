@@ -29,6 +29,9 @@
 		
 </head>
 <body>
+	<div style="text-align: right; margin: 10px;">
+		    <%@ include file="/WEB-INF/views/commons/minilogin.jsp" %>
+	</div>
 	<div class="container wrap" style="width:100%; height: 100%; padding-top:100px; padding-bottom: 300px;">
 		<div class="d-flex">
 	        <!-- 일반 사용자용 메뉴 바 -->

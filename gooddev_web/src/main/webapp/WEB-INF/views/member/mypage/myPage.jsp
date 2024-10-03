@@ -30,6 +30,9 @@
 </head>
 <body>
 	<div>
+		<div style="text-align: right; margin: 10px;">
+		    <%@ include file="/WEB-INF/views/commons/minilogin.jsp" %>
+		</div>
 		<div class="container wrap" style="width:100%; height: 100%; padding-top:100px; padding-bottom: 300px;">
 			<div class="d-flex">
 				<div id="my_box"  style="width:24%; height: 80%; padding: 0px 30px;">
