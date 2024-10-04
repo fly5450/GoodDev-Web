@@ -286,15 +286,15 @@ public class MemberController {
     @RequestMapping("/myPage")
     public String myPage(Model model, HttpServletRequest request) {
     	HttpSession session = request.getSession();
-        String mid = (String) session.getAttribute("mid");
+        MemberDTO member = (MemberDTO) session.getAttribute("loginInfo");
         
-        if (mid == null) {
-            return "redirect:/login"; // 로그인되지 않은 경우 로그인 페이지로 리다이렉트
+        if (member == null) {
+            return "redirect:/member/login"; // 로그인되지 않은 경우 로그인 페이지로 리다이렉트
         }
 
         // DB에서 사용자 정보를 가져오는 서비스 호출
-        MemberDTO memberInfo = memberService.getMemberInfo(mid);
-        log.info("mid 정보 보기" + mid);
+        MemberDTO memberInfo = memberService.getMemberInfo(member.getMid());
+        log.info("mid 정보 보기" + member.getMid());
         model.addAttribute("member", memberInfo); // JSP에서 사용하기 위해 모델에 추가
         
         return "member/mypage/myPage";
@@ -304,12 +304,12 @@ public class MemberController {
     @GetMapping("/myBoardList")
     public String myBoardList(PageRequestDTO pageRequestDTO, Model model, HttpServletRequest request) {
     	HttpSession session = request.getSession();
-        String mid = (String) session.getAttribute("mid");
+        MemberDTO member= (MemberDTO) session.getAttribute("loginInfo");
 
-        if (mid == null) {
-            return "redirect:/login"; // 로그인되지 않은 경우 로그인 페이지로 리다이렉트
+        if (member == null) {
+            return "redirect:/member/login"; // 로그인되지 않은 경우 로그인 페이지로 리다이렉트
         }
-        pageRequestDTO.setMid(mid);
+        pageRequestDTO.setMid(member.getMid());
         model.addAttribute("pageResponseDTO", boardService.getList(pageRequestDTO));
 
         return "member/mypage/myBoardList";
@@ -357,13 +357,13 @@ public class MemberController {
     @RequestMapping("/removeMember")
     public String removeMember(HttpServletRequest request) {
     	HttpSession session = request.getSession();
-        String mid = (String) session.getAttribute("mid");
+        MemberDTO member = (MemberDTO) session.getAttribute("loginInfo");
         
-        if (mid == null) {
-            return "redirect:/login"; // 로그인되지 않은 경우 로그인 페이지로 리다이렉트
+        if (member == null) {
+            return "redirect:/member/login"; // 로그인되지 않은 경우 로그인 페이지로 리다이렉트
         }
         
-        memberService.remove(mid);
+        memberService.remove(member.getMid());
         
         // 세션 무효화
         session.invalidate();

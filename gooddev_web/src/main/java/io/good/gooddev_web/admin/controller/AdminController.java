@@ -40,18 +40,16 @@ public class AdminController {
 	
 	@RequestMapping("")
 	public String main(HttpSession session, Model model) {
-	    String isAdminYn = (String) session.getAttribute("isAdminYn");
+	    MemberDTO member = (MemberDTO) session.getAttribute("loginInfo");
 	    
 	    // isAdminYn이 null일 경우 기본값을 "N"으로 설정
-	    if (isAdminYn == null) {
-	        isAdminYn = "N"; // 기본값 설정
+	    if (member == null) {
+			return "redirect:/";
 	    }
 	    
-	    if (!isAdminYn.equals("Y")) {
+	    if (member.getIsAdminYn()!='Y') {
 	        return "redirect:/"; // 관리자 권한이 없을 경우 에러 페이지로 리다이렉트
 	    }
-	    
-	    System.out.println("세션저장어떻게됏냐?: " + isAdminYn);
 	    
 	    return "admin/admin_main"; // 관리자 페이지로 이동
 	}
@@ -187,8 +185,13 @@ public class AdminController {
 	//공지사항 등록
 	@GetMapping("/insertNotice")
 	public String insertNoticeGet(HttpSession session) {
-		String isAdminYn = (String) session.getAttribute("isAdminYn"); // 세션에서 관리자 여부를 가져옴
-		if (isAdminYn == null || !isAdminYn.equals("Y")) {
+		MemberDTO member = (MemberDTO) session.getAttribute("loginInfo");
+	    
+	    // isAdminYn이 null일 경우 기본값을 "N"으로 설정
+	    if (member == null) {
+			return "redirect:/";
+	    }
+		if (member.getIsAdminYn() != 'Y') {
 	        return "redirect:/"; // 관리자 권한이 없을 경우 에러 페이지로 리다이렉트
 		}
 		
@@ -203,13 +206,18 @@ public class AdminController {
 
 	    try {
 	        // 세션에서 사용자 ID 가져오기
-	        String getMid = (String) session.getAttribute("mid");
-	        boardVO.setMid(getMid);
-	        log.info("현재 세션의 mid 값: " + getMid);
-	        if (getMid == null) {
+			MemberDTO member = (MemberDTO) session.getAttribute("loginInfo");
+	    
+			// isAdminYn이 null일 경우 기본값을 "N"으로 설정
+			if (member == null) {
+				return "redirect:/";
+			}
+	        boardVO.setMid(member.getMid());
+	        log.info("현재 세션의 mid 값: " + member.getMid());
+	        if (member.getMid() == null) {
 	            throw new RuntimeException("사용자 ID(mid)가 세션에 존재하지 않습니다.");
 	        }
-	        boardDTO.setMid(getMid); // BoardDTO에 mid 설정
+	        boardDTO.setMid(member.getMid()); // BoardDTO에 mid 설정
 	        // 현재 날짜와 시간 설정
 	        boardDTO.setInsert_date(new Date()); // 현재 날짜를 Date로 직접 설정
 	        // 삭제 여부 기본값 설정
